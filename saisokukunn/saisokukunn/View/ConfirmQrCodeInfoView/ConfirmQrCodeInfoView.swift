@@ -13,8 +13,8 @@ struct ConfirmQrCodeInfoView: View {
     }
 }
 
-struct ConfirmQrCodeInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ConfirmQrCodeInfoView()
-    }
-}
+//struct ConfirmQrCodeInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ConfirmQrCodeInfoView()
+//    }
+//}
