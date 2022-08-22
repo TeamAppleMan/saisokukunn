@@ -22,14 +22,29 @@ struct ConfirmLendInfoView: View {
 
     var body: some View {
         VStack{
-            Text(title)
-            Text(money)
+            HStack {
+                Text("タイトル")
+                    .padding()
+                Text(title)
+            }
 
-            Text(dateToString(date: endTime))
+            HStack {
+                Text("金額")
+                    .padding()
+                Text("¥\(money)")
+            }
+
+            HStack {
+                Text("締め切り")
+                    .padding()
+                Text(dateToString(date: endTime))
+            }
 
             NavigationLink(destination: CreateQrCodeView()) {
                 Text("OK").font(.callout)
             }
+            .padding()
+
         }
     }
 }
