@@ -25,8 +25,8 @@ struct CreateQrCodeView: View {
 
 }
 
-struct CreateQrCodeView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateQrCodeView()
-    }
-}
+//struct CreateQrCodeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CreateQrCodeView()
+//    }
+//}

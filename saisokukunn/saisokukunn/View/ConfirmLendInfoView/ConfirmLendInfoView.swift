@@ -8,13 +8,34 @@
 import SwiftUI
 
 struct ConfirmLendInfoView: View {
+    @Binding var title: String
+    @Binding var money: String
+    @Binding var endTime: Date
+
+    func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: endTime)
+    }
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            Text(title)
+            Text(money)
+
+            Text(dateToString(date: endTime))
+
+            NavigationLink(destination: CreateQrCodeView()) {
+                Text("OK").font(.callout)
+            }
+        }
     }
 }
 
-struct ConfirmLendInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ConfirmLendInfoView()
-    }
-}
+//struct ConfirmLendInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ConfirmLendInfoView()
+//    }
+//}
