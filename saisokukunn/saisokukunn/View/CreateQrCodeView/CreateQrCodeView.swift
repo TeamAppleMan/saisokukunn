@@ -8,9 +8,21 @@
 import SwiftUI
 
 struct CreateQrCodeView: View {
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+        VStack {
+            Text("QRの表示")
+                .font(.title)
+                .padding()
+            Text("通信が終わったら、")
+                .font(.title)
+            Text("自動で画面帰らせたい")
+                .font(.title)
+        }
+
     }
+
 }
 
 struct CreateQrCodeView_Previews: PreviewProvider {
