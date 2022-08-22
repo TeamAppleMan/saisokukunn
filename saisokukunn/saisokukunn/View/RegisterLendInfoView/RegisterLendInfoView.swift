@@ -12,11 +12,13 @@ struct RegisterLendInfoView: View {
     @State var money: String = ""
     @State var endTime: Date = Date()
     @State var isActive: Bool = false
+    @State var outputAleartText: String = ""
 
     var body: some View {
 
         VStack {
-            Spacer().frame(height: 100)
+
+            Text(outputAleartText)
 
             TextField("タイトル", text: $title)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -39,13 +41,13 @@ struct RegisterLendInfoView: View {
                     Button(action: {
                         if title.isEmpty && !money.isEmpty {
                             isActive = false
-                            print("タイトルが入力されていない")
+                            outputAleartText = "タイトルが入力されていない"
                         } else if !title.isEmpty && money.isEmpty {
                             isActive = false
-                            print("金額が正しく入力されていない")
+                            outputAleartText = "金額が正しく入力されていない"
                         } else if title.isEmpty && money.isEmpty {
                             isActive = false
-                            print("タイトルと金額が正しく入力されていない")
+                            outputAleartText = "タイトルと金額が正しく入力されていない"
                         } else {
                             isActive = true
                         }
