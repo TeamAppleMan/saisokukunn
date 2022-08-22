@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		87318D9928B30F8500609C6B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318D9828B30F8500609C6B /* MainView.swift */; };
+		87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA528B3127900609C6B /* ConfirmQrCodeInfoView.swift */; };
+		87318DA828B3128300609C6B /* QrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA728B3128300609C6B /* QrCodeScannerView.swift */; };
+		87318DAA28B3128D00609C6B /* CreateQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA928B3128D00609C6B /* CreateQrCodeView.swift */; };
+		87318DAC28B3129800609C6B /* ConfirmLendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DAB28B3129800609C6B /* ConfirmLendInfoView.swift */; };
+		87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DAD28B312A100609C6B /* RegisterLendInfoView.swift */; };
+		87318DB228B3136200609C6B /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB128B3136200609C6B /* SignUpView.swift */; };
 		D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */; };
 		D4B1785328B0FF57005F6EC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4B1785228B0FF57005F6EC4 /* Assets.xcassets */; };
 		D4B1785628B0FF57005F6EC4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4B1785528B0FF57005F6EC4 /* Preview Assets.xcassets */; };
@@ -35,6 +41,12 @@
 
 /* Begin PBXFileReference section */
 		87318D9828B30F8500609C6B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		87318DA528B3127900609C6B /* ConfirmQrCodeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmQrCodeInfoView.swift; sourceTree = "<group>"; };
+		87318DA728B3128300609C6B /* QrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerView.swift; sourceTree = "<group>"; };
+		87318DA928B3128D00609C6B /* CreateQrCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateQrCodeView.swift; sourceTree = "<group>"; };
+		87318DAB28B3129800609C6B /* ConfirmLendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLendInfoView.swift; sourceTree = "<group>"; };
+		87318DAD28B312A100609C6B /* RegisterLendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterLendInfoView.swift; sourceTree = "<group>"; };
+		87318DB128B3136200609C6B /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = saisokukunn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saisokukunnApp.swift; sourceTree = "<group>"; };
 		D4B1785228B0FF57005F6EC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,7 +86,13 @@
 		87318D9628B30F3200609C6B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				87318DA028B311E000609C6B /* SignUpView */,
 				87318D9728B30F6100609C6B /* Main */,
+				87318D9B28B30FEB00609C6B /* RegisterLendInfoView */,
+				87318D9C28B310C200609C6B /* ConfirmLendInfoView */,
+				87318D9D28B310D100609C6B /* CreateQrCodeView */,
+				87318D9E28B310F300609C6B /* QrCodeScannerView */,
+				87318D9F28B3111500609C6B /* ConfirmQrCodeInfoView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -85,6 +103,54 @@
 				87318D9828B30F8500609C6B /* MainView.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		87318D9B28B30FEB00609C6B /* RegisterLendInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				87318DAD28B312A100609C6B /* RegisterLendInfoView.swift */,
+			);
+			path = RegisterLendInfoView;
+			sourceTree = "<group>";
+		};
+		87318D9C28B310C200609C6B /* ConfirmLendInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				87318DAB28B3129800609C6B /* ConfirmLendInfoView.swift */,
+			);
+			path = ConfirmLendInfoView;
+			sourceTree = "<group>";
+		};
+		87318D9D28B310D100609C6B /* CreateQrCodeView */ = {
+			isa = PBXGroup;
+			children = (
+				87318DA928B3128D00609C6B /* CreateQrCodeView.swift */,
+			);
+			path = CreateQrCodeView;
+			sourceTree = "<group>";
+		};
+		87318D9E28B310F300609C6B /* QrCodeScannerView */ = {
+			isa = PBXGroup;
+			children = (
+				87318DA728B3128300609C6B /* QrCodeScannerView.swift */,
+			);
+			path = QrCodeScannerView;
+			sourceTree = "<group>";
+		};
+		87318D9F28B3111500609C6B /* ConfirmQrCodeInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				87318DA528B3127900609C6B /* ConfirmQrCodeInfoView.swift */,
+			);
+			path = ConfirmQrCodeInfoView;
+			sourceTree = "<group>";
+		};
+		87318DA028B311E000609C6B /* SignUpView */ = {
+			isa = PBXGroup;
+			children = (
+				87318DB128B3136200609C6B /* SignUpView.swift */,
+			);
+			path = SignUpView;
 			sourceTree = "<group>";
 		};
 		D4B1784228B0FF55005F6EC4 = {
@@ -274,7 +340,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				87318D9928B30F8500609C6B /* MainView.swift in Sources */,
+				87318DAC28B3129800609C6B /* ConfirmLendInfoView.swift in Sources */,
+				87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */,
+				87318DAA28B3128D00609C6B /* CreateQrCodeView.swift in Sources */,
+				87318DB228B3136200609C6B /* SignUpView.swift in Sources */,
+				87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */,
 				D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */,
+				87318DA828B3128300609C6B /* QrCodeScannerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
