@@ -17,22 +17,24 @@ struct RegisterLendInfoView: View {
 
     var body: some View {
 
-        VStack {
+        VStack(alignment: .leading, spacing: 5) {
             Text("タイトル")
+                .padding(.leading)
             TextField("お金を貸すタイトル", text: $title)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding([.leading, .bottom, .trailing])
 
             Text("金額")
+                .padding(.leading)
             TextField("貸す金額", text: $money)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
-                .padding()
+                .padding([.leading, .bottom, .trailing])
 
             DatePicker("日時を選択", selection: $endTime, displayedComponents: .date)
                 .datePickerStyle(.compact)
                 .labelsHidden()
-                .padding()
+                .padding([.leading, .bottom, .trailing])
 
             NavigationLink(
                 destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
