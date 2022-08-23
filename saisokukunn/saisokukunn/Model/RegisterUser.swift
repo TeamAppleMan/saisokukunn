@@ -26,6 +26,16 @@ class RegisterUser {
         }
     }
 
+    func signOut() async throws{
+        do {
+            try Auth.auth().signOut()
+            print("サインアウトしました")
+        }
+        catch {
+            print("サインアウトに失敗しました",error)
+        }
+    }
+
     private func createdUserToFirestore(userName: String,uid: String) async throws{
         let user: Dictionary<String, Any> = ["userName": userName,
                                              "uid": uid,

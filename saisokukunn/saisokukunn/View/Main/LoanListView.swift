@@ -69,7 +69,7 @@ struct LoanListView: View {
         }
         .frame(height: 70)
         .listRowBackground(Color.clear)
-    }
+    }// bodyここmで
 }
 
 struct LoanListView_Previews: PreviewProvider {

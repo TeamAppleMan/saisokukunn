@@ -29,13 +29,15 @@ struct SignUpView: View {
                         isActiveMainView = true
                     }
                 }
-            }.onAppear{
+            }.onAppear {
                 // uidが存在するならMainViewへ移動
                 if let uid = Auth.auth().currentUser?.uid {
+                    print("uid:",uid)
                     isActiveMainView = true
                 }
             }// onAppearここまで
-        }.navigationBarHidden(true) // NavigationViewここまで
+        }
+        .navigationBarHidden(true)
     }
 }
 
