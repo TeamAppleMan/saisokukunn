@@ -13,7 +13,7 @@ import FirebaseFirestore
 class RegisterUser {
     let db = Firestore.firestore()
 
-    func signIn(userName: String) async{
+    func signIn(userName: String) async throws {
         // 匿名サインイン
         do{
             let signInResult = try await Auth.auth().signInAnonymously()

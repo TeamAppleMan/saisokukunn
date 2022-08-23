@@ -24,9 +24,14 @@ struct SignUpView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle()).padding()
                 Button("サインイン"){
                     Task{
-                        await registerUser.signIn(userName:userName)
-                        // MainViewへ画面遷移
-                        isActiveMainView = true
+                        do{
+                            try await registerUser.signIn(userName:userName)
+                            // MainViewへ画面遷移
+                            isActiveMainView = true
+                        }
+                        catch{
+                            print("サインインに失敗しました")
+                        }
                     }
                 }
             }.onAppear {
