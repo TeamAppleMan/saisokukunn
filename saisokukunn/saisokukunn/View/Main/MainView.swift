@@ -157,7 +157,7 @@ struct MainView: View {
                             .shadow(color: .gray, radius: 3, x: 0, y: -1)
                             .ignoresSafeArea()
 
-                        VStack {
+                        VStack(spacing : 0) {
                             Picker("", selection: self.$selectedLoanIndex) {
                                 Text("借り")
                                     .tag(0)
@@ -175,10 +175,9 @@ struct MainView: View {
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
-                                    }
+                                    }.listRowSeparator(.hidden)
                                 }
-                                .padding()
-                                .offset(x: -10, y: -20)
+                                .listStyle(.insetGrouped)
                                 .ignoresSafeArea()
                             } else {
                                 List{
@@ -188,10 +187,9 @@ struct MainView: View {
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
-                                    }
+                                    }.listRowSeparator(.hidden)
                                 }
-                                .padding()
-                                .offset(x: -10, y: -20)
+                                .listStyle(.insetGrouped)
                                 .ignoresSafeArea()
                             }
                         }
