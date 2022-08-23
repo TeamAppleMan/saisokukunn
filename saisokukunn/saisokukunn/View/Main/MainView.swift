@@ -25,6 +25,10 @@ struct MainView: View {
     @State var totalLendingMoney: Int = 58000
     @State var totalBorrowingMoney: Int = 20000
 
+    @State private var toSignUpView = false
+
+    let registerUser = RegisterUser()
+
     var lendPersons = [
         Person.init(title: "お好み焼", name: "有村架純", money: 5000, stateDate: Date(), endDate: Date()),
         Person.init(title: "お好み焼", name: "広瀬すず", money: 2500, stateDate: Date(), endDate: Date()),
@@ -53,9 +57,8 @@ struct MainView: View {
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
 
-        NavigationView{
+        NavigationView {
             ZStack {
-
                 // 背景を黒にする
                 Color.init(red: 0, green: 0, blue: 0)
                     .ignoresSafeArea()
@@ -68,8 +71,17 @@ struct MainView: View {
                         HStack {
                             Button(action: {
                                 isPressedAccount.toggle()
-                                print("tap buton")
-                            }) {
+                                Task {
+                                    do {
+                                        try await registerUser.signOut()
+                                        toSignUpView = true
+                                    }
+                                    catch{
+                                        print("サインインに失敗",error)
+                                    }
+                                }// Taskここまで
+                            })
+                            {
                                 HStack {
                                     Text("アカウント名")
                                         .font(.callout)
@@ -77,6 +89,9 @@ struct MainView: View {
                                     Image(systemName: accountButtonSystemImageName)
                                         .foregroundColor(Color(UIColor.gray))
                                 }
+                            }
+                            NavigationLink(destination: SignUpView(),isActive: $toSignUpView){
+                                EmptyView()
                             }
                             .padding()
 
@@ -198,13 +213,13 @@ struct MainView: View {
                     }
                 }
             }
-            .navigationBarHidden(true)
         }
+        .navigationBarHidden(true)
     }
 }
 
-//struct MainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainView()
-//    }
-//}
+struct MainView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainView()
+    }
+}

@@ -190,9 +190,6 @@
 		D4B1784228B0FF55005F6EC4 = {
 			isa = PBXGroup;
 			children = (
-				958583B128B47B08009AFD5E /* Model */,
-				95345ED128B368D3006FAA96 /* AppDelegate.swift */,
-				95345ED328B36925006FAA96 /* GoogleService-Info.plist */,
 				D4B1784D28B0FF55005F6EC4 /* saisokukunn */,
 				D4B1785E28B0FF58005F6EC4 /* saisokukunnTests */,
 				D4B1786828B0FF58005F6EC4 /* saisokukunnUITests */,
@@ -214,6 +211,9 @@
 			isa = PBXGroup;
 			children = (
 				D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */,
+				95345ED128B368D3006FAA96 /* AppDelegate.swift */,
+				95345ED328B36925006FAA96 /* GoogleService-Info.plist */,
+				958583B128B47B08009AFD5E /* Model */,
 				87318D9628B30F3200609C6B /* View */,
 				87318DB628B318AD00609C6B /* Extentsion */,
 				D4B1785228B0FF57005F6EC4 /* Assets.xcassets */,
