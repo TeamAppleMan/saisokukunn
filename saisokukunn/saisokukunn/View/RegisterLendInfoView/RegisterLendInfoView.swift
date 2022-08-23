@@ -31,6 +31,8 @@ struct RegisterLendInfoView: View {
                 .keyboardType(.numberPad)
                 .padding([.leading, .bottom, .trailing])
 
+            Text("締め切り")
+                .padding(.leading)
             DatePicker("日時を選択", selection: $endTime, displayedComponents: .date)
                 .datePickerStyle(.compact)
                 .labelsHidden()

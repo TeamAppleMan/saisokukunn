@@ -16,6 +16,7 @@
 		87318DB228B3136200609C6B /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB128B3136200609C6B /* SignUpView.swift */; };
 		87318DB828B318BC00609C6B /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB728B318BC00609C6B /* ViewExtension.swift */; };
 		87318DBA28B3192700609C6B /* LoanListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB928B3192700609C6B /* LoanListView.swift */; };
+		87DDA98F28B48BC200123EF3 /* ShadowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */; };
 		95345ECE28B36801006FAA96 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 95345ECD28B36801006FAA96 /* FirebaseAuth */; };
 		95345ED028B36801006FAA96 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 95345ECF28B36801006FAA96 /* FirebaseFirestore */; };
 		95345ED228B368D3006FAA96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95345ED128B368D3006FAA96 /* AppDelegate.swift */; };
@@ -55,6 +56,7 @@
 		87318DB128B3136200609C6B /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		87318DB728B318BC00609C6B /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		87318DB928B3192700609C6B /* LoanListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListView.swift; sourceTree = "<group>"; };
+		87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowButtonView.swift; sourceTree = "<group>"; };
 		95345ED128B368D3006FAA96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95345ED328B36925006FAA96 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = saisokukunn.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +107,7 @@
 				87318D9D28B310D100609C6B /* CreateQrCodeView */,
 				87318D9E28B310F300609C6B /* QrCodeScannerView */,
 				87318D9F28B3111500609C6B /* ConfirmQrCodeInfoView */,
+				87DDA98D28B48B8500123EF3 /* Helpers */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -172,6 +175,14 @@
 				87318DB728B318BC00609C6B /* ViewExtension.swift */,
 			);
 			path = Extentsion;
+			sourceTree = "<group>";
+		};
+		87DDA98D28B48B8500123EF3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		D4B1784228B0FF55005F6EC4 = {
@@ -377,6 +388,7 @@
 				87318D9928B30F8500609C6B /* MainView.swift in Sources */,
 				87318DAC28B3129800609C6B /* ConfirmLendInfoView.swift in Sources */,
 				87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */,
+				87DDA98F28B48BC200123EF3 /* ShadowButtonView.swift in Sources */,
 				87318DAA28B3128D00609C6B /* CreateQrCodeView.swift in Sources */,
 				87318DB228B3136200609C6B /* SignUpView.swift in Sources */,
 				87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */,
