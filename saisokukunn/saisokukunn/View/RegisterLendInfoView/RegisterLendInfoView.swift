@@ -12,19 +12,19 @@ struct RegisterLendInfoView: View {
     @State var money: String = ""
     @State var endTime: Date = Date()
     @State var isActive: Bool = false
-    @State var outputAleartText: String = ""
+    @State var aleartText: String = ""
+    @State private var isShowAlert = false
 
     var body: some View {
 
         VStack {
-
-            Text(outputAleartText)
-
-            TextField("タイトル", text: $title)
+            Text("タイトル")
+            TextField("お金を貸すタイトル", text: $title)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
 
-            TextField("金額", text: $money)
+            Text("金額")
+            TextField("貸す金額", text: $money)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
                 .padding()
@@ -41,18 +41,24 @@ struct RegisterLendInfoView: View {
                     Button(action: {
                         if title.isEmpty && !money.isEmpty {
                             isActive = false
-                            outputAleartText = "タイトルが入力されていない"
+                            isShowAlert = true
+                            aleartText = "タイトルを入力して下さい"
                         } else if !title.isEmpty && money.isEmpty {
                             isActive = false
-                            outputAleartText = "金額が正しく入力されていない"
+                            isShowAlert = true
+                            aleartText = "金額を入力して下さい"
                         } else if title.isEmpty && money.isEmpty {
                             isActive = false
-                            outputAleartText = "タイトルと金額が正しく入力されていない"
+                            isShowAlert = true
+                            aleartText = "タイトルと金額を入力して下さい"
                         } else {
                             isActive = true
                         }
                     }) {
                         Text("確認ボタン")
+                    }
+                    .alert(isPresented: $isShowAlert) {  // ③アラートの表示条件設定
+                        Alert(title: Text("エラー"), message: Text(aleartText))
                     }
                 }
             )
@@ -60,8 +66,8 @@ struct RegisterLendInfoView: View {
     }
 }
 
-//struct RegisterLendInfoView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RegisterLendInfoView()
-//    }
-//}
+struct RegisterLendInfoView_Previews: PreviewProvider {
+    static var previews: some View {
+        RegisterLendInfoView()
+    }
+}
