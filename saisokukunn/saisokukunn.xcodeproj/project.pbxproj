@@ -20,6 +20,8 @@
 		95345ED028B36801006FAA96 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 95345ECF28B36801006FAA96 /* FirebaseFirestore */; };
 		95345ED228B368D3006FAA96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95345ED128B368D3006FAA96 /* AppDelegate.swift */; };
 		95345ED428B36925006FAA96 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95345ED328B36925006FAA96 /* GoogleService-Info.plist */; };
+		958583B328B47B1B009AFD5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B228B47B1B009AFD5E /* User.swift */; };
+		958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B628B47C55009AFD5E /* RegisterUser.swift */; };
 		D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */; };
 		D4B1785328B0FF57005F6EC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4B1785228B0FF57005F6EC4 /* Assets.xcassets */; };
 		D4B1785628B0FF57005F6EC4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4B1785528B0FF57005F6EC4 /* Preview Assets.xcassets */; };
@@ -57,6 +59,8 @@
 		87318DB928B3192700609C6B /* LoanListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListView.swift; sourceTree = "<group>"; };
 		95345ED128B368D3006FAA96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95345ED328B36925006FAA96 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		958583B228B47B1B009AFD5E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		958583B628B47C55009AFD5E /* RegisterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
 		D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = saisokukunn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saisokukunnApp.swift; sourceTree = "<group>"; };
 		D4B1785228B0FF57005F6EC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -174,9 +178,19 @@
 			path = Extentsion;
 			sourceTree = "<group>";
 		};
+		958583B128B47B08009AFD5E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				958583B228B47B1B009AFD5E /* User.swift */,
+				958583B628B47C55009AFD5E /* RegisterUser.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D4B1784228B0FF55005F6EC4 = {
 			isa = PBXGroup;
 			children = (
+				958583B128B47B08009AFD5E /* Model */,
 				95345ED128B368D3006FAA96 /* AppDelegate.swift */,
 				95345ED328B36925006FAA96 /* GoogleService-Info.plist */,
 				D4B1784D28B0FF55005F6EC4 /* saisokukunn */,
@@ -379,6 +393,8 @@
 				87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */,
 				87318DAA28B3128D00609C6B /* CreateQrCodeView.swift in Sources */,
 				87318DB228B3136200609C6B /* SignUpView.swift in Sources */,
+				958583B328B47B1B009AFD5E /* User.swift in Sources */,
+				958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */,
 				87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */,
 				D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */,
 				87318DA828B3128300609C6B /* QrCodeScannerView.swift in Sources */,
