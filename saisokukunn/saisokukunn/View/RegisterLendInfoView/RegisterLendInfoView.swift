@@ -14,6 +14,8 @@ struct RegisterLendInfoView: View {
     @State var isActive: Bool = false
     @State var outputAleartText: String = ""
 
+    let registerPayTask = RegisterPayTask()
+
     var body: some View {
 
         VStack {
@@ -50,6 +52,13 @@ struct RegisterLendInfoView: View {
                             outputAleartText = "タイトルと金額が正しく入力されていない"
                         } else {
                             isActive = true
+                            Task{
+                                do{
+                                    try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
+                                }catch{
+                                    print("PayTaskの登録エラー",error)
+                                }
+                            }
                         }
                     }) {
                         Text("確認ボタン")
