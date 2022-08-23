@@ -157,7 +157,7 @@ struct MainView: View {
                             .shadow(color: .gray, radius: 3, x: 0, y: -1)
                             .ignoresSafeArea()
 
-                        VStack {
+                        VStack(spacing : 0) {
                             Picker("", selection: self.$selectedLoanIndex) {
                                 Text("借り")
                                     .tag(0)
@@ -170,28 +170,28 @@ struct MainView: View {
                             if selectedLoanIndex == 0 {
                                 List{
                                     Section {
+                                        // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
                                         ForEach(0 ..< lendPersons.count,  id: \.self) { index in
-                                            LoanListView(title: lendPersons[index].title, person: lendPersons[index].name, money: lendPersons[index].money)
+                                            LoanListView(title: lendPersons[index].title, person: lendPersons[index].name, money: lendPersons[index].money, limitDay: 2)
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
-                                    }
+                                    }.listRowSeparator(.hidden)
                                 }
-                                .padding()
-                                .offset(x: -10, y: -20)
+                                .listStyle(.insetGrouped)
                                 .ignoresSafeArea()
                             } else {
                                 List{
                                     Section {
+                                        // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
                                         ForEach(0 ..< borrowPersons.count,  id: \.self) { index in
-                                            LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money)
+                                            LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money, limitDay: 3)
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
-                                    }
+                                    }.listRowSeparator(.hidden)
                                 }
-                                .padding()
-                                .offset(x: -10, y: -20)
+                                .listStyle(.insetGrouped)
                                 .ignoresSafeArea()
                             }
                         }
