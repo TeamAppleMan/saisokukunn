@@ -170,8 +170,9 @@ struct MainView: View {
                             if selectedLoanIndex == 0 {
                                 List{
                                     Section {
+                                        // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
                                         ForEach(0 ..< lendPersons.count,  id: \.self) { index in
-                                            LoanListView(title: lendPersons[index].title, person: lendPersons[index].name, money: lendPersons[index].money)
+                                            LoanListView(title: lendPersons[index].title, person: lendPersons[index].name, money: lendPersons[index].money, limitDay: 2)
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
@@ -182,8 +183,9 @@ struct MainView: View {
                             } else {
                                 List{
                                     Section {
+                                        // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
                                         ForEach(0 ..< borrowPersons.count,  id: \.self) { index in
-                                            LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money)
+                                            LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money, limitDay: 3)
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }

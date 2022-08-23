@@ -11,35 +11,35 @@ struct LoanListView: View {
     let title: String
     let person: String
     let money: Int
-    let number = 50
+    let limitDay: Int
 
     var body: some View {
         HStack {
             // 円形のやつ
             HStack {
-                if number < 10 {
-                    Text("\(number)")
+                if limitDay < 10 {
+                    Text("\(limitDay)")
                         .offset(x: 7, y: 0)
                         .font(.title2)
                     Text("day")
                         .font(.caption2)
                         .offset(x: 0, y: 5)
-                } else if number < 100 {
-                    Text("\(number)")
+                } else if limitDay < 100 {
+                    Text("\(limitDay)")
                         .font(.system(size: 20))
                         .offset(x: 8, y: 0)
                     Text("day")
                         .font(.system(size: 10))
                         .offset(x: -2, y: 8)
-                } else if number < 1000 {
-                    Text("\(number)")
+                } else if limitDay < 1000 {
+                    Text("\(limitDay)")
                         .font(.system(size: 15))
                         .offset(x: 8, y: 0)
                     Text("day")
                         .font(.system(size: 10))
                         .offset(x: -2, y: 8)
                 } else {
-                    Text("\(number)")
+                    Text("\(limitDay)")
                         .font(.system(size: 10))
                         .offset(x: 8, y: 0)
                     Text("day")
@@ -53,17 +53,18 @@ struct LoanListView: View {
             .overlay(RoundedRectangle(cornerRadius: 35).stroke(Color.init(red: 0.85, green: 0.85, blue: 0.85), lineWidth: 5))
             .cornerRadius(35)
 
-            VStack {
+            VStack(alignment: .leading) {
                 Text(title)
-                    .font(.headline)
-                HStack {
-                    Text(person)
-                        .padding(.leading, 20.0)
-                }
+                    .font(.system(.headline, design: .rounded))
+                    .bold()
+                Text(person)
+                    .foregroundColor(.gray)
+                    .font(.system(size: 10))
             }
 
             Spacer()
             Text("¥ \(money)")
+                .bold()
                 .padding()
         }
         .frame(height: 70)
@@ -73,6 +74,6 @@ struct LoanListView: View {
 
 struct LoanListView_Previews: PreviewProvider {
     static var previews: some View {
-        LoanListView(title: "zzz", person: "石原", money: 5000)
+        LoanListView(title: "zzz", person: "石原", money: 5000, limitDay: 50)
     }
 }
