@@ -22,6 +22,7 @@
 		95345ED428B36925006FAA96 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95345ED328B36925006FAA96 /* GoogleService-Info.plist */; };
 		953EEEE728B4CEE5003E8F3D /* PayTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EEEE628B4CEE5003E8F3D /* PayTask.swift */; };
 		953EEEE928B4D04A003E8F3D /* RegisterPayTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EEEE828B4D04A003E8F3D /* RegisterPayTask.swift */; };
+		95853C6D28B9A51100099AEC /* LoadPayTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95853C6C28B9A51100099AEC /* LoadPayTask.swift */; };
 		958583B328B47B1B009AFD5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B228B47B1B009AFD5E /* User.swift */; };
 		958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B628B47C55009AFD5E /* RegisterUser.swift */; };
 		D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */; };
@@ -63,6 +64,7 @@
 		95345ED328B36925006FAA96 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		953EEEE628B4CEE5003E8F3D /* PayTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayTask.swift; sourceTree = "<group>"; };
 		953EEEE828B4D04A003E8F3D /* RegisterPayTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPayTask.swift; sourceTree = "<group>"; };
+		95853C6C28B9A51100099AEC /* LoadPayTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadPayTask.swift; sourceTree = "<group>"; };
 		958583B228B47B1B009AFD5E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		958583B628B47C55009AFD5E /* RegisterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
 		D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = saisokukunn.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +190,7 @@
 				958583B228B47B1B009AFD5E /* User.swift */,
 				958583B628B47C55009AFD5E /* RegisterUser.swift */,
 				953EEEE828B4D04A003E8F3D /* RegisterPayTask.swift */,
+				95853C6C28B9A51100099AEC /* LoadPayTask.swift */,
 				953EEEE628B4CEE5003E8F3D /* PayTask.swift */,
 			);
 			path = Model;
@@ -400,6 +403,7 @@
 				953EEEE728B4CEE5003E8F3D /* PayTask.swift in Sources */,
 				87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */,
 				87318DAA28B3128D00609C6B /* CreateQrCodeView.swift in Sources */,
+				95853C6D28B9A51100099AEC /* LoadPayTask.swift in Sources */,
 				87318DB228B3136200609C6B /* SignUpView.swift in Sources */,
 				958583B328B47B1B009AFD5E /* User.swift in Sources */,
 				958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */,

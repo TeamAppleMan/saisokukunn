@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct Person {
     var title: String
@@ -21,13 +22,15 @@ struct MainView: View {
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
     @State var isPressedAccount: Bool = false
-    @State var accountName: String = "アカウント名"
+    @State var accountName: String = "サインアウト"
     @State var totalLendingMoney: Int = 58000
     @State var totalBorrowingMoney: Int = 20000
 
     @State private var toSignUpView = false
+    @State private var lendPayTaskList = [PayTask]()
 
     let registerUser = RegisterUser()
+    let loadPayTask = LoadPayTask()
 
     var lendPersons = [
         Person.init(title: "お好み焼", name: "有村架純", money: 5000, stateDate: Date(), endDate: Date()),
@@ -83,7 +86,7 @@ struct MainView: View {
                             })
                             {
                                 HStack {
-                                    Text("アカウント名")
+                                    Text("サインアウト")
                                         .font(.callout)
                                         .foregroundColor(Color(UIColor.white))
                                     Image(systemName: accountButtonSystemImageName)
@@ -186,8 +189,8 @@ struct MainView: View {
                                 List{
                                     Section {
                                         // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
-                                        ForEach(0 ..< lendPersons.count,  id: \.self) { index in
-                                            LoanListView(title: lendPersons[index].title, person: lendPersons[index].name, money: lendPersons[index].money, limitDay: 2)
+                                        ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
+                                            LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: lendPayTaskList[index].money,limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
@@ -212,9 +215,29 @@ struct MainView: View {
                         }
                     }
                 }
+            }.onAppear{
+                // 貸しているタスクを取得する
+                loadPayTask.fetchLendPayTask { lendPayTasks, error in
+                    if let error = error {
+                        print("貸しているタスクの取得に失敗",error)
+                        return
+                    }
+                    guard let lendPayTasks = lendPayTasks else { return }
+                    lendPayTaskList = lendPayTasks
+                }
             }
+        }.navigationBarHidden(true)
+    }
+
+    private func createLimitDay(endTime: Timestamp) -> Int {
+        let endDate = endTime.dateValue()
+        let now = Date()
+        let limit = endDate.timeIntervalSince(now)
+        var limitDay = Int(limit/60/60/24)
+        if(limit>0){
+           limitDay += 1
         }
-        .navigationBarHidden(true)
+        return Int(limitDay)
     }
 }
 

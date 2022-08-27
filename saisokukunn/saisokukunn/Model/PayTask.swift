@@ -10,15 +10,15 @@ import Firebase
 
 struct PayTask {
     var title: String
-    var money: String
-    var endDate: Date
+    var money: Int
+    var endTime: Timestamp
     var lenderUID: String
     var createdAt: Timestamp
 
     init(dic: [String: Any]) {
         self.title = dic["title"] as? String ?? ""
-        self.money = dic["money"] as? String ?? ""
-        self.endDate = dic["endDate"] as? Date ?? Date()
+        self.money = dic["money"] as? Int ?? 0
+        self.endTime = dic["endTime"] as? Timestamp ?? Timestamp()
         self.lenderUID = dic["lenderUID"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
     }
