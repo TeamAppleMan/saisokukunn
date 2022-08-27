@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct Person {
     var title: String
@@ -189,7 +190,7 @@ struct MainView: View {
                                     Section {
                                         // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
                                         ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
-                                            LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: Int(lendPayTaskList[index].money) ?? 0, limitDay: 2)
+                                            LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: lendPayTaskList[index].money,limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
@@ -226,6 +227,17 @@ struct MainView: View {
                 }
             }
         }.navigationBarHidden(true)
+    }
+
+    private func createLimitDay(endTime: Timestamp) -> Int {
+        let endDate = endTime.dateValue()
+        let now = Date()
+        let limit = endDate.timeIntervalSince(now)
+        var limitDay = Int(limit/60/60/24)
+        if(limit>0){
+           limitDay += 1
+        }
+        return Int(limitDay)
     }
 }
 
