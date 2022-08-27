@@ -21,13 +21,14 @@ struct MainView: View {
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
     @State var isPressedAccount: Bool = false
-    @State var accountName: String = "アカウント名"
+    @State var accountName: String = "サインアウト"
     @State var totalLendingMoney: Int = 58000
     @State var totalBorrowingMoney: Int = 20000
 
     @State private var toSignUpView = false
 
     let registerUser = RegisterUser()
+    let loadPayTask = LoadPayTask()
 
     var lendPersons = [
         Person.init(title: "お好み焼", name: "有村架純", money: 5000, stateDate: Date(), endDate: Date()),
@@ -83,7 +84,7 @@ struct MainView: View {
                             })
                             {
                                 HStack {
-                                    Text("アカウント名")
+                                    Text("サインアウト")
                                         .font(.callout)
                                         .foregroundColor(Color(UIColor.white))
                                     Image(systemName: accountButtonSystemImageName)
@@ -212,9 +213,19 @@ struct MainView: View {
                         }
                     }
                 }
+            }.onAppear{
+                print("ロードされた？")
+                // タスクのロードを書く
+                loadPayTask.fetchLendPayTask { payTasks, error in
+                    if let error = error {
+                        print("貸しているタスクの取得に失敗",error)
+                        return
+                    }
+                    guard let payTasks = payTasks else { return }
+
+                }
             }
-        }
-        .navigationBarHidden(true)
+        }.navigationBarHidden(true)
     }
 }
 

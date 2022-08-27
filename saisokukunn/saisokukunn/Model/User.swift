@@ -8,7 +8,8 @@
 import Foundation
 import Firebase
 
-struct User{
+struct User {
+    public var id = UUID().uuidString
     var userName: String
     var uid: String
     var createdAt: Timestamp
