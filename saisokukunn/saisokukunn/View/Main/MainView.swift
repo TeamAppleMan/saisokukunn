@@ -26,6 +26,7 @@ struct MainView: View {
     @State var totalBorrowingMoney: Int = 20000
 
     @State private var toSignUpView = false
+    @State private var lendPayTaskList = [PayTask]()
 
     let registerUser = RegisterUser()
     let loadPayTask = LoadPayTask()
@@ -187,8 +188,8 @@ struct MainView: View {
                                 List{
                                     Section {
                                         // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
-                                        ForEach(0 ..< lendPersons.count,  id: \.self) { index in
-                                            LoanListView(title: lendPersons[index].title, person: lendPersons[index].name, money: lendPersons[index].money, limitDay: 2)
+                                        ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
+                                            LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: Int(lendPayTaskList[index].money) ?? 0, limitDay: 2)
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
@@ -214,15 +215,14 @@ struct MainView: View {
                     }
                 }
             }.onAppear{
-                print("ロードされた？")
-                // タスクのロードを書く
-                loadPayTask.fetchLendPayTask { payTasks, error in
+                // 貸しているタスクを取得する
+                loadPayTask.fetchLendPayTask { lendPayTasks, error in
                     if let error = error {
                         print("貸しているタスクの取得に失敗",error)
                         return
                     }
-                    guard let payTasks = payTasks else { return }
-
+                    guard let lendPayTasks = lendPayTasks else { return }
+                    lendPayTaskList = lendPayTasks
                 }
             }
         }.navigationBarHidden(true)
