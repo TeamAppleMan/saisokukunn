@@ -63,7 +63,7 @@ struct RegisterLendInfoView: View {
                 Spacer()
                 NavigationLink(
                     destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
-                    isActive: $isActive,
+                    isActive: $isNextButtonActive,
                     label: {
                         Button(action: {
                             if title.isEmpty && !money.isEmpty {
@@ -76,7 +76,7 @@ struct RegisterLendInfoView: View {
                                 isShowAlert = true
                                 aleartText = "タイトルと金額を入力して下さい"
                             } else {
-                                isActive = true
+                                isNextButtonActive = true
                                 Task{
                                     do{
                                         try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)

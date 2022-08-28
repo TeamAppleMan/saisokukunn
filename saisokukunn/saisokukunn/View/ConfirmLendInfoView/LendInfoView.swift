@@ -6,11 +6,18 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct LendInfoView: View {
+    let title: String
+    let money: String
+    let endTime: Date
 
     var body: some View {
         let titleTextColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
+
+        // TODO: Modelの繋がっている。切り離したい。
+        let dateToString = DateToString(date: endTime)
 
         ZStack {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -22,7 +29,7 @@ struct LendInfoView: View {
                     Text("タイトル")
                         .foregroundColor(.gray)
                     // 文字数ごとにサイズを変更させる
-                    Text("お好み焼き代")
+                    Text(title)
                         .foregroundColor(titleTextColor)
                         .font(.title2)
                         .bold()
@@ -35,7 +42,7 @@ struct LendInfoView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("金額")
                         .foregroundColor(.gray)
-                    Text("¥ 5500")
+                    Text("¥ \(money)")
                         .foregroundColor(titleTextColor)
                         .font(.title2)
                         .bold()
@@ -47,21 +54,21 @@ struct LendInfoView: View {
                     Text("締め切り")
                         .foregroundColor(.gray)
                     HStack(alignment: .bottom) {
-                        Text("2022")
+                        Text(dateToString.year())
                             .foregroundColor(titleTextColor)
                             .font(.title2)
                             .bold()
                         Text("年")
                             .foregroundColor(titleTextColor)
 
-                        Text("2")
+                        Text(dateToString.month())
                             .foregroundColor(titleTextColor)
                             .font(.title2)
                             .bold()
                         Text("月")
                             .foregroundColor(titleTextColor)
 
-                        Text("11")
+                        Text(dateToString.day())
                             .foregroundColor(titleTextColor)
                             .font(.title2)
                             .bold()
@@ -74,8 +81,9 @@ struct LendInfoView: View {
     }
 }
 
-struct LendInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        LendInfoView()
-    }
-}
+//
+//struct LendInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LendInfoView()
+//    }
+//}

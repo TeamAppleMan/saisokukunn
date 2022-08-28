@@ -7,31 +7,27 @@
 
 import Foundation
 
-class dateToString {
+class DateToString {
     let date: Date
     let dateFormatter = DateFormatter()
 
     init(date: Date) {
         self.date = date
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
     }
 
     func year() -> String {
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.dateStyle = .medium
         dateFormatter.dateFormat = "yyyy"
         return dateFormatter.string(from: date)
     }
 
     func month() -> String {
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.dateStyle = .medium
         dateFormatter.dateFormat = "MM"
         return dateFormatter.string(from: date)
     }
 
     func day() -> String {
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.dateStyle = .medium
         dateFormatter.dateFormat = "dd"
         return dateFormatter.string(from: date)
     }
