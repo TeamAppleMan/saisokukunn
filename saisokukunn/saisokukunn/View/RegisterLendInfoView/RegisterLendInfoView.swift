@@ -37,7 +37,7 @@ struct RegisterLendInfoView: View {
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
                 Spacer()
-            }.padding()
+            }.padding(.bottom)
 
             Text("タイトル")
                 .padding(.leading, textHorizontalMargin)

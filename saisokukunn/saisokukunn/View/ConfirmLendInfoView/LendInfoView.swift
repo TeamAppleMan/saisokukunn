@@ -53,12 +53,14 @@ struct LendInfoView: View {
                             .bold()
                         Text("年")
                             .foregroundColor(titleTextColor)
+
                         Text("2")
                             .foregroundColor(titleTextColor)
                             .font(.title2)
                             .bold()
                         Text("月")
                             .foregroundColor(titleTextColor)
+
                         Text("11")
                             .foregroundColor(titleTextColor)
                             .font(.title2)
