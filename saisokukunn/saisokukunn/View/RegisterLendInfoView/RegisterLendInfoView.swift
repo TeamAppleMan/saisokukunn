@@ -22,93 +22,95 @@ struct RegisterLendInfoView: View {
         let displayHeight = displayBounds.height
         // 各々のサイズ指定
         let textHorizontalMargin = 25.0
-        let inputAccessoryHorizontalMargin = 30.0
-        let imageHeight = displayHeight/5.0
+        let inputAccessoryHorizontalMargin = 25.0
+        let imageHeight = displayHeight/3
         let confirmationButtonWidth = 150.0
 
         let titleTextColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
-        VStack(alignment: .leading, spacing: 5) {
+        VStack() {
 
             Spacer()
 
             HStack() {
-                Spacer()
                 Image("MoneyWithMan")
                     .resizable()
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
-                Spacer()
-            }.padding(.bottom, 50)
+            }
 
-            Text("タイトル")
-                .font(.callout)
-                .foregroundColor(titleTextColor)
-                .padding(.leading, textHorizontalMargin)
-            TextField("お金を貸すタイトル", text: $title)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
+            Spacer()
 
-            Text("金額")
-                .font(.callout)
-                .foregroundColor(titleTextColor)
-                .padding(.leading, textHorizontalMargin)
-            TextField("貸す金額", text: $money)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.numberPad)
-                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
+            VStack(alignment: .leading, spacing: 5) {
+                Text("タイトル")
+                    .font(.callout)
+                    .foregroundColor(titleTextColor)
+                    .padding(.leading, textHorizontalMargin)
+                TextField("お金を貸すタイトル", text: $title)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
-            Text("締め切り")
-                .font(.callout)
-                .foregroundColor(titleTextColor)
-                .padding(.leading, textHorizontalMargin)
-            DatePicker("日時を選択", selection: $endTime, displayedComponents: .date)
-                .datePickerStyle(.compact)
-                .labelsHidden()
-                .padding([.leading, .trailing], inputAccessoryHorizontalMargin)
+                Text("金額")
+                    .font(.callout)
+                    .foregroundColor(titleTextColor)
+                    .padding(.leading, textHorizontalMargin)
+                TextField("貸す金額", text: $money)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .keyboardType(.numberPad)
+                    .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
-            HStack {
-                Spacer()
-                NavigationLink(
-                    destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
-                    isActive: $isNextButtonActive,
-                    label: {
-                        Button(action: {
-                            if title.isEmpty && !money.isEmpty {
-                                isShowAlert = true
-                                aleartText = "タイトルを入力して下さい"
-                            } else if !title.isEmpty && money.isEmpty {
-                                isShowAlert = true
-                                aleartText = "金額を入力して下さい"
-                            } else if title.isEmpty && money.isEmpty {
-                                isShowAlert = true
-                                aleartText = "タイトルと金額を入力して下さい"
-                            } else {
-                                isNextButtonActive = true
-                                Task{
-                                    do{
-                                        try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
-                                    } catch {
-                                        print("PayTaskの登録エラー",error)
+                Text("締め切り")
+                    .font(.callout)
+                    .foregroundColor(titleTextColor)
+                    .padding(.leading, textHorizontalMargin)
+                DatePicker("日時を選択", selection: $endTime, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                    .padding([.leading, .trailing], inputAccessoryHorizontalMargin)
+
+                HStack {
+                    Spacer()
+                    NavigationLink(
+                        destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
+                        isActive: $isNextButtonActive,
+                        label: {
+                            Button(action: {
+                                if title.isEmpty && !money.isEmpty {
+                                    isShowAlert = true
+                                    aleartText = "タイトルを入力して下さい"
+                                } else if !title.isEmpty && money.isEmpty {
+                                    isShowAlert = true
+                                    aleartText = "金額を入力して下さい"
+                                } else if title.isEmpty && money.isEmpty {
+                                    isShowAlert = true
+                                    aleartText = "タイトルと金額を入力して下さい"
+                                } else {
+                                    isNextButtonActive = true
+                                    Task{
+                                        do{
+                                            try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
+                                        } catch {
+                                            print("PayTaskの登録エラー",error)
+                                        }
                                     }
                                 }
+                            }) {
+                                Text("確認")
+                                    .frame(width: confirmationButtonWidth, alignment: .center)
+                                    .padding()
+                                    .accentColor(Color.white)
+                                    .background(Color.gray)
+                                    .cornerRadius(25)
+                                    .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
+                                    .padding()
                             }
-                        }) {
-                            Text("確認")
-                                .frame(width: confirmationButtonWidth, alignment: .center)
-                                .padding()
-                                .accentColor(Color.white)
-                                .background(Color.gray)
-                                .cornerRadius(25)
-                                .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
-                                .padding()
+                            .alert(isPresented: $isShowAlert) {
+                                Alert(title: Text("エラー"), message: Text(aleartText))
+                            }
                         }
-                        .alert(isPresented: $isShowAlert) {
-                            Alert(title: Text("エラー"), message: Text(aleartText))
-                        }
-                    }
-                )
-                Spacer()
+                    )
+                    Spacer()
+                }
             }
             Spacer()
         }
