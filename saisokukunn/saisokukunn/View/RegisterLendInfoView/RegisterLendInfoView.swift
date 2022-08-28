@@ -11,19 +11,22 @@ struct RegisterLendInfoView: View {
     @State var title: String = ""
     @State var money: String = ""
     @State var endTime: Date = Date()
-    @State var isActive: Bool = false
+    @State var isNextButtonActive: Bool = false
     @State var aleartText: String = ""
     @State private var isShowAlert = false
 
     let registerPayTask = RegisterPayTask()
 
     var body: some View {
+        let displayBounds = UIScreen.main.bounds
+        let displayHeight = displayBounds.height
         // 各々のサイズ指定
         let textHorizontalMargin = 25.0
         let inputAccessoryHorizontalMargin = 30.0
-        let imageHeight = 205.0
+        let imageHeight = displayHeight/5.0
         let confirmationButtonWidth = 150.0
 
+        let titleTextColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
         VStack(alignment: .leading, spacing: 5) {
 
@@ -33,19 +36,22 @@ struct RegisterLendInfoView: View {
                 Spacer()
                 Image("MoneyWithMan")
                     .resizable()
-                    .padding()
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
                 Spacer()
-            }.padding()
+            }.padding(.bottom, 50)
 
             Text("タイトル")
+                .font(.callout)
+                .foregroundColor(titleTextColor)
                 .padding(.leading, textHorizontalMargin)
             TextField("お金を貸すタイトル", text: $title)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
             Text("金額")
+                .font(.callout)
+                .foregroundColor(titleTextColor)
                 .padding(.leading, textHorizontalMargin)
             TextField("貸す金額", text: $money)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -53,17 +59,19 @@ struct RegisterLendInfoView: View {
                 .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
             Text("締め切り")
+                .font(.callout)
+                .foregroundColor(titleTextColor)
                 .padding(.leading, textHorizontalMargin)
             DatePicker("日時を選択", selection: $endTime, displayedComponents: .date)
                 .datePickerStyle(.compact)
                 .labelsHidden()
-                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
+                .padding([.leading, .trailing], inputAccessoryHorizontalMargin)
 
             HStack {
                 Spacer()
                 NavigationLink(
                     destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
-                    isActive: $isActive,
+                    isActive: $isNextButtonActive,
                     label: {
                         Button(action: {
                             if title.isEmpty && !money.isEmpty {
@@ -76,7 +84,7 @@ struct RegisterLendInfoView: View {
                                 isShowAlert = true
                                 aleartText = "タイトルと金額を入力して下さい"
                             } else {
-                                isActive = true
+                                isNextButtonActive = true
                                 Task{
                                     do{
                                         try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)

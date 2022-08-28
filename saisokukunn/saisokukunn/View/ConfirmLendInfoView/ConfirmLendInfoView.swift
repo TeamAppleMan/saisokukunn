@@ -12,6 +12,7 @@ struct ConfirmLendInfoView: View {
     @Binding var money: String
     @Binding var endTime: Date
 
+    // TODO: 下の関数は改良してModelに突っ込みたい
     func dateToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ja_JP")
@@ -21,36 +22,46 @@ struct ConfirmLendInfoView: View {
     }
 
     var body: some View {
-        VStack{
-            HStack {
-                Text("タイトル")
-                    .padding()
-                Text(title)
-            }
+        let displayBounds = UIScreen.main.bounds
+        let displayWidth = displayBounds.width
+        let displayHeight = displayBounds.height
 
-            HStack {
-                Text("金額")
-                    .padding()
-                Text("¥\(money)")
-            }
+        let imageHeight = displayHeight/5.0
+        let squareTextBoxSize = displayWidth - 80.0
+        let qrcodeButtonOffsetXSize = displayWidth/2 - 60.0
+        let qrcodeButtonOffsetYSize = -60.0
+        let qrcodeButtonShadowColor = Color.init(red: 0.4, green: 0.4, blue: 0.4)
 
-            HStack {
-                Text("締め切り")
-                    .padding()
-                Text(dateToString(date: endTime))
-            }
+        VStack {
+
+            HStack() {
+                Image("CheckWithMan")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: imageHeight, alignment: .center)
+            }.padding(.bottom, 50)
+
+            LendInfoView(title: title, money: money, endTime: endTime)
+                .frame(width: squareTextBoxSize, height: squareTextBoxSize)
+                .padding(.top)
 
             NavigationLink(destination: CreateQrCodeView()) {
-                Text("OK").font(.callout)
-            }
-            .padding()
+                Image(systemName: "qrcode.viewfinder")
+                    .font(.largeTitle)
+                    .padding()
+                    .accentColor(Color.black)
+                    .background(Color.white)
+                    .cornerRadius(40)
+                    .shadow(color: qrcodeButtonShadowColor, radius: 10)
+            }.offset(x: qrcodeButtonOffsetXSize, y: qrcodeButtonOffsetYSize)
 
+            Spacer()
         }
     }
 }
 
 //struct ConfirmLendInfoView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ConfirmLendInfoView()
+//        ConfirmLendInfoView(title: Binding("お好み焼き代"), money: Binding(4850), endTime: Binding(Date()))
 //    }
 //}

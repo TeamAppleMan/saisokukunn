@@ -52,8 +52,8 @@ struct MainView: View {
 
     var body: some View {
         let displayBounds = UIScreen.main.bounds
-        let displaywidth = displayBounds.width
-        let displayheight = displayBounds.height
+        let displayWidth = displayBounds.width
+        let displayHeight = displayBounds.height
         let qrSystemImageName = "qrcode.viewfinder"
         let addLoanSystemImageName = "note.text.badge.plus"
         let accountButtonSystemImageName = "chevron.down"
@@ -102,22 +102,23 @@ struct MainView: View {
 
                             NavigationLink(destination: RegisterLendInfoView()) {
                                 Image(systemName: addLoanSystemImageName)
+                                    .padding()
+                                    .accentColor(Color.black)
+                                    .background(Color.white)
+                                    .cornerRadius(25)
+                                    .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                             }
-                            .padding()
-                            .accentColor(Color.black)
-                            .background(Color.white)
-                            .cornerRadius(25)
-                            .shadow(color: Color.white, radius: 10, x: 0, y: 3)
 
                             NavigationLink(destination: QrCodeScannerView()) {
                                 Image(systemName: qrSystemImageName)
+                                    .padding()
+                                    .accentColor(Color.black)
+                                    .background(Color.white)
+                                    .cornerRadius(25)
+                                    .shadow(color: Color.white, radius: 10, x: 0, y: 3)
+                                    .padding()
                             }
-                            .padding()
-                            .accentColor(Color.black)
-                            .background(Color.white)
-                            .cornerRadius(25)
-                            .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                            .padding()
+
                         }
 
                         Spacer()
@@ -145,7 +146,7 @@ struct MainView: View {
                         }
 
                         HStack {
-                            Spacer(minLength: displaywidth/2)
+                            Spacer(minLength: displayWidth/2)
 
                             if selectedLoanIndex == 0 {
                                 Text("借りた総額")
@@ -162,7 +163,7 @@ struct MainView: View {
                     }
 
                     // 黒い部分の高さ。3分の11くらいが一番良さそうだった。（感覚）
-                    .frame(height: 3*displayheight/11)
+                    .frame(height: 3*displayHeight/11)
 
                     Spacer()
 
