@@ -102,22 +102,23 @@ struct MainView: View {
 
                             NavigationLink(destination: RegisterLendInfoView()) {
                                 Image(systemName: addLoanSystemImageName)
+                                    .padding()
+                                    .accentColor(Color.black)
+                                    .background(Color.white)
+                                    .cornerRadius(25)
+                                    .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                             }
-                            .padding()
-                            .accentColor(Color.black)
-                            .background(Color.white)
-                            .cornerRadius(25)
-                            .shadow(color: Color.white, radius: 10, x: 0, y: 3)
 
                             NavigationLink(destination: QrCodeScannerView()) {
                                 Image(systemName: qrSystemImageName)
+                                    .padding()
+                                    .accentColor(Color.black)
+                                    .background(Color.white)
+                                    .cornerRadius(25)
+                                    .shadow(color: Color.white, radius: 10, x: 0, y: 3)
+                                    .padding()
                             }
-                            .padding()
-                            .accentColor(Color.black)
-                            .background(Color.white)
-                            .cornerRadius(25)
-                            .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                            .padding()
+
                         }
 
                         Spacer()
