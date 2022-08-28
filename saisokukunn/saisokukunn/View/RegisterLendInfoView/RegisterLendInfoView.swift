@@ -11,7 +11,7 @@ struct RegisterLendInfoView: View {
     @State var title: String = ""
     @State var money: String = ""
     @State var endTime: Date = Date()
-    @State var isActive: Bool = false
+    @State var isNextButtonActive: Bool = false
     @State var aleartText: String = ""
     @State private var isShowAlert = false
 
