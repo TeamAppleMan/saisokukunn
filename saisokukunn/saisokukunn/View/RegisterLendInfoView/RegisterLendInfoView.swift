@@ -16,56 +16,61 @@ struct RegisterLendInfoView: View {
     @State private var isShowAlert = false
 
     var body: some View {
+        // 各々のサイズ指定
+        let textHorizontalMargin = 25.0
+        let inputAccessoryHorizontalMargin = 30.0
+        let imageHeight = 205.0
+        let confirmationButtonWidth = 150.0
+
 
         VStack(alignment: .leading, spacing: 5) {
+
+            Spacer()
 
             HStack() {
                 Spacer()
                 Image("MoneyWithMan")
                     .resizable()
+                    .padding()
                     .scaledToFit()
-                    .frame(height: 205, alignment: .center)
+                    .frame(height: imageHeight, alignment: .center)
                 Spacer()
             }.padding()
 
             Text("タイトル")
-                .padding(.leading)
+                .padding(.leading, textHorizontalMargin)
             TextField("お金を貸すタイトル", text: $title)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding([.leading, .bottom, .trailing])
+                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
             Text("金額")
-                .padding(.leading)
+                .padding(.leading, textHorizontalMargin)
             TextField("貸す金額", text: $money)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
-                .padding([.leading, .bottom, .trailing])
+                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
             Text("締め切り")
-                .padding(.leading)
+                .padding(.leading, textHorizontalMargin)
             DatePicker("日時を選択", selection: $endTime, displayedComponents: .date)
                 .datePickerStyle(.compact)
                 .labelsHidden()
-                .padding([.leading, .bottom, .trailing])
+                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
             HStack {
                 Spacer()
-
                 NavigationLink(
                     destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
                     isActive: $isActive,
                     label: {
                         Button(action: {
                             if title.isEmpty && !money.isEmpty {
-                                isActive = false
                                 isShowAlert = true
                                 aleartText = "タイトルを入力して下さい"
                             } else if !title.isEmpty && money.isEmpty {
-                                isActive = false
                                 isShowAlert = true
                                 aleartText = "金額を入力して下さい"
                             } else if title.isEmpty && money.isEmpty {
-                                isActive = false
                                 isShowAlert = true
                                 aleartText = "タイトルと金額を入力して下さい"
                             } else {
@@ -73,24 +78,26 @@ struct RegisterLendInfoView: View {
                             }
                         }) {
                             Text("確認")
+                                .frame(width: confirmationButtonWidth, alignment: .center)
+                                .padding()
+                                .accentColor(Color.white)
+                                .background(Color.gray)
+                                .cornerRadius(25)
+                                .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
+                                .padding()
                         }
                         .alert(isPresented: $isShowAlert) {
                             Alert(title: Text("エラー"), message: Text(aleartText))
                         }
                     }
                 )
-                .frame(width: 150, alignment: .center)
-                .padding()
-                .accentColor(Color.white)
-                .background(Color.gray)
-                .cornerRadius(25)
-                .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
-                .padding()
-
                 Spacer()
             }
+            Spacer()
         }
-        Spacer()
+        // キーボードを画面タッチで閉じさせる
+        .edgesIgnoringSafeArea(.all)
+        .onTapGesture { UIApplication.shared.closeKeyboard() }
     }
 }
 
