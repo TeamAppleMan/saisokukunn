@@ -39,7 +39,7 @@ struct ConfirmLendInfoView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
-            }.padding(.bottom)
+            }.padding(.bottom, 50)
 
             LendInfoView(title: title, money: money, endTime: endTime)
                 .frame(width: squareTextBoxSize, height: squareTextBoxSize)
