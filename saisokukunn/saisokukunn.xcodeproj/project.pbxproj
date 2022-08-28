@@ -17,6 +17,7 @@
 		87318DB828B318BC00609C6B /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB728B318BC00609C6B /* ViewExtension.swift */; };
 		87318DBA28B3192700609C6B /* LoanListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB928B3192700609C6B /* LoanListView.swift */; };
 		87B44E6D28BAFF3F00928374 /* UIAplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6C28BAFF3F00928374 /* UIAplication.swift */; };
+		87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6E28BB07C200928374 /* LendInfoView.swift */; };
 		87DDA98F28B48BC200123EF3 /* ShadowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */; };
 		95345ECE28B36801006FAA96 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 95345ECD28B36801006FAA96 /* FirebaseAuth */; };
 		95345ED028B36801006FAA96 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 95345ECF28B36801006FAA96 /* FirebaseFirestore */; };
@@ -63,6 +64,7 @@
 		87318DB728B318BC00609C6B /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		87318DB928B3192700609C6B /* LoanListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListView.swift; sourceTree = "<group>"; };
 		87B44E6C28BAFF3F00928374 /* UIAplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAplication.swift; sourceTree = "<group>"; };
+		87B44E6E28BB07C200928374 /* LendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendInfoView.swift; sourceTree = "<group>"; };
 		87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowButtonView.swift; sourceTree = "<group>"; };
 		95345ED128B368D3006FAA96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95345ED328B36925006FAA96 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				87318DAB28B3129800609C6B /* ConfirmLendInfoView.swift */,
+				87B44E6E28BB07C200928374 /* LendInfoView.swift */,
 			);
 			path = ConfirmLendInfoView;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */,
 				87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */,
 				D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */,
+				87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */,
 				87318DA828B3128300609C6B /* QrCodeScannerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
