@@ -12,65 +12,106 @@ struct RegisterLendInfoView: View {
     @State var money: String = ""
     @State var endTime: Date = Date()
     @State var isActive: Bool = false
-    @State var outputAleartText: String = ""
+    @State var aleartText: String = ""
+    @State private var isShowAlert = false
 
     let registerPayTask = RegisterPayTask()
 
     var body: some View {
+        // 各々のサイズ指定
+        let textHorizontalMargin = 25.0
+        let inputAccessoryHorizontalMargin = 30.0
+        let imageHeight = 205.0
+        let confirmationButtonWidth = 150.0
 
-        VStack {
 
-            Text(outputAleartText)
+        VStack(alignment: .leading, spacing: 5) {
 
-            TextField("タイトル", text: $title)
+            Spacer()
+
+            HStack() {
+                Spacer()
+                Image("MoneyWithMan")
+                    .resizable()
+                    .padding()
+                    .scaledToFit()
+                    .frame(height: imageHeight, alignment: .center)
+                Spacer()
+            }.padding()
+
+            Text("タイトル")
+                .padding(.leading, textHorizontalMargin)
+            TextField("お金を貸すタイトル", text: $title)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
-            TextField("金額", text: $money)
+            Text("金額")
+                .padding(.leading, textHorizontalMargin)
+            TextField("貸す金額", text: $money)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
-                .padding()
+                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
+            Text("締め切り")
+                .padding(.leading, textHorizontalMargin)
             DatePicker("日時を選択", selection: $endTime, displayedComponents: .date)
                 .datePickerStyle(.compact)
                 .labelsHidden()
-                .padding()
+                .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
-            NavigationLink(
-                destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
-                isActive: $isActive,
-                label: {
-                    Button(action: {
-                        if title.isEmpty && !money.isEmpty {
-                            isActive = false
-                            outputAleartText = "タイトルが入力されていない"
-                        } else if !title.isEmpty && money.isEmpty {
-                            isActive = false
-                            outputAleartText = "金額が正しく入力されていない"
-                        } else if title.isEmpty && money.isEmpty {
-                            isActive = false
-                            outputAleartText = "タイトルと金額が正しく入力されていない"
-                        } else {
-                            isActive = true
-                            Task{
-                                do{
-                                    try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
-                                }catch{
-                                    print("PayTaskの登録エラー",error)
+            HStack {
+                Spacer()
+                NavigationLink(
+                    destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
+                    isActive: $isActive,
+                    label: {
+                        Button(action: {
+                            if title.isEmpty && !money.isEmpty {
+                                isShowAlert = true
+                                aleartText = "タイトルを入力して下さい"
+                            } else if !title.isEmpty && money.isEmpty {
+                                isShowAlert = true
+                                aleartText = "金額を入力して下さい"
+                            } else if title.isEmpty && money.isEmpty {
+                                isShowAlert = true
+                                aleartText = "タイトルと金額を入力して下さい"
+                            } else {
+                                isActive = true
+                                Task{
+                                    do{
+                                        try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
+                                    } catch {
+                                        print("PayTaskの登録エラー",error)
+                                    }
                                 }
                             }
+                        }) {
+                            Text("確認")
+                                .frame(width: confirmationButtonWidth, alignment: .center)
+                                .padding()
+                                .accentColor(Color.white)
+                                .background(Color.gray)
+                                .cornerRadius(25)
+                                .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
+                                .padding()
                         }
-                    }) {
-                        Text("確認ボタン")
+                        .alert(isPresented: $isShowAlert) {
+                            Alert(title: Text("エラー"), message: Text(aleartText))
+                        }
                     }
-                }
-            )
+                )
+                Spacer()
+            }
+            Spacer()
         }
+        // キーボードを画面タッチで閉じさせる
+        .edgesIgnoringSafeArea(.all)
+        .onTapGesture { UIApplication.shared.closeKeyboard() }
     }
 }
 
-//struct RegisterLendInfoView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RegisterLendInfoView()
-//    }
-//}
+struct RegisterLendInfoView_Previews: PreviewProvider {
+    static var previews: some View {
+        RegisterLendInfoView()
+    }
+}
