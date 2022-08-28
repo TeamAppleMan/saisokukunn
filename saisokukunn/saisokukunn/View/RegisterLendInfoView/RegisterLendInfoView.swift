@@ -15,6 +15,8 @@ struct RegisterLendInfoView: View {
     @State var aleartText: String = ""
     @State private var isShowAlert = false
 
+    let registerPayTask = RegisterPayTask()
+
     var body: some View {
         // 各々のサイズ指定
         let textHorizontalMargin = 25.0
@@ -75,6 +77,13 @@ struct RegisterLendInfoView: View {
                                 aleartText = "タイトルと金額を入力して下さい"
                             } else {
                                 isActive = true
+                                Task{
+                                    do{
+                                        try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
+                                    } catch {
+                                        print("PayTaskの登録エラー",error)
+                                    }
+                                }
                             }
                         }) {
                             Text("確認")
