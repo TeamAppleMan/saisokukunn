@@ -26,13 +26,16 @@ struct ConfirmLendInfoView: View {
         let displayWidth = displayBounds.width
         let displayHeight = displayBounds.height
 
-        let imageHeight = displayHeight/5.0
+        let imageHeight = displayHeight/3.0
         let squareTextBoxSize = displayWidth - 80.0
+        let offsetSize = imageHeight/5
         let qrcodeButtonOffsetXSize = displayWidth/2 - 60.0
         let qrcodeButtonOffsetYSize = -60.0
         let qrcodeButtonShadowColor = Color.init(red: 0.4, green: 0.4, blue: 0.4)
 
         VStack {
+
+            Spacer()
 
             HStack() {
                 Image("CheckWithMan")
@@ -41,19 +44,24 @@ struct ConfirmLendInfoView: View {
                     .frame(height: imageHeight, alignment: .center)
             }.padding(.bottom, 50)
 
-            LendInfoView(title: title, money: money, endTime: endTime)
-                .frame(width: squareTextBoxSize, height: squareTextBoxSize)
-                .padding(.top)
+            Spacer()
 
-            NavigationLink(destination: CreateQrCodeView()) {
-                Image(systemName: "qrcode.viewfinder")
-                    .font(.largeTitle)
-                    .padding()
-                    .accentColor(Color.black)
-                    .background(Color.white)
-                    .cornerRadius(40)
-                    .shadow(color: qrcodeButtonShadowColor, radius: 10)
-            }.offset(x: qrcodeButtonOffsetXSize, y: qrcodeButtonOffsetYSize)
+            VStack {
+                LendInfoView(title: title, money: money, endTime: endTime)
+                    .frame(width: squareTextBoxSize, height: squareTextBoxSize)
+                    .padding(.top)
+
+                NavigationLink(destination: CreateQrCodeView()) {
+                    Image(systemName: "qrcode.viewfinder")
+                        .font(.largeTitle)
+                        .padding()
+                        .accentColor(Color.black)
+                        .background(Color.white)
+                        .cornerRadius(40)
+                        .shadow(color: qrcodeButtonShadowColor, radius: 10)
+                }.offset(x: qrcodeButtonOffsetXSize, y: qrcodeButtonOffsetYSize)
+            }
+            .offset(x: 0, y: -offsetSize)
 
             Spacer()
         }
