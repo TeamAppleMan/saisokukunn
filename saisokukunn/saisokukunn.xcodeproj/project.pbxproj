@@ -193,6 +193,7 @@
 				87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */,
 			);
 			path = Helpers;
+		};
 		958583B128B47B08009AFD5E /* Model */ = {
 			isa = PBXGroup;
 			children = (
