@@ -108,7 +108,7 @@ struct MainView: View {
                                     .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                             }
 
-                            NavigationLink(destination: QrCodeScannerView()) {
+                            NavigationLink(destination: ThrowQrCodeScannerViewController()) {
                                 Image(systemName: qrSystemImageName)
                                     .padding()
                                     .accentColor(Color.black)

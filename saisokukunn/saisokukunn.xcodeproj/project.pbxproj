@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8715EB3B28BD05310080E6B0 /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 8715EB3A28BD05310080E6B0 /* QRScanner */; };
+		8715EB3E28BD05C50080E6B0 /* QrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8715EB3C28BD05C50080E6B0 /* QrCodeScannerViewController.swift */; };
+		8715EB3F28BD05C50080E6B0 /* QrCodeScannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8715EB3D28BD05C50080E6B0 /* QrCodeScannerViewController.xib */; };
 		87318D9928B30F8500609C6B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318D9828B30F8500609C6B /* MainView.swift */; };
 		87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA528B3127900609C6B /* ConfirmQrCodeInfoView.swift */; };
-		87318DA828B3128300609C6B /* QrCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA728B3128300609C6B /* QrCodeScannerView.swift */; };
+		87318DA828B3128300609C6B /* ThrowQrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA728B3128300609C6B /* ThrowQrCodeScannerViewController.swift */; };
 		87318DAA28B3128D00609C6B /* CreateQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA928B3128D00609C6B /* CreateQrCodeView.swift */; };
 		87318DAC28B3129800609C6B /* ConfirmLendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DAB28B3129800609C6B /* ConfirmLendInfoView.swift */; };
 		87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DAD28B312A100609C6B /* RegisterLendInfoView.swift */; };
@@ -56,9 +59,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8715EB3C28BD05C50080E6B0 /* QrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerViewController.swift; sourceTree = "<group>"; };
+		8715EB3D28BD05C50080E6B0 /* QrCodeScannerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QrCodeScannerViewController.xib; sourceTree = "<group>"; };
 		87318D9828B30F8500609C6B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		87318DA528B3127900609C6B /* ConfirmQrCodeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmQrCodeInfoView.swift; sourceTree = "<group>"; };
-		87318DA728B3128300609C6B /* QrCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerView.swift; sourceTree = "<group>"; };
+		87318DA728B3128300609C6B /* ThrowQrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowQrCodeScannerViewController.swift; sourceTree = "<group>"; };
 		87318DA928B3128D00609C6B /* CreateQrCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateQrCodeView.swift; sourceTree = "<group>"; };
 		87318DAB28B3129800609C6B /* ConfirmLendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLendInfoView.swift; sourceTree = "<group>"; };
 		87318DAD28B312A100609C6B /* RegisterLendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterLendInfoView.swift; sourceTree = "<group>"; };
@@ -94,6 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95345ECE28B36801006FAA96 /* FirebaseAuth in Frameworks */,
+				8715EB3B28BD05310080E6B0 /* QRScanner in Frameworks */,
 				95345ED028B36801006FAA96 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,7 +174,9 @@
 		87318D9E28B310F300609C6B /* QrCodeScannerView */ = {
 			isa = PBXGroup;
 			children = (
-				87318DA728B3128300609C6B /* QrCodeScannerView.swift */,
+				87318DA728B3128300609C6B /* ThrowQrCodeScannerViewController.swift */,
+				8715EB3C28BD05C50080E6B0 /* QrCodeScannerViewController.swift */,
+				8715EB3D28BD05C50080E6B0 /* QrCodeScannerViewController.xib */,
 			);
 			path = QrCodeScannerView;
 			sourceTree = "<group>";
@@ -298,6 +306,7 @@
 			packageProductDependencies = (
 				95345ECD28B36801006FAA96 /* FirebaseAuth */,
 				95345ECF28B36801006FAA96 /* FirebaseFirestore */,
+				8715EB3A28BD05310080E6B0 /* QRScanner */,
 			);
 			productName = saisokukunn;
 			productReference = D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */;
@@ -373,6 +382,7 @@
 			mainGroup = D4B1784228B0FF55005F6EC4;
 			packageReferences = (
 				95345ECC28B36801006FAA96 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8715EB3928BD05310080E6B0 /* XCRemoteSwiftPackageReference "QRScanner" */,
 			);
 			productRefGroup = D4B1784C28B0FF55005F6EC4 /* Products */;
 			projectDirPath = "";
@@ -393,6 +403,7 @@
 				D4B1785628B0FF57005F6EC4 /* Preview Assets.xcassets in Resources */,
 				D4B1785328B0FF57005F6EC4 /* Assets.xcassets in Resources */,
 				95345ED428B36925006FAA96 /* GoogleService-Info.plist in Resources */,
+				8715EB3F28BD05C50080E6B0 /* QrCodeScannerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95345ED228B368D3006FAA96 /* AppDelegate.swift in Sources */,
+				8715EB3E28BD05C50080E6B0 /* QrCodeScannerViewController.swift in Sources */,
 				87318DBA28B3192700609C6B /* LoanListView.swift in Sources */,
 				87318DB828B318BC00609C6B /* ViewExtension.swift in Sources */,
 				87318D9928B30F8500609C6B /* MainView.swift in Sources */,
@@ -437,7 +449,7 @@
 				87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */,
 				D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */,
 				87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */,
-				87318DA828B3128300609C6B /* QrCodeScannerView.swift in Sources */,
+				87318DA828B3128300609C6B /* ThrowQrCodeScannerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,14 +608,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "QRコードをスキャンするために使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -625,14 +640,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "QRコードをスキャンするために使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -764,6 +782,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8715EB3928BD05310080E6B0 /* XCRemoteSwiftPackageReference "QRScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mercari/QRScanner";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		95345ECC28B36801006FAA96 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -775,6 +801,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8715EB3A28BD05310080E6B0 /* QRScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8715EB3928BD05310080E6B0 /* XCRemoteSwiftPackageReference "QRScanner" */;
+			productName = QRScanner;
+		};
 		95345ECD28B36801006FAA96 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 95345ECC28B36801006FAA96 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
