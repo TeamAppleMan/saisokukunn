@@ -27,24 +27,24 @@ struct LendInfoView: View {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("タイトル")
+                        .font(.caption)
                         .foregroundColor(.gray)
                     // 文字数ごとにサイズを変更させる
                     Text(title)
+                        .font(.callout)
                         .foregroundColor(titleTextColor)
-                        .font(.title2)
                         .bold()
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.1)
                 }
 
                 Divider()
 
                 VStack(alignment: .leading, spacing: 5) {
                     Text("金額")
+                        .font(.caption)
                         .foregroundColor(.gray)
                     Text("¥ \(money)")
+                        .font(.callout)
                         .foregroundColor(titleTextColor)
-                        .font(.title2)
                         .bold()
                 }.padding(.top)
 
@@ -52,31 +52,38 @@ struct LendInfoView: View {
 
                 VStack(alignment: .leading, spacing: 5) {
                     Text("締め切り")
+                        .font(.caption)
                         .foregroundColor(.gray)
                     HStack(alignment: .bottom) {
                         Text(dateToString.year())
+                            .font(.callout)
                             .foregroundColor(titleTextColor)
-                            .font(.title2)
                             .bold()
                         Text("年")
+                            .font(.caption)
                             .foregroundColor(titleTextColor)
 
                         Text(dateToString.month())
+                            .font(.callout)
                             .foregroundColor(titleTextColor)
-                            .font(.title2)
                             .bold()
                         Text("月")
+                            .font(.caption)
                             .foregroundColor(titleTextColor)
 
                         Text(dateToString.day())
+                            .font(.callout)
                             .foregroundColor(titleTextColor)
-                            .font(.title2)
                             .bold()
                         Text("日")
+                            .font(.caption)
                             .foregroundColor(titleTextColor)
                     }
                 }.padding(.top)
-            }.padding()
+            }
+            .lineLimit(1)
+            .minimumScaleFactor(0.1)
+            .padding()
         }
     }
 }

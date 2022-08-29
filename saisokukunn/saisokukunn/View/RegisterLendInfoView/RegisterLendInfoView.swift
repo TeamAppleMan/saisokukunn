@@ -23,7 +23,7 @@ struct RegisterLendInfoView: View {
         // 各々のサイズ指定
         let textHorizontalMargin = 25.0
         let inputAccessoryHorizontalMargin = 25.0
-        let imageHeight = displayHeight/3
+        let imageHeight = displayHeight/3.25
         let confirmationButtonWidth = 150.0
 
         let titleTextColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
@@ -37,9 +37,8 @@ struct RegisterLendInfoView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
-            }
+            }.padding(.bottom)
 
-            Spacer()
 
             VStack(alignment: .leading, spacing: 5) {
                 Text("タイトル")
@@ -122,6 +121,8 @@ struct RegisterLendInfoView: View {
 
 struct RegisterLendInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterLendInfoView()
+        NavigationView{
+            RegisterLendInfoView()
+        }
     }
 }
