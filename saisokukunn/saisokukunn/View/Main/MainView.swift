@@ -59,8 +59,7 @@ struct MainView: View {
         let accountButtonSystemImageName = "chevron.down"
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
-
-        NavigationView {
+        
             ZStack {
                 // 背景を黒にする
                 Color.init(red: 0, green: 0, blue: 0)
@@ -182,7 +181,7 @@ struct MainView: View {
                                     .tag(0)
                                 Text("貸し")
                                     .tag(1)
-                            }
+                            } 
                             .padding([.top, .leading, .trailing], 40.0)
                             .pickerStyle(SegmentedPickerStyle())
 
@@ -226,8 +225,7 @@ struct MainView: View {
                     guard let lendPayTasks = lendPayTasks else { return }
                     lendPayTaskList = lendPayTasks
                 }
-            }
-        }.navigationBarHidden(true)
+            }.navigationBarHidden(true)
     }
 
     private func createLimitDay(endTime: Timestamp) -> Int {
