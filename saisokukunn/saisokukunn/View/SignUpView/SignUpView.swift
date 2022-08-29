@@ -15,6 +15,7 @@ struct SignUpView: View {
     let registerUser = RegisterUser()
 
     var body: some View{
+
         NavigationView{
             VStack{
                 NavigationLink(destination: MainView(), isActive: $isActiveMainView){

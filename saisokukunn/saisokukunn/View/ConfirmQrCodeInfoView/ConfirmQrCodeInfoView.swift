@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ConfirmQrCodeInfoView: View {
+    @EnvironmentObject var environmentData: EnvironmentData
     @State var title: String
     @State var lendPerson: String
     @State var money: String
@@ -41,7 +42,9 @@ struct ConfirmQrCodeInfoView: View {
                     .padding(.top)
 
                 Button(action: {
-                    //envData.isNavigationActive.wrappedValue = false
+                    // TODO: データ連結の処理
+                    // 下記はMainViewに戻るコード
+                    environmentData.isMainActiveEnvironment.wrappedValue = false
                 }) {
                     HStack(spacing: 5) {
                         Text("貸りる")

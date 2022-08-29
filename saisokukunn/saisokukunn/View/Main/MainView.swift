@@ -16,8 +16,15 @@ struct Person {
     var endDate: Date
 }
 
+// ConfirmQrCodeInfoViewから戻るために必要
+class EnvironmentData: ObservableObject {
+    @Published var isMainActiveEnvironment: Binding<Bool> = Binding<Bool>.constant(false)
+}
 
 struct MainView: View {
+    @State var isMainActive: Bool = false
+    @EnvironmentObject var environmentData: EnvironmentData
+
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
@@ -108,14 +115,21 @@ struct MainView: View {
                                     .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                             }
 
-                            NavigationLink(destination: ThrowQrCodeScannerViewController()) {
-                                Image(systemName: qrSystemImageName)
-                                    .padding()
-                                    .accentColor(Color.black)
-                                    .background(Color.white)
-                                    .cornerRadius(25)
-                                    .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                                    .padding()
+                            NavigationLink(destination: ThrowQrCodeScannerViewController(),  isActive: $isMainActive) {
+                                Button(action: {
+                                    isMainActive = true
+                                    environmentData.isMainActiveEnvironment = $isMainActive
+
+                                }, label: {
+                                    Image(systemName: qrSystemImageName)
+                                        .padding()
+                                        .accentColor(Color.black)
+                                        .background(Color.white)
+                                        .cornerRadius(25)
+                                        .shadow(color: Color.white, radius: 10, x: 0, y: 3)
+                                        .padding()
+                                })
+
                             }
 
                         }
