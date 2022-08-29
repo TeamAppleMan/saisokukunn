@@ -1,15 +1,15 @@
 //
-//  LendInfoView.swift
+//  BorrowInfoView.swift
 //  saisokukunn
 //
-//  Created by 前田航汰 on 2022/08/28.
+//  Created by 前田航汰 on 2022/08/30.
 //
 
 import SwiftUI
-import Foundation
 
-struct LendInfoView: View {
+struct BorrowInfoView: View {
     let title: String
+    let lendPerson: String
     let money: String
     let endTime: Date
 
@@ -25,16 +25,30 @@ struct LendInfoView: View {
                 .shadow(color: .gray, radius: 10)
 
             VStack(alignment: .leading) {
+
                 VStack(alignment: .leading, spacing: 5) {
                     Text("タイトル")
                         .font(.caption)
                         .foregroundColor(.gray)
                     // 文字数ごとにサイズを変更させる
                     Text(title)
-                        .font(.callout)
                         .foregroundColor(titleTextColor)
+                        .font(.callout)
                         .bold()
                 }
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("貸してくれる人")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    // 文字数ごとにサイズを変更させる
+                    Text(lendPerson)
+                        .foregroundColor(titleTextColor)
+                        .font(.callout)
+                        .bold()
+                }.padding(.top)
 
                 Divider()
 
@@ -43,8 +57,8 @@ struct LendInfoView: View {
                         .font(.caption)
                         .foregroundColor(.gray)
                     Text("¥ \(money)")
-                        .font(.callout)
                         .foregroundColor(titleTextColor)
+                        .font(.callout)
                         .bold()
                 }.padding(.top)
 
@@ -56,30 +70,31 @@ struct LendInfoView: View {
                         .foregroundColor(.gray)
                     HStack(alignment: .bottom) {
                         Text(dateToString.year())
-                            .font(.callout)
                             .foregroundColor(titleTextColor)
+                            .font(.callout)
                             .bold()
                         Text("年")
                             .font(.caption)
                             .foregroundColor(titleTextColor)
 
                         Text(dateToString.month())
-                            .font(.callout)
                             .foregroundColor(titleTextColor)
+                            .font(.callout)
                             .bold()
                         Text("月")
                             .font(.caption)
                             .foregroundColor(titleTextColor)
 
                         Text(dateToString.day())
-                            .font(.callout)
                             .foregroundColor(titleTextColor)
+                            .font(.callout)
                             .bold()
                         Text("日")
                             .font(.caption)
                             .foregroundColor(titleTextColor)
                     }
                 }.padding(.top)
+
             }
             .lineLimit(1)
             .minimumScaleFactor(0.1)
@@ -87,10 +102,3 @@ struct LendInfoView: View {
         }
     }
 }
-
-//
-//struct LendInfoView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LendInfoView()
-//    }
-//}

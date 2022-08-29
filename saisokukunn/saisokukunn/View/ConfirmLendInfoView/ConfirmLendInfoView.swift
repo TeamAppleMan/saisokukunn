@@ -38,7 +38,7 @@ struct ConfirmLendInfoView: View {
             Spacer()
 
             HStack() {
-                Image("CheckWithMan")
+                Image("InfoCheckWithMan")
                     .resizable()
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
