@@ -51,7 +51,7 @@ struct ConfirmLendInfoView: View {
                     .frame(width: squareTextBoxSize, height: squareTextBoxSize)
                     .padding(.top)
 
-                NavigationLink(destination: CreateQrCodeView(title: $title, money: $money, endTime: $endTime)) {
+                NavigationLink(destination: CreateQrCodeView()) {
                     Image(systemName: "qrcode.viewfinder")
                         .font(.largeTitle)
                         .padding()
