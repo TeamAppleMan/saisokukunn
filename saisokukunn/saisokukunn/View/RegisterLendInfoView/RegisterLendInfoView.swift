@@ -70,7 +70,7 @@ struct RegisterLendInfoView: View {
                 HStack {
                     Spacer()
                     NavigationLink(
-                        destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
+                        destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime, qrImage: Image("")),
                         isActive: $isNextButtonActive,
                         label: {
                             Button(action: {
@@ -85,13 +85,6 @@ struct RegisterLendInfoView: View {
                                     aleartText = "タイトルと金額を入力して下さい"
                                 } else {
                                     isNextButtonActive = true
-                                    Task{
-                                        do{
-                                            try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
-                                        } catch {
-                                            print("PayTaskの登録エラー",error)
-                                        }
-                                    }
                                 }
                             }) {
                                 Text("確認")
@@ -119,10 +112,10 @@ struct RegisterLendInfoView: View {
     }
 }
 
-struct RegisterLendInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView{
-            RegisterLendInfoView()
-        }
-    }
-}
+//struct RegisterLendInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView{
+//            RegisterLendInfoView()
+//        }
+//    }
+//}

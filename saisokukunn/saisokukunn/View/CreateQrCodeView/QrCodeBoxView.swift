@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct QrCodeBoxView: View {
+    let qrImage: Image
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .foregroundColor(.white)
                 .shadow(color: .gray, radius: 10)
 
-            Image("QrDemo")
+            qrImage
                 .resizable()
                 .scaledToFit()
                 .padding()
@@ -23,8 +25,8 @@ struct QrCodeBoxView: View {
     }
 }
 
-struct QrCodeBoxView_Previews: PreviewProvider {
-    static var previews: some View {
-        QrCodeBoxView()
-    }
-}
+//struct QrCodeBoxView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        QrCodeBoxView(qrImage: )
+//    }
+//}
