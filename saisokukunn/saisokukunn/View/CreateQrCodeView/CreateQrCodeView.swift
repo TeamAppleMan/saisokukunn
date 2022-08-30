@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CreateQrCodeView: View {
+    @Binding var title: String
+    @Binding var money: String
+    @Binding var endTime: Date
 
     var body: some View {
         let displayBounds = UIScreen.main.bounds
@@ -49,8 +52,8 @@ struct CreateQrCodeView: View {
 
 }
 
-struct CreateQrCodeView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateQrCodeView()
-    }
-}
+//struct CreateQrCodeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CreateQrCodeView(title: Binding("お好み焼き代"), money: Binding(4850), endTime: Binding(Date()))
+//    }
+//}

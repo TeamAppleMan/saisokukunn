@@ -85,13 +85,14 @@ struct RegisterLendInfoView: View {
                                     aleartText = "タイトルと金額を入力して下さい"
                                 } else {
                                     isNextButtonActive = true
-                                    Task{
-                                        do{
-                                            try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
-                                        } catch {
-                                            print("PayTaskの登録エラー",error)
-                                        }
-                                    }
+                                    // createQrCodeViewで実装
+//                                    Task{
+//                                        do{
+//                                            try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
+//                                        } catch {
+//                                            print("PayTaskの登録エラー",error)
+//                                        }
+//                                    }
                                 }
                             }) {
                                 Text("確認")
