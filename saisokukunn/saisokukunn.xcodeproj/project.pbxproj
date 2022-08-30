@@ -35,6 +35,8 @@
 		958583B328B47B1B009AFD5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B228B47B1B009AFD5E /* User.swift */; };
 		958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B628B47C55009AFD5E /* RegisterUser.swift */; };
 		95E673A228BDCA2800A42B2A /* QrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E673A128BDCA2800A42B2A /* QrCode.swift */; };
+		95E673A528BDCA9400A42B2A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 95E673A428BDCA9400A42B2A /* Alamofire */; };
+		95E673A828BDCAC600A42B2A /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 95E673A728BDCAC600A42B2A /* SwiftyJSON */; };
 		D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */; };
 		D4B1785328B0FF57005F6EC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4B1785228B0FF57005F6EC4 /* Assets.xcassets */; };
 		D4B1785628B0FF57005F6EC4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4B1785528B0FF57005F6EC4 /* Preview Assets.xcassets */; };
@@ -103,7 +105,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				95345ECE28B36801006FAA96 /* FirebaseAuth in Frameworks */,
+				95E673A528BDCA9400A42B2A /* Alamofire in Frameworks */,
 				8715EB3B28BD05310080E6B0 /* QRScanner in Frameworks */,
+				95E673A828BDCAC600A42B2A /* SwiftyJSON in Frameworks */,
 				95345ED028B36801006FAA96 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,6 +317,8 @@
 				95345ECD28B36801006FAA96 /* FirebaseAuth */,
 				95345ECF28B36801006FAA96 /* FirebaseFirestore */,
 				8715EB3A28BD05310080E6B0 /* QRScanner */,
+				95E673A428BDCA9400A42B2A /* Alamofire */,
+				95E673A728BDCAC600A42B2A /* SwiftyJSON */,
 			);
 			productName = saisokukunn;
 			productReference = D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */;
@@ -389,6 +395,8 @@
 			packageReferences = (
 				95345ECC28B36801006FAA96 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8715EB3928BD05310080E6B0 /* XCRemoteSwiftPackageReference "QRScanner" */,
+				95E673A328BDCA9400A42B2A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				95E673A628BDCAC600A42B2A /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = D4B1784C28B0FF55005F6EC4 /* Products */;
 			projectDirPath = "";
@@ -806,6 +814,22 @@
 				kind = branch;
 			};
 		};
+		95E673A328BDCA9400A42B2A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		95E673A628BDCAC600A42B2A /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -823,6 +847,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 95345ECC28B36801006FAA96 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		95E673A428BDCA9400A42B2A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 95E673A328BDCA9400A42B2A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		95E673A728BDCAC600A42B2A /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 95E673A628BDCAC600A42B2A /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
