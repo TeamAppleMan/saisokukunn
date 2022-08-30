@@ -70,7 +70,7 @@ struct RegisterLendInfoView: View {
                 HStack {
                     Spacer()
                     NavigationLink(
-                        destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime),
+                        destination: ConfirmLendInfoView(title: $title, money: $money, endTime: $endTime, qrImage: Image("")),
                         isActive: $isNextButtonActive,
                         label: {
                             Button(action: {
@@ -112,10 +112,10 @@ struct RegisterLendInfoView: View {
     }
 }
 
-struct RegisterLendInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView{
-            RegisterLendInfoView()
-        }
-    }
-}
+//struct RegisterLendInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView{
+//            RegisterLendInfoView()
+//        }
+//    }
+//}

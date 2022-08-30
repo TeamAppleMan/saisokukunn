@@ -5,12 +5,18 @@
 //  Created by 前田航汰 on 2022/08/22.
 //
 
+
 import SwiftUI
 
 struct ConfirmLendInfoView: View {
     @Binding var title: String
     @Binding var money: String
     @Binding var endTime: Date
+    @State private var toCreateQrCodeView = false
+    @State private var isPresentedProgressView = false
+    @State var qrImage: Image
+
+    let registerPayTask = RegisterPayTask()
 
     // TODO: 下の関数は改良してModelに突っ込みたい
     func dateToString(date: Date) -> String {
@@ -46,12 +52,22 @@ struct ConfirmLendInfoView: View {
 
             Spacer()
 
+            // Image(systemName: "qrcode.viewfinder")をタップして、タスクの登録が終わり次第画面遷移できるようにする
+            NavigationLink(destination: CreateQrCodeView(qrImage: qrImage),isActive: $toCreateQrCodeView){
+                EmptyView()
+            }
+            ZStack {
+                if isPresentedProgressView {
+                    ProgressView("QRコード作成中").progressViewStyle(CircularProgressViewStyle())
+                }
+            }
+
             VStack {
                 LendInfoView(title: title, money: money, endTime: endTime)
                     .frame(width: squareTextBoxSize, height: squareTextBoxSize)
                     .padding(.top)
 
-                NavigationLink(destination: CreateQrCodeView()) {
+                NavigationLink(destination: CreateQrCodeView(qrImage: qrImage)) {
                     Image(systemName: "qrcode.viewfinder")
                         .font(.largeTitle)
                         .padding()
@@ -59,7 +75,23 @@ struct ConfirmLendInfoView: View {
                         .background(Color.white)
                         .cornerRadius(40)
                         .shadow(color: qrcodeButtonShadowColor, radius: 10)
-                }.offset(x: qrcodeButtonOffsetXSize, y: qrcodeButtonOffsetYSize)
+                        .onTapGesture {
+                            isPresentedProgressView.toggle()
+                            Task{
+                                do{
+                                    // QRコード生成コードを書く（registerPayTaskで一応Data型を保存する？）
+                                    let qrDecodedData = try await registerPayTask.fetchQrCode()
+                                    qrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
+                                    try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
+                                    toCreateQrCodeView = true
+                                    isPresentedProgressView.toggle()
+                                } catch {
+                                    print("PayTaskの登録エラー",error)
+                                }
+                            }
+                        }
+                }
+                .offset(x: qrcodeButtonOffsetXSize, y: qrcodeButtonOffsetYSize)
             }
             .offset(x: 0, y: -offsetSize)
 

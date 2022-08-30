@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CreateQrCodeView: View {
+    let qrImage: Image
 
     var body: some View {
         let displayBounds = UIScreen.main.bounds
@@ -24,7 +25,7 @@ struct CreateQrCodeView: View {
 
         VStack(spacing: 0) {
 
-            QrCodeBoxView()
+            QrCodeBoxView(qrImage: qrImage)
                 .frame(width: squareQrcodeBoxSize, height: squareQrcodeBoxSize)
                 .padding()
 
