@@ -59,7 +59,7 @@ struct SignUpView: View {
                                 }
                             }
                         }) {
-                            Text("登録")
+                            Text("アカウント登録")
                                 .frame(width: 150.0, alignment: .center)
                                 .padding()
                                 .accentColor(Color.white)

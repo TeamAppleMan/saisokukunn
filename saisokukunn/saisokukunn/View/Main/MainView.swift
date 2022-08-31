@@ -69,180 +69,180 @@ struct MainView: View {
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
         
-            ZStack {
-                // 背景を黒にする
-                Color.init(red: 0, green: 0, blue: 0)
-                    .ignoresSafeArea()
+        ZStack {
+            // 背景を黒にする
+            Color.init(red: 0, green: 0, blue: 0)
+                .ignoresSafeArea()
 
-                // MARK: モーダルより上の部分
+            // MARK: モーダルより上の部分
+            VStack {
+
                 VStack {
+                    // アカウント名、貸し金追加、コードスキャン
+                    HStack {
 
-                    VStack {
-                        // アカウント名、貸し金追加、コードスキャン
-                        HStack {
-                            Button(action: {
-                                isPressedAccount.toggle()
-                                Task {
-                                    do {
-                                        try await registerUser.signOut()
-                                        toSignUpView = true
-                                    }
-                                    catch{
-                                        print("サインインに失敗",error)
-                                    }
-                                }// Taskここまで
-                            })
-                            {
-                                HStack {
-                                    Text("サインアウト")
-                                        .font(.callout)
-                                        .foregroundColor(Color(UIColor.white))
-                                    Image(systemName: accountButtonSystemImageName)
-                                        .foregroundColor(Color(UIColor.gray))
+                        Button(action: {
+                            isActiveSignUpView = false
+                            isPressedAccount.toggle()
+                            Task {
+                                do {
+                                    try await registerUser.signOut()
+                                    toSignUpView = true
+                                }
+                                catch{
+                                    print("サインインに失敗",error)
                                 }
                             }
-                            NavigationLink(destination: SignUpView(),isActive: $toSignUpView){
-                                EmptyView()
+                        }) {
+                            HStack {
+                                Text("サインアウト")
+                                    .font(.callout)
+                                    .foregroundColor(Color(UIColor.white))
+                                Image(systemName: accountButtonSystemImageName)
+                                    .foregroundColor(Color(UIColor.gray))
                             }
                             .padding()
+                        }
 
-                            Spacer()
 
-                            NavigationLink(destination: RegisterLendInfoView()) {
-                                Image(systemName: addLoanSystemImageName)
+                        Spacer()
+
+                        NavigationLink(destination: RegisterLendInfoView()) {
+                            Image(systemName: addLoanSystemImageName)
+                                .padding()
+                                .accentColor(Color.black)
+                                .background(Color.white)
+                                .cornerRadius(25)
+                                .shadow(color: Color.white, radius: 10, x: 0, y: 3)
+                        }
+
+                        NavigationLink(destination: ThrowQrCodeScannerViewController(),  isActive: $isMainActive) {
+                            Button(action: {
+                                isMainActive = true
+                                environmentData.isMainActiveEnvironment = $isMainActive
+
+                            }, label: {
+                                Image(systemName: qrSystemImageName)
                                     .padding()
                                     .accentColor(Color.black)
                                     .background(Color.white)
                                     .cornerRadius(25)
                                     .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                            }
-
-                            NavigationLink(destination: ThrowQrCodeScannerViewController(),  isActive: $isMainActive) {
-                                Button(action: {
-                                    isMainActive = true
-                                    environmentData.isMainActiveEnvironment = $isMainActive
-
-                                }, label: {
-                                    Image(systemName: qrSystemImageName)
-                                        .padding()
-                                        .accentColor(Color.black)
-                                        .background(Color.white)
-                                        .cornerRadius(25)
-                                        .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                                        .padding()
-                                })
-
-                            }
+                                    .padding()
+                            })
 
                         }
-
-                        Spacer()
-
-                        // 中央の¥表示
-                        HStack {
-                            Text("¥")
-                                .font(.custom(yenMarkCustomFont, size: 20))
-                                .foregroundColor(Color(UIColor.gray))
-
-                            if selectedLoanIndex == 0 {
-                                Text(String.localizedStringWithFormat("%d", totalLendingMoney))
-                                    .font(.custom(loanTotalMoneyCustomFont, size: 30))
-                                    .fontWeight(.heavy)
-                                    .foregroundColor(Color(UIColor.white))
-                                    .font(.title)
-                                    .bold()
-                            } else {
-                                Text(String.localizedStringWithFormat("%d", totalBorrowingMoney))
-                                    .font(.custom(loanTotalMoneyCustomFont, size: 30))
-                                    .fontWeight(.heavy)
-                                    .foregroundColor(Color(UIColor.white))
-                                    .font(.title)
-                            }
-                        }
-
-                        HStack {
-                            Spacer(minLength: displayWidth/2)
-
-                            if selectedLoanIndex == 0 {
-                                Text("借りた総額")
-                                    .foregroundColor(Color(UIColor.gray))
-                            } else {
-                                Text("貸した総額")
-                                    .foregroundColor(Color(UIColor.gray))
-                            }
-
-                            Spacer()
-                        }
-                        Spacer()
 
                     }
-
-                    // 黒い部分の高さ。3分の11くらいが一番良さそうだった。（感覚）
-                    .frame(height: 3*displayHeight/11)
 
                     Spacer()
 
-                    // MARK: モーダル部分
-                    ZStack{
+                    // 中央の¥表示
+                    HStack {
+                        Text("¥")
+                            .font(.custom(yenMarkCustomFont, size: 20))
+                            .foregroundColor(Color(UIColor.gray))
 
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .cornerRadius(20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
-                            .shadow(color: .gray, radius: 3, x: 0, y: -1)
-                            .ignoresSafeArea()
+                        if selectedLoanIndex == 0 {
+                            Text(String.localizedStringWithFormat("%d", totalLendingMoney))
+                                .font(.custom(loanTotalMoneyCustomFont, size: 30))
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color(UIColor.white))
+                                .font(.title)
+                                .bold()
+                        } else {
+                            Text(String.localizedStringWithFormat("%d", totalBorrowingMoney))
+                                .font(.custom(loanTotalMoneyCustomFont, size: 30))
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color(UIColor.white))
+                                .font(.title)
+                        }
+                    }
 
-                        VStack(spacing : 0) {
-                            Picker("", selection: self.$selectedLoanIndex) {
-                                Text("借り")
-                                    .tag(0)
-                                Text("貸し")
-                                    .tag(1)
-                            } 
-                            .padding([.top, .leading, .trailing], 40.0)
-                            .pickerStyle(SegmentedPickerStyle())
+                    HStack {
+                        Spacer(minLength: displayWidth/2)
 
-                            if selectedLoanIndex == 0 {
-                                List{
-                                    Section {
-                                        // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
-                                        ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
-                                            LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: lendPayTaskList[index].money,limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
-                                                .frame(height: 70)
-                                                .listRowBackground(Color.clear)
-                                        }
-                                    }.listRowSeparator(.hidden)
-                                }
-                                .listStyle(.insetGrouped)
-                                .ignoresSafeArea()
-                            } else {
-                                List{
-                                    Section {
-                                        // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
-                                        ForEach(0 ..< borrowPersons.count,  id: \.self) { index in
-                                            LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money, limitDay: 3)
-                                                .frame(height: 70)
-                                                .listRowBackground(Color.clear)
-                                        }
-                                    }.listRowSeparator(.hidden)
-                                }
-                                .listStyle(.insetGrouped)
-                                .ignoresSafeArea()
+                        if selectedLoanIndex == 0 {
+                            Text("借りた総額")
+                                .foregroundColor(Color(UIColor.gray))
+                        } else {
+                            Text("貸した総額")
+                                .foregroundColor(Color(UIColor.gray))
+                        }
+
+                        Spacer()
+                    }
+                    Spacer()
+
+                }
+
+                // 黒い部分の高さ。3分の11くらいが一番良さそうだった。（感覚）
+                .frame(height: 3*displayHeight/11)
+
+                Spacer()
+
+                // MARK: モーダル部分
+                ZStack{
+
+                    Rectangle()
+                        .foregroundColor(.white)
+                        .cornerRadius(20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+                        .shadow(color: .gray, radius: 3, x: 0, y: -1)
+                        .ignoresSafeArea()
+
+                    VStack(spacing : 0) {
+                        Picker("", selection: self.$selectedLoanIndex) {
+                            Text("借り")
+                                .tag(0)
+                            Text("貸し")
+                                .tag(1)
+                        }
+                        .padding([.top, .leading, .trailing], 40.0)
+                        .pickerStyle(SegmentedPickerStyle())
+
+                        if selectedLoanIndex == 0 {
+                            List{
+                                Section {
+                                    // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
+                                    ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
+                                        LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: lendPayTaskList[index].money,limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
+                                            .frame(height: 70)
+                                            .listRowBackground(Color.clear)
+                                    }
+                                }.listRowSeparator(.hidden)
                             }
+                            .listStyle(.insetGrouped)
+                            .ignoresSafeArea()
+                        } else {
+                            List{
+                                Section {
+                                    // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
+                                    ForEach(0 ..< borrowPersons.count,  id: \.self) { index in
+                                        LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money, limitDay: 3)
+                                            .frame(height: 70)
+                                            .listRowBackground(Color.clear)
+                                    }
+                                }.listRowSeparator(.hidden)
+                            }
+                            .listStyle(.insetGrouped)
+                            .ignoresSafeArea()
                         }
                     }
                 }
-            }.onAppear{
-                // 貸しているタスクを取得する
-                loadPayTask.fetchLendPayTask { lendPayTasks, error in
-                    if let error = error {
-                        print("貸しているタスクの取得に失敗",error)
-                        return
-                    }
-                    guard let lendPayTasks = lendPayTasks else { return }
-                    lendPayTaskList = lendPayTasks
+            }
+        }.onAppear{
+            // 貸しているタスクを取得する
+            loadPayTask.fetchLendPayTask { lendPayTasks, error in
+                if let error = error {
+                    print("貸しているタスクの取得に失敗",error)
+                    return
                 }
-            }.navigationBarHidden(true)
+                guard let lendPayTasks = lendPayTasks else { return }
+                lendPayTaskList = lendPayTasks
+            }
+        }.navigationBarHidden(true)
     }
+}
 
     private func createLimitDay(endTime: Timestamp) -> Int {
         let endDate = endTime.dateValue()
@@ -250,14 +250,13 @@ struct MainView: View {
         let limit = endDate.timeIntervalSince(now)
         var limitDay = Int(limit/60/60/24)
         if(limit>0){
-           limitDay += 1
+            limitDay += 1
         }
         return Int(limitDay)
     }
-}
 
-//struct MainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainView()
-//    }
-//}
+    //struct MainView_Previews: PreviewProvider {
+    //    static var previews: some View {
+    //        MainView()
+    //    }
+    //}
