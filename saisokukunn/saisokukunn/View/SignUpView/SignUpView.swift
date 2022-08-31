@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct SignUpView: View {
-    @State private var isActiveMainView = false
+    @State private var isActiveSignUpView = false
     @State private var userName = String()
 
     let registerUser = RegisterUser()
@@ -25,6 +25,7 @@ struct SignUpView: View {
         NavigationView{
 
             VStack{
+
                 // 上半分を画像
                 VStack {
                     HStack() {
@@ -34,11 +35,6 @@ struct SignUpView: View {
                             .frame(height: imageHeight, alignment: .center)
                     }
                 }.padding(.bottom, 50)
-
-                // TODO: ナニコレ
-                NavigationLink(destination: MainView(), isActive: $isActiveMainView){
-                    EmptyView()
-                }
 
                 // 下半分をインプット部分
                 VStack {
@@ -50,29 +46,31 @@ struct SignUpView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                     }.padding(inputAccessoryHorizontalMargin)
 
-                    Button(action: {
-                        Task{
-                            do{
-                                try await registerUser.signIn(userName:userName)
-                                // MainViewへ画面遷移
-                                isActiveMainView = true
+                    NavigationLink(destination: MainView(isActiveSignUpView: $isActiveSignUpView), isActive: $isActiveSignUpView){
+                        Button(action: {
+                            Task{
+                                do{
+                                    try await registerUser.signIn(userName:userName)
+                                    // MainViewへ画面遷移
+                                    isActiveSignUpView = true
+                                }
+                                catch{
+                                    print("サインインに失敗しました")
+                                }
                             }
-                            catch{
-                                print("サインインに失敗しました")
-                            }
+                        }) {
+                            Text("登録")
+                                .frame(width: 150.0, alignment: .center)
+                                .padding()
+                                .accentColor(Color.white)
+                                .background(Color.gray)
+                                .cornerRadius(25)
+                                .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
+                                .padding()
                         }
-                    }) {
-                        Text("登録")
-                            .frame(width: 150.0, alignment: .center)
-                            .padding()
-                            .accentColor(Color.white)
-                            .background(Color.gray)
-                            .cornerRadius(25)
-                            .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
-                            .padding()
                     }
 
-                    Spacer()
+                   Spacer()
 
                 }
 
@@ -80,13 +78,14 @@ struct SignUpView: View {
                 // uidが存在するならMainViewへ移動
                 if let uid = Auth.auth().currentUser?.uid {
                     print("uid:",uid)
-                    isActiveMainView = true
+                    isActiveSignUpView = true
                 }
             }// onAppearここまで
+            .onTapGesture { UIApplication.shared.closeKeyboard() }
 
-            Spacer()
         }
         .navigationBarHidden(true)
+
     }
 }
 

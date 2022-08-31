@@ -24,6 +24,7 @@ class EnvironmentData: ObservableObject {
 struct MainView: View {
     @State var isMainActive: Bool = false
     @EnvironmentObject var environmentData: EnvironmentData
+    @Binding var isActiveSignUpView: Bool
 
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
@@ -52,9 +53,10 @@ struct MainView: View {
         Person.init(title: "お好み焼", name: "松坂桃李", money: 2000, stateDate: Date(), endDate: Date()),
     ]
 
-    init(){
+    init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
         UITableView.appearance().backgroundColor = .clear
+        self._isActiveSignUpView = isActiveSignUpView
     }
 
     var body: some View {
@@ -254,8 +256,8 @@ struct MainView: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
-    }
-}
+//struct MainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainView()
+//    }
+//}
