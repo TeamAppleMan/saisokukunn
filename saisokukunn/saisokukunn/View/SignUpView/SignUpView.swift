@@ -74,15 +74,6 @@ struct SignUpView: View {
 
                     Spacer()
 
-                    VStack {
-                        Text("貸し借りの相手に表示される名前です。")
-                            .foregroundColor(textColor)
-                            .font(.callout)
-                        Text("適切な名前を登録しましょう。")
-                            .foregroundColor(textColor)
-                            .font(.callout)
-                    }.padding()
-
                 }
 
             }.onAppear {
