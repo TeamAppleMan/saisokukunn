@@ -13,6 +13,7 @@ struct ConfirmQrCodeInfoView: View {
     @State var lendPerson: String
     @State var money: String
     @State var endTime: Date
+    @State var showingAlert: Bool = false
 
     var body: some View {
         let displayBounds = UIScreen.main.bounds
@@ -42,9 +43,7 @@ struct ConfirmQrCodeInfoView: View {
                     .padding(.top)
 
                 Button(action: {
-                    // TODO: データ連結の処理
-                    // 下記はMainViewに戻るコード
-                    environmentData.isMainActiveEnvironment.wrappedValue = false
+                    self.showingAlert = true
                 }) {
                     HStack(spacing: 5) {
                         Text("貸りる")
@@ -56,6 +55,17 @@ struct ConfirmQrCodeInfoView: View {
                     .background(Color.white)
                     .cornerRadius(40)
                     .shadow(color: qrcodeButtonShadowColor, radius: 10)
+                }
+                .alert("確認", isPresented: $showingAlert){
+                    Button("キャンセル"){
+                    }
+                    Button("決定"){
+                        // TODO: データ連結の処理
+                        // TODO: 下記はMainViewに戻るコード（まだうまく動かない。要改善。）
+                        environmentData.isMainActiveEnvironment.wrappedValue = false
+                    }
+                } message: {
+                    Text("本当にこの内容でよろしいですか？")
                 }
                 .offset(x: qrcodeButtonOffsetXSize, y: qrcodeButtonOffsetYSize)
             }
