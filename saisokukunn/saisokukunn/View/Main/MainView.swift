@@ -35,7 +35,7 @@ struct MainView: View {
     @State var totalBorrowingMoney: Int = 20000
 
     @State private var toSignUpView = false
-    @State private var lendPayTaskList = [PayTask]()
+    @State private var borrowPayTaskList = [PayTask]()
 
     let registerUser = RegisterUser()
     let loadPayTask = LoadPayTask()
@@ -81,6 +81,7 @@ struct MainView: View {
                     // アカウント名、貸し金追加、コードスキャン
                     HStack {
 
+                        // サインアウトボタン
                         Button(action: {
                             isActiveSignUpView = false
                             isPressedAccount.toggle()
@@ -203,9 +204,9 @@ struct MainView: View {
                         if selectedLoanIndex == 0 {
                             List{
                                 Section {
-                                    // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
-                                    ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
-                                        LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: lendPayTaskList[index].money,limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
+                                    // 借り手の残高を表示
+                                    ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
+                                        LoanListView(title: borrowPayTaskList[index].title, person: "ダミー", money: borrowPayTaskList[index].money,limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
                                             .frame(height: 70)
                                             .listRowBackground(Color.clear)
                                     }
@@ -216,7 +217,7 @@ struct MainView: View {
                         } else {
                             List{
                                 Section {
-                                    // TODO: limitDay（残り日数）を適当に代入している。計算ロジックをつけたい。
+                                    // TODO: QRスキャン後に表示したい（近藤タスク）
                                     ForEach(0 ..< borrowPersons.count,  id: \.self) { index in
                                         LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money, limitDay: 3)
                                             .frame(height: 70)
@@ -231,15 +232,17 @@ struct MainView: View {
                 }
             }
         }.onAppear{
-            // 貸しているタスクを取得する
-            loadPayTask.fetchLendPayTask { lendPayTasks, error in
+            // Firestoreから借りているPayTaskの情報を取得する
+            loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
                     print("貸しているタスクの取得に失敗",error)
                     return
                 }
-                guard let lendPayTasks = lendPayTasks else { return }
-                lendPayTaskList = lendPayTasks
+                guard let borrowPayTasks = borrowPayTasks else { return }
+                borrowPayTaskList = borrowPayTasks
             }
+
+            // TODO: Firestoreから貸しているPayTaskの情報を取得する（近藤タスク）
         }.navigationBarHidden(true)
     }
 }
