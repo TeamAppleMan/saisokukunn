@@ -63,11 +63,13 @@ struct MainView: View {
         let displayBounds = UIScreen.main.bounds
         let displayWidth = displayBounds.width
         let displayHeight = displayBounds.height
+        let imageHeight = displayHeight/3.0
         let qrSystemImageName = "qrcode.viewfinder"
         let addLoanSystemImageName = "note.text.badge.plus"
         let accountButtonSystemImageName = "chevron.down"
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
+        let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
         
         ZStack {
             // 背景を黒にする
@@ -202,19 +204,42 @@ struct MainView: View {
                         .pickerStyle(SegmentedPickerStyle())
 
                         if selectedLoanIndex == 0 {
-                            List{
-                                Section {
-                                    // 借り手の残高を表示
-                                    ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
-                                        LoanListView(title: borrowPayTaskList[index].title, person: "ダミー", money: borrowPayTaskList[index].money,limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
-                                            .frame(height: 70)
-                                            .listRowBackground(Color.clear)
-                                    }
-                                }.listRowSeparator(.hidden)
+
+                            // リストが空なら画像表示
+                            if borrowPayTaskList.count != 0 {
+                                List{
+                                    Section {
+                                        // 借り手の残高を表示
+                                        ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
+                                            LoanListView(title: borrowPayTaskList[index].title, person: "ダミー", money: borrowPayTaskList[index].money,limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
+                                                .frame(height: 70)
+                                                .listRowBackground(Color.clear)
+                                        }
+                                    }.listRowSeparator(.hidden)
+                                }
+                                .listStyle(.insetGrouped)
+                                .ignoresSafeArea()
+                            } else {
+                                Spacer()
+                                VStack(alignment: .center) {
+                                    Image("ManWithMan")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: imageHeight, alignment: .center)
+
+                                    Text("現在、誰にもお金を借りていません")
+                                        .foregroundColor(textColor)
+                                        .font(.callout)
+                                    
+                                }
+                                .listStyle(.insetGrouped)
+                                .ignoresSafeArea()
+                                Spacer()
                             }
-                            .listStyle(.insetGrouped)
-                            .ignoresSafeArea()
+
                         } else {
+
+                            // TODO: List空時に表示させる画像は、貸してくれるListに限って未設定。変数完成後実装させる。
                             List{
                                 Section {
                                     // TODO: QRスキャン後に表示したい（近藤タスク）
