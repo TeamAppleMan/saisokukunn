@@ -25,6 +25,7 @@ struct CreateQrCodeView: View {
 
         VStack(spacing: 0) {
 
+            // ConfirmLendInfoViewで作成されたqr写真を表示
             QrCodeBoxView(qrImage: qrImage)
                 .frame(width: squareQrcodeBoxSize, height: squareQrcodeBoxSize)
                 .padding()

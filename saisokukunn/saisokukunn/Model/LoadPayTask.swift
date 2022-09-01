@@ -14,11 +14,9 @@ class LoadPayTask {
 
     let db = Firestore.firestore()
 
-    // UsersのuidからtaskIdを取得
-    // taskIdを取得したらPayTasksのtaskを取得
     // 配列をロード
     // TODO: async awaitで実行したい（PayTasksがCodableを準拠できない問題があるため保留）
-    func fetchLendPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
+    func fetchBorrowPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
         guard let lenderUID = Auth.auth().currentUser?.uid else { return }
 
         db.collection("PayTasks").whereField("lenderUID",isEqualTo: "\(lenderUID)").order(by: "createdAt", descending: true).getDocuments { snapShots, error in
