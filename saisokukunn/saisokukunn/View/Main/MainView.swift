@@ -31,8 +31,8 @@ struct MainView: View {
     @State var isScanButton: Bool = false
     @State var isPressedAccount: Bool = false
     @State var accountName: String = "サインアウト"
-    @State private var totalBorrowingMoney: Int = 58000
-    @State private var totalLendingMoney: Int = 20000
+    @State private var totalBorrowingMoney: Int = 0
+    @State private var totalLendingMoney: Int = 0
 
     @State private var toSignUpView = false
     @State private var borrowPayTaskList = [PayTask]()
@@ -268,7 +268,13 @@ struct MainView: View {
                 guard let borrowPayTasks = borrowPayTasks else { return }
                 print("borrowPayTasks:",borrowPayTasks)
                 borrowPayTaskList = borrowPayTasks
+                // 借りている合計金額の表示
+                borrowPayTasks.forEach { borrowPayTask in
+                    totalBorrowingMoney += borrowPayTask.money
+                }
             }
+
+
 
             // TODO: Firestoreから貸しているPayTaskの情報を取得する（近藤タスク）
         }.navigationBarHidden(true)
