@@ -269,6 +269,7 @@ struct MainView: View {
                 print("borrowPayTasks:",borrowPayTasks)
                 borrowPayTaskList = borrowPayTasks
                 // 借りている合計金額の表示
+                totalBorrowingMoney = 0
                 borrowPayTasks.forEach { borrowPayTask in
                     totalBorrowingMoney += borrowPayTask.money
                 }
