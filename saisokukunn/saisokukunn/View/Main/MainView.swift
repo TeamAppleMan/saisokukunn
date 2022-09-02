@@ -31,8 +31,8 @@ struct MainView: View {
     @State var isScanButton: Bool = false
     @State var isPressedAccount: Bool = false
     @State var accountName: String = "サインアウト"
-    @State var totalLendingMoney: Int = 58000
-    @State var totalBorrowingMoney: Int = 20000
+    @State private var totalBorrowingMoney: Int = 58000
+    @State private var totalLendingMoney: Int = 20000
 
     @State private var toSignUpView = false
     @State private var borrowPayTaskList = [PayTask]()
@@ -147,14 +147,16 @@ struct MainView: View {
                             .foregroundColor(Color(UIColor.gray))
 
                         if selectedLoanIndex == 0 {
-                            Text(String.localizedStringWithFormat("%d", totalLendingMoney))
+                            // TODO: トータルの金額を表示したい
+                            Text(String.localizedStringWithFormat("%d", totalBorrowingMoney))
                                 .font(.custom(loanTotalMoneyCustomFont, size: 30))
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color(UIColor.white))
                                 .font(.title)
                                 .bold()
                         } else {
-                            Text(String.localizedStringWithFormat("%d", totalBorrowingMoney))
+                            // TODO: トータルの金額を表示したい
+                            Text(String.localizedStringWithFormat("%d", totalLendingMoney))
                                 .font(.custom(loanTotalMoneyCustomFont, size: 30))
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color(UIColor.white))
