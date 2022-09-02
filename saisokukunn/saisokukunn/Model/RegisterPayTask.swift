@@ -16,18 +16,22 @@ class RegisterPayTask {
     let db = Firestore.firestore()
 
     func createPayTaskToFirestore(title: String,money: Int,endTime: Date) async throws {
-        guard let lenderUID = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         let payTask: Dictionary<String, Any> = [
             "title": title,
             "money": money,
             "endTime": endTime,
-            "lenderUID": lenderUID,
-            "createdAt": Timestamp()
+            "borrowerUID": uid,
+            "createdAt": Timestamp(),
+            "isTaskFinished": Bool()
         ]
 
-        let payTaskPath = String(db.collection("PayTasks").document().path.dropFirst(9))
+        //  payTaskのドキュメントIDを発行
+        let payTaskPath = NSUUID().uuidString
+        // PayTaskをFirestoreにセット
         try await db.collection("PayTasks").document(payTaskPath).setData(payTask)
-        try await db.collection("Users").document(lenderUID).updateData(["taskId": FieldValue.arrayUnion([payTaskPath])])
+        // UsersにあるtaskIdの更新
+        try await db.collection("Users").document(uid).updateData(["taskId": FieldValue.arrayUnion([payTaskPath])])
     }
 
     func fetchQrCode() async throws -> Data {

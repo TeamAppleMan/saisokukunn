@@ -264,6 +264,7 @@ struct MainView: View {
                     return
                 }
                 guard let borrowPayTasks = borrowPayTasks else { return }
+                print("borrowPayTasks:",borrowPayTasks)
                 borrowPayTaskList = borrowPayTasks
             }
 

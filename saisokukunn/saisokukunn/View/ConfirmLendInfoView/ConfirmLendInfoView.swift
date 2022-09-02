@@ -82,7 +82,6 @@ struct ConfirmLendInfoView: View {
                                     // QRコード生成
                                     let qrDecodedData = try await registerPayTask.fetchQrCode()
                                     qrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
-                                    // TODO: QRスキャン後にFirestoreにPayTaskを登録できるようにしたい（0901: 現状はとりあえずここに）
                                     try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
                                     // CreateQrCodeの画面に遷移
