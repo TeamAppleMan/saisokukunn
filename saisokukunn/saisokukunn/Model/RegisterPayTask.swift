@@ -57,4 +57,10 @@ class RegisterPayTask {
         }
     }
 
+    // lenderUIDをPayTaskのフィールドに追加
+    func addLenderUIDToFireStore(payTaskPath: String) async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        try await db.collection("PayTasks").document(payTaskPath).setData(["lenderUID": uid], merge: true)
+    }
+
 }

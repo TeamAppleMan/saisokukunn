@@ -15,6 +15,8 @@ class QrCodeScannerViewController: UIViewController {
     @IBOutlet var qrScannerView: QRScannerView!
     @IBOutlet var flashButton: FlashButton!
 
+    let registerPayTask = RegisterPayTask()
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -72,18 +74,29 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
         print(error.localizedDescription)
     }
 
-    func qrScannerView(_ qrScannerView: QRScannerView, didSuccess code: String) {
+    func qrScannerView(_ qrScannerView: QRScannerView, didSuccess code: String)  {
         if let url = URL(string: code), (url.scheme == "http" || url.scheme == "https") {
+            // TODO: このあたりの表示は前田さんに相談
             print("検索開始")
             // 下はみたいにwebを自動で開くコード。
             // TODO: GETするコードに書き換えれば良し。
             // openWeb(url: url)
-            print("code:",code)
+            print("codeue:",code)
             let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "23500", endTime: Date()))
             self.navigationController?.pushViewController(view, animated: true)
             qrScannerView.stopRunning()
         } else {
-            print("code:",code)
+            // Code(=ドキュメントID)を元にPayTaskにアクセスしてuidをフィールドに追加
+            Task{
+                do{
+                    try await registerPayTask.addLenderUIDToFireStore(payTaskPath: code)
+                    print("PayTasksに対してlenderUIDの送信に成功しました")
+                }
+                catch{
+                    print("PayTasksに対してlenderUIDの送信に失敗しました",error)
+                }
+            }
+            // TODO: この表示も前田さんに相談
             showAlert(code: code)
         }
     }
