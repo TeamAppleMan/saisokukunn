@@ -21,37 +21,40 @@ class LoadPayTask {
     // TODO: async awaitで実行したい（PayTasksがCodableを準拠できない問題があるため保留）
     func fetchBorrowPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        // UsersにuidでアクセスしてborrowPayTaskIdを取得
-        db.collection("Users").document(uid).getDocument { snapShot, error in
-            if let error = error {
-                print("Firestoreからユーザの情報を取得できませんでした",error)
-                completion(nil,error)
-            }
-            print("Firestoreからユーザの情報を取得しました")
-            guard let data = snapShot?.data() else { return }
-            guard let borrowPayTaskIdS = data["borrowPayTaskId"] as? [String] else { return }
-
-            // 取得したborrowPayTaskIdからPayTaskを取得
-            self.loadBorrowPayTask(borrowPayTaskIdS: borrowPayTaskIdS) { payTasks, error in
-                if let error = error {
-                    print("borrrowPayTaskのロード失敗",error)
-                }
-                completion(payTasks,error)
-            }
-        }
-    }
-
-    func fetchBorrowPayTask2(completion: @escaping([PayTask]?,Error?) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("PayTasks").whereField("borrowerUID", isEqualTo: uid).whereField("isTaskFinished", isEqualTo: false).order(by: "createdAt", descending: true).getDocuments { snapShots, error in
+        db.collection("PayTasks").whereField("borrowerUID", isEqualTo: uid).whereField("isFinished", isEqualTo: false).order(by: "createdAt", descending: true).getDocuments { snapShots, error in
             if let error = error {
                 print("FirestoreからPayTaskの取得に失敗",error)
                 return
             }
+            print("FirestoreからPayTaskの取得に成功")
             var payTasks = [PayTask]()
+
             snapShots?.documents.forEach({ snapShot in
                 let data = snapShot.data()
-                let payTask = PayTask(dic: data)
+                var payTask = PayTask(dic: data)
+                payTask.lenderUID = data["lenderUID"] as? String
+                payTask.isFinished = data["isFinished"] as? Bool
+                payTasks.append(payTask)
+            })
+            completion(payTasks,nil)
+        }
+    }
+
+    func fetchLenderPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("PayTasks").whereField("lenderUID", isEqualTo: uid).whereField("isFinished", isEqualTo: false).order(by: "createdAt", descending: true).getDocuments { snapShots, error in
+            if let error = error {
+                print("FirestoreからPayTaskの取得に失敗",error)
+                return
+            }
+            print("FirestoreからPayTaskの取得に成功")
+            var payTasks = [PayTask]()
+
+            snapShots?.documents.forEach({ snapShot in
+                let data = snapShot.data()
+                var payTask = PayTask(dic: data)
+                payTask.lenderUID = data["lenderUID"] as? String
+                payTask.isFinished = data["isFinished"] as? Bool
                 payTasks.append(payTask)
             })
             completion(payTasks,nil)
@@ -59,26 +62,26 @@ class LoadPayTask {
     }
 
     // TODO: async awaitで実行したい（上記のTODOと同様の理由）
-    func fetchLenderPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("Users").document(uid).getDocument { snapShot, error in
-            if let error = error {
-                print("Firestoreからユーザの情報を取得できませんでした",error)
-                completion(nil,error)
-            }
-            print("Firestoreからユーザの情報を取得しました")
-            guard let data = snapShot?.data() else { return }
-            guard let lendPayTaskIdS = data["lendPayTaskId"] as? [String] else { return }
-
-            // 取得したlendPayTaskIdからPayTaskを取得
-            self.loadLendPayTask(lendPayTaskIdS: lendPayTaskIdS) { payTasks, error in
-                if let error = error {
-                    print("lendPayTaskのロード失敗",error)
-                }
-                completion(payTasks,nil)
-            }
-        }
-    }
+//    func fetchLenderPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        db.collection("Users").document(uid).getDocument { snapShot, error in
+//            if let error = error {
+//                print("Firestoreからユーザの情報を取得できませんでした",error)
+//                completion(nil,error)
+//            }
+//            print("Firestoreからユーザの情報を取得しました")
+//            guard let data = snapShot?.data() else { return }
+//            guard let lendPayTaskIdS = data["lendPayTaskId"] as? [String] else { return }
+//
+//            // 取得したlendPayTaskIdからPayTaskを取得
+//            self.loadLendPayTask(lendPayTaskIdS: lendPayTaskIdS) { payTasks, error in
+//                if let error = error {
+//                    print("lendPayTaskのロード失敗",error)
+//                }
+//                completion(payTasks,nil)
+//            }
+//        }
+//    }
 
     private func loadBorrowPayTask(borrowPayTaskIdS: [String],completion: @escaping([PayTask]?,Error?) -> Void) {
         payTasks = []

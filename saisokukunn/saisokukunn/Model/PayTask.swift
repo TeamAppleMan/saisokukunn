@@ -18,7 +18,7 @@ struct PayTask {
     var lenderUID: String?
     var borrowerUserName: String?
     var lenderUserName: String?
-    var isTaskFinished: Bool?
+    var isFinished: Bool?
 
     init(dic: [String: Any]) {
         self.title = dic["title"] as? String ?? ""
