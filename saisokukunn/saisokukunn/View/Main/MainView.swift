@@ -40,6 +40,7 @@ struct MainView: View {
 
     let registerUser = RegisterUser()
     let loadPayTask = LoadPayTask()
+    let loadUser = LoadUser()
 
     var lendPersons = [
         Person.init(title: "お好み焼", name: "有村架純", money: 5000, stateDate: Date(), endDate: Date()),
@@ -214,7 +215,10 @@ struct MainView: View {
                                     Section {
                                         // 借り手の残高を表示
                                         ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
-                                            LoanListView(title: borrowPayTaskList[index].title, person: "ダミー", money: borrowPayTaskList[index].money,limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
+                                            LoanListView(title: borrowPayTaskList[index].title,
+                                                         person: borrowPayTaskList[index].lenderUserName ?? "",
+                                                         money: borrowPayTaskList[index].money,
+                                                         limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
                                         }
@@ -247,7 +251,10 @@ struct MainView: View {
                                 Section {
                                     // TODO: QRスキャン後に表示したい（近藤タスク）
                                     ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
-                                        LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: lendPayTaskList[index].money, limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
+                                        LoanListView(title: lendPayTaskList[index].title,
+                                                     person: "",
+                                                     money: lendPayTaskList[index].money,
+                                                     limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
                                             .frame(height: 70)
                                             .listRowBackground(Color.clear)
                                     }
@@ -260,10 +267,10 @@ struct MainView: View {
                 }
             }
         }.onAppear{
-            // Firestoreから借りているPayTaskの情報を取得
+            // Firestoreから借りているPayTaskの情報を取得する
             loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
-                    print("borrowPayTaskのドキュメントid取得に失敗",error)
+                    print("borrowPayTasksの取得に失敗",error)
                 }
                 guard let borrowPayTasks = borrowPayTasks else { return }
                 borrowPayTaskList = borrowPayTasks
@@ -272,6 +279,7 @@ struct MainView: View {
                 borrowPayTasks.forEach { borrowPayTask in
                     totalBorrowingMoney += borrowPayTask.money
                 }
+
             }
 
             // Firestoreから貸しているPayTaskの情報を取得する
@@ -291,6 +299,7 @@ struct MainView: View {
     }
 }
 
+    // TODO: 他のモデルにぶっ込みたい
     private func createLimitDay(endTime: Timestamp) -> Int {
         let endDate = endTime.dateValue()
         let now = Date()

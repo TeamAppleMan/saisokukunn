@@ -75,17 +75,15 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
     }
 
     func qrScannerView(_ qrScannerView: QRScannerView, didSuccess code: String)  {
-        if let url = URL(string: code), (url.scheme == "http" || url.scheme == "https") {
             // TODO: このあたりの表示は前田さんに相談
-            print("検索開始")
-            // 下はみたいにwebを自動で開くコード。
-            // TODO: GETするコードに書き換えれば良し。
-            // openWeb(url: url)
-            print("codeue:",code)
-            let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "23500", endTime: Date()))
-            self.navigationController?.pushViewController(view, animated: true)
-            qrScannerView.stopRunning()
-        } else {
+//            print("検索開始")
+//            // 下はみたいにwebを自動で開くコード。
+//            // TODO: GETするコードに書き換えれば良し。
+//            // openWeb(url: url)
+//            print("codeue:",code)
+//            let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "23500", endTime: Date()))
+//            self.navigationController?.pushViewController(view, animated: true)
+//            qrScannerView.stopRunning()
             // Code(=ドキュメントID)を元にPayTaskにアクセスしてuidをフィールドに追加
             Task{
                 do{
@@ -97,8 +95,7 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
                 }
             }
             // TODO: この表示も前田さんに相談
-            showAlert(code: code)
-        }
+            // showAlert(code: code)
     }
 
     func qrScannerView(_ qrScannerView: QRScannerView, didChangeTorchActive isOn: Bool) {
