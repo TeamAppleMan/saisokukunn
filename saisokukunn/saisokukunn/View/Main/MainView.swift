@@ -267,18 +267,19 @@ struct MainView: View {
                 }
             }
         }.onAppear{
+            // Firestoreから借りているPayTaskの情報を取得する
             loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
                     print("borrowPayTasksの取得に失敗",error)
                 }
                 guard let borrowPayTasks = borrowPayTasks else { return }
                 borrowPayTaskList = borrowPayTasks
-                print("borrowPayTaskList",borrowPayTaskList)
                 // 借りている合計金額の表示
                 totalBorrowingMoney = 0
                 borrowPayTasks.forEach { borrowPayTask in
                     totalBorrowingMoney += borrowPayTask.money
                 }
+
             }
 
             // Firestoreから貸しているPayTaskの情報を取得する

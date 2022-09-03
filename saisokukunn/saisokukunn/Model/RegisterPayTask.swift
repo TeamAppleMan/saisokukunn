@@ -29,6 +29,13 @@ class RegisterPayTask {
         ]
         // PayTaskをFirestoreにセット
         try await db.collection("PayTasks").document(payTaskDocumentPath).setData(payTask)
+        loadUser.fetchUserName(uid: uid) { userName, error in
+            if let error = error {
+                print("ユーザ情報の取得に失敗")
+            }
+            guard let userName = userName else { return }
+            self.db.collection("PayTasks").document(self.payTaskDocumentPath).setData(["borrowerUserName": userName], merge: true)
+        }
         // UsersにあるborrowPayTaskIdの更新
         try await db.collection("Users").document(uid).updateData(["borrowPayTaskId": FieldValue.arrayUnion([payTaskDocumentPath])])
     }

@@ -28,14 +28,22 @@ class LoadPayTask {
             }
             print("FirestoreからPayTaskの取得に成功")
             var payTasks = [PayTask]()
-            print("1")
+
             snapShots?.documents.forEach({ snapShot in
                 let data = snapShot.data()
                 var payTask = PayTask(dic: data)
                 payTask.lenderUID = data["lenderUID"] as? String
                 payTask.isFinished = data["isFinished"] as? Bool
+                // TODO: ここでユーザ名を取得したいがloadUserのfetchUserNameを実行するとcompletionが先に呼ばれてしまう（payTask.userName = "~~~"）
+//                loadUser.fetchUserName(uid: payTask.lenderUID) { userName, error in
+//                    if let error = error {
+//                        print(error)
+//                    }
+//                    payTask.lenderUserName = userName
+//                }
                 payTasks.append(payTask)
             })
+            
             completion(payTasks,nil)
         }
     }
@@ -55,6 +63,7 @@ class LoadPayTask {
                 var payTask = PayTask(dic: data)
                 payTask.lenderUID = data["lenderUID"] as? String
                 payTask.isFinished = data["isFinished"] as? Bool
+                // TODO: ここでユーザ名を取得したい（payTask.userName = "~~~"）
                 payTasks.append(payTask)
             })
             completion(payTasks,nil)

@@ -24,4 +24,17 @@ class LoadUser {
             completion(userName,nil)
         }
     }
+
+//    // async await ver なぜかエラー出る
+//    func fetchUserName2(uid: String) async throws -> String {
+//         try await db.collection("Users").document(uid).getDocument { snapShot, error in
+//            if let error = error {
+//                print("Firestoreからユーザ情報の取得に失敗しました")
+//                return error
+//            }
+//            guard let data = snapShot?.data() else { return }
+//            guard let userName = data["userName"] as? String else { return }
+//            return userName
+//        }
+//    }
 }

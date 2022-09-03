@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 
 struct PayTask {
+    let id: String = UUID().uuidString
     let title: String
     let money: Int
     let endTime: Timestamp
@@ -21,6 +22,7 @@ struct PayTask {
     var borrowerUserName: String?
 
     init(dic: [String: Any]) {
+        //self.id = dic["id"] as? String ?? String()
         self.title = dic["title"] as? String ?? ""
         self.money = dic["money"] as? Int ?? 0
         self.endTime = dic["endTime"] as? Timestamp ?? Timestamp()
