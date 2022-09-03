@@ -259,21 +259,8 @@ struct MainView: View {
                 }
             }
         }.onAppear{
-            // Firestoreから借りているPayTaskの情報を取得する
-//            loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
-//                if let error = error {
-//                    print("貸しているタスクの取得に失敗",error)
-//                    return
-//                }
-//                guard let borrowPayTasks = borrowPayTasks else { return }
-//                borrowPayTaskList = borrowPayTasks
-//                // 借りている合計金額の表示
-//                totalBorrowingMoney = 0
-//                borrowPayTasks.forEach { borrowPayTask in
-//                    totalBorrowingMoney += borrowPayTask.money
-//                }
-//            }
-            loadPayTask.fetchBorrowPayTask2 { borrowPayTasks, error in
+            // Firestoreから借りているPaytaskの情報を取得
+            loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
                     print("borrowのタスクid取得に失敗",error)
                 }
@@ -286,9 +273,6 @@ struct MainView: View {
                     totalBorrowingMoney += borrowPayTask.money
                 }
             }
-
-
-
             // TODO: Firestoreから貸しているPayTaskの情報を取得する（近藤タスク）
         }.navigationBarHidden(true)
     }
