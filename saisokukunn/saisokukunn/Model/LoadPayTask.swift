@@ -44,18 +44,36 @@ class LoadPayTask {
             if let error = error {
                 print("Firestoreからユーザの情報を取得できませんでした",error)
             }
+            print("Firestoreからユーザの情報を取得しました")
             guard let data = snapShot?.data() else { return }
             guard let borrowPayTaskIdS = data["borrowPayTaskId"] as? [String] else { return }
+            var payTasks = [PayTask]()
+            for index in 0..<borrowPayTaskIdS.count {
+                self.db.collection("PayTasks").document(borrowPayTaskIdS[index]).getDocument { snapShot, error in
+                    if let error = error {
+                        print("FirestoreからPayTaskの取得に失敗",error)
+                    }
+                    print("FirestoreからPayTaskの取得に成功")
+                    guard let data = snapShot?.data() else { return }
+                    var payTask = PayTask(dic: data)
 
-            // PayTasksのロード
-            borrowPayTaskIdS.forEach { borrowPayTaskId in
-                <#code#>
+                    let lenderUID = data["lenderUID"] as? String
+                    guard let isTaskFinished = data["isTaskFinished"] as? Bool else { return }
+
+                    // isTaskFinishedがfalseかつlenderUIDがあれば
+                    if !isTaskFinished && lenderUID != nil {
+                        payTask.lenderUID = lenderUID
+                        payTasks.append(payTask)
+                        print("index",index)
+                        if (payTasks.count == borrowPayTaskIdS.count-1){
+                            print("indexComplete",index)
+                            completion(payTasks,nil)
+                        }
+                    }
+                }
             }
+
         }
-
-
-
-        // taskIDを元にPayTasksにアクセスして、lenderUIDが存在するか＆isTaskFinishedがfalseの条件で
-
     }
 }
+
