@@ -76,14 +76,14 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
 
     func qrScannerView(_ qrScannerView: QRScannerView, didSuccess code: String)  {
             // TODO: このあたりの表示は前田さんに相談
-            print("検索開始")
-            // 下はみたいにwebを自動で開くコード。
-            // TODO: GETするコードに書き換えれば良し。
-            // openWeb(url: url)
-            print("codeue:",code)
-            let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "23500", endTime: Date()))
-            self.navigationController?.pushViewController(view, animated: true)
-            qrScannerView.stopRunning()
+//            print("検索開始")
+//            // 下はみたいにwebを自動で開くコード。
+//            // TODO: GETするコードに書き換えれば良し。
+//            // openWeb(url: url)
+//            print("codeue:",code)
+//            let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "23500", endTime: Date()))
+//            self.navigationController?.pushViewController(view, animated: true)
+//            qrScannerView.stopRunning()
             // Code(=ドキュメントID)を元にPayTaskにアクセスしてuidをフィールドに追加
             Task{
                 do{

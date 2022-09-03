@@ -34,13 +34,8 @@ class LoadPayTask {
                 var payTask = PayTask(dic: data)
                 payTask.lenderUID = data["lenderUID"] as? String
                 payTask.isFinished = data["isFinished"] as? Bool
-                // TODO: ここでユーザ名を取得したいがloadUserのfetchUserNameを実行するとcompletionが先に呼ばれてしまう（payTask.userName = "~~~"）
-//                loadUser.fetchUserName(uid: payTask.lenderUID) { userName, error in
-//                    if let error = error {
-//                        print(error)
-//                    }
-//                    payTask.lenderUserName = userName
-//                }
+                payTask.lenderUserName = data["lenderUserName"] as? String
+                payTask.borrowerUserName = data["borrowerUserName"] as? String
                 payTasks.append(payTask)
             })
             
@@ -63,7 +58,8 @@ class LoadPayTask {
                 var payTask = PayTask(dic: data)
                 payTask.lenderUID = data["lenderUID"] as? String
                 payTask.isFinished = data["isFinished"] as? Bool
-                // TODO: ここでユーザ名を取得したい（payTask.userName = "~~~"）
+                payTask.lenderUserName = data["lenderUserName"] as? String
+                payTask.borrowerUserName = data["borrowerUserName"] as? String
                 payTasks.append(payTask)
             })
             completion(payTasks,nil)
