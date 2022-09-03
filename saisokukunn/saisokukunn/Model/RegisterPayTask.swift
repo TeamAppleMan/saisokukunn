@@ -23,8 +23,7 @@ class RegisterPayTask {
             "money": money,
             "endTime": endTime,
             "borrowerUID": uid,
-            "createdAt": Timestamp(),
-            "isTaskFinished": Bool()
+            "createdAt": Timestamp()
         ]
         // PayTaskをFirestoreにセット
         try await db.collection("PayTasks").document(payTaskDocumentPath).setData(payTask)
@@ -57,7 +56,7 @@ class RegisterPayTask {
     // lenderUIDをPayTaskのフィールドに追加
     func addLenderUIDToFireStore(payTaskPath: String) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        try await db.collection("PayTasks").document(payTaskPath).setData(["lenderUID": uid], merge: true)
+        try await db.collection("PayTasks").document(payTaskPath).setData(["lenderUID": uid,"isFinished": false], merge: true)
         // UsersにあるborrowPayTaskIdの更新
         try await db.collection("Users").document(uid).updateData(["lendPayTaskId": FieldValue.arrayUnion([payTaskPath])])
     }

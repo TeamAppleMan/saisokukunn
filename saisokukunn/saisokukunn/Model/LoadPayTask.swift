@@ -13,8 +13,10 @@ import FirebaseFirestore
 class LoadPayTask {
 
     let db = Firestore.firestore()
+    let loadUser = LoadUser()
 
     private var payTasks = [PayTask]()
+
 
     // TODO: async awaitで実行したい（PayTasksがCodableを準拠できない問題があるため保留）
     func fetchBorrowPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
@@ -36,6 +38,23 @@ class LoadPayTask {
                 }
                 completion(payTasks,error)
             }
+        }
+    }
+
+    func fetchBorrowPayTask2(completion: @escaping([PayTask]?,Error?) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("PayTasks").whereField("borrowerUID", isEqualTo: uid).whereField("isTaskFinished", isEqualTo: false).order(by: "createdAt", descending: true).getDocuments { snapShots, error in
+            if let error = error {
+                print("FirestoreからPayTaskの取得に失敗",error)
+                return
+            }
+            var payTasks = [PayTask]()
+            snapShots?.documents.forEach({ snapShot in
+                let data = snapShot.data()
+                let payTask = PayTask(dic: data)
+                payTasks.append(payTask)
+            })
+            completion(payTasks,nil)
         }
     }
 
@@ -73,12 +92,13 @@ class LoadPayTask {
                 guard let data = snapShot?.data() else { return }
                 var payTask = PayTask(dic: data)
 
-                let lenderUID = data["lenderUID"] as? String
+                guard let lenderUID = data["lenderUID"] as? String else { return }
                 guard let isTaskFinished = data["isTaskFinished"] as? Bool else { return }
 
                 // isTaskFinishedがfalseかつlenderUIDがあればpayTasksに追加
-                if !isTaskFinished && lenderUID != nil {
+                if !isTaskFinished && lenderUID != "" {
                     payTask.lenderUID = lenderUID
+                    // ここで名前も代入したいところ
                     self.payTasks.append(payTask)
 
                     if (self.payTasks.count == borrowPayTaskIdS.count){
