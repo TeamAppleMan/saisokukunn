@@ -14,9 +14,9 @@ struct PayTask {
     let endTime: Timestamp
     let borrowerUID: String
     let createdAt: Timestamp
+    let borrowerUserName: String
 
     var lenderUID: String?
-    var borrowerUserName: String?
     var lenderUserName: String?
     var isFinished: Bool?
 
@@ -26,5 +26,6 @@ struct PayTask {
         self.endTime = dic["endTime"] as? Timestamp ?? Timestamp()
         self.borrowerUID = dic["borrowerUID"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
+        self.borrowerUserName = dic["borrowerUserName"] as? String ?? String()
     }
 }

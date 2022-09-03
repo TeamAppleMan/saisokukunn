@@ -15,6 +15,7 @@ struct ConfirmLendInfoView: View {
     @State private var toCreateQrCodeView = false
     @State private var isPresentedProgressView = false
     @State var createdQrImage: Image
+    var userName = String()
 
     let registerPayTask = RegisterPayTask()
 
@@ -85,7 +86,6 @@ struct ConfirmLendInfoView: View {
                                     let qrDecodedData = try await registerPayTask.fetchQrCode()
                                     
                                     createdQrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
-
                                     try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
                                     // CreateQrCodeの画面に遷移

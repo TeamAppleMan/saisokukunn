@@ -216,7 +216,7 @@ struct MainView: View {
                                         // 借り手の残高を表示
                                         ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
                                             LoanListView(title: borrowPayTaskList[index].title,
-                                                         person: "",
+                                                         person: borrowPayTaskList[index].lenderUserName ?? "",
                                                          money: borrowPayTaskList[index].money,
                                                          limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
                                                 .frame(height: 70)

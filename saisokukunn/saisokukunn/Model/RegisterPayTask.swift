@@ -15,16 +15,33 @@ class RegisterPayTask {
 
     let db = Firestore.firestore()
     var payTaskDocumentPath = String() // createPayTaskToFirestoreとfetchQrCodeで同一のPathを使用
+    let loadUser = LoadUser()
+    var userName = String()
+
+    func createUserName() async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        loadUser.fetchUserName(uid: uid) { userName, error in
+            if let error = error {
+                print("ユーザ名取得に失敗しました",error)
+            }
+            guard let userName = userName else { return }
+            print("userName::",userName)
+            self.userName = userName
+        }
+    }
 
     func createPayTaskToFirestore(title: String,money: Int,endTime: Date) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+
         let payTask: Dictionary<String, Any> = [
             "title": title,
             "money": money,
             "endTime": endTime,
             "borrowerUID": uid,
-            "createdAt": Timestamp()
+            "createdAt": Timestamp(),
+            "borrowerUserName": self.userName
         ]
+        print("self.userName",self.userName)
         // PayTaskをFirestoreにセット
         try await db.collection("PayTasks").document(payTaskDocumentPath).setData(payTask)
         // UsersにあるborrowPayTaskIdの更新

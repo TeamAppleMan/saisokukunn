@@ -28,7 +28,7 @@ class LoadPayTask {
             }
             print("FirestoreからPayTaskの取得に成功")
             var payTasks = [PayTask]()
-
+            print("1")
             snapShots?.documents.forEach({ snapShot in
                 let data = snapShot.data()
                 var payTask = PayTask(dic: data)
