@@ -36,6 +36,7 @@ struct MainView: View {
 
     @State private var toSignUpView = false
     @State private var borrowPayTaskList = [PayTask]()
+    @State private var lendPayTaskList = [PayTask]()
 
     let registerUser = RegisterUser()
     let loadPayTask = LoadPayTask()
@@ -245,8 +246,8 @@ struct MainView: View {
                             List{
                                 Section {
                                     // TODO: QRスキャン後に表示したい（近藤タスク）
-                                    ForEach(0 ..< borrowPersons.count,  id: \.self) { index in
-                                        LoanListView(title: borrowPersons[index].title, person: borrowPersons[index].name, money: borrowPersons[index].money, limitDay: 3)
+                                    ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
+                                        LoanListView(title: lendPayTaskList[index].title, person: "ダミー", money: lendPayTaskList[index].money, limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
                                             .frame(height: 70)
                                             .listRowBackground(Color.clear)
                                     }
@@ -259,14 +260,12 @@ struct MainView: View {
                 }
             }
         }.onAppear{
-            // Firestoreから借りているPayTaskの情報を取得する
+            // Firestoreから借りているPayTaskの情報を取得
             loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
-                    print("貸しているタスクの取得に失敗",error)
-                    return
+                    print("borrowPayTaskのドキュメントid取得に失敗",error)
                 }
                 guard let borrowPayTasks = borrowPayTasks else { return }
-                print("borrowPayTasks:",borrowPayTasks)
                 borrowPayTaskList = borrowPayTasks
                 // 借りている合計金額の表示
                 totalBorrowingMoney = 0
@@ -275,9 +274,19 @@ struct MainView: View {
                 }
             }
 
-
-
-            // TODO: Firestoreから貸しているPayTaskの情報を取得する（近藤タスク）
+            // Firestoreから貸しているPayTaskの情報を取得する
+            loadPayTask.fetchLenderPayTask { lendPayTasks, error in
+                if let error = error {
+                    print("lendPayTaskのドキュメントid取得に失敗",error)
+                }
+                guard let lendPayTasks = lendPayTasks else { return }
+                lendPayTaskList = lendPayTasks
+                // 貸してる合計金額の表示
+                totalLendingMoney = 0
+                lendPayTasks.forEach { lendPayTask in
+                    totalLendingMoney += lendPayTask.money
+                }
+            }
         }.navigationBarHidden(true)
     }
 }

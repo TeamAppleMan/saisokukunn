@@ -26,13 +26,10 @@ class RegisterPayTask {
             "createdAt": Timestamp(),
             "isTaskFinished": Bool()
         ]
-
-        //  payTaskのドキュメントIDを発行
-        let payTaskPath = NSUUID().uuidString
         // PayTaskをFirestoreにセット
         try await db.collection("PayTasks").document(payTaskDocumentPath).setData(payTask)
-        // UsersにあるtaskIdの更新
-        try await db.collection("Users").document(uid).updateData(["taskId": FieldValue.arrayUnion([payTaskDocumentPath])])
+        // UsersにあるborrowPayTaskIdの更新
+        try await db.collection("Users").document(uid).updateData(["borrowPayTaskId": FieldValue.arrayUnion([payTaskDocumentPath])])
     }
 
     func fetchQrCode() async throws -> Data {
@@ -61,6 +58,8 @@ class RegisterPayTask {
     func addLenderUIDToFireStore(payTaskPath: String) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         try await db.collection("PayTasks").document(payTaskPath).setData(["lenderUID": uid], merge: true)
+        // UsersにあるborrowPayTaskIdの更新
+        try await db.collection("Users").document(uid).updateData(["lendPayTaskId": FieldValue.arrayUnion([payTaskPath])])
     }
 
 }

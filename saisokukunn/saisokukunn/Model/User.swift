@@ -13,12 +13,14 @@ struct User {
     var userName: String
     var uid: String
     var createdAt: Timestamp
-    var taskId: Array<String>
+    var borrowPayTaskId: Array<String>
+    var lendPayTaskId: Array<String>
 
     init(dic: [String: Any]){
         self.userName = dic["userName"] as? String ?? ""
         self.uid = dic["uid"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
-        self.taskId = dic["taskID"] as? Array<String> ?? []
+        self.borrowPayTaskId = dic["borrowPayTaskId"] as? Array<String> ?? []
+        self.lendPayTaskId = dic["lendPayTaskId"] as? Array<String> ?? []
     }
 }
