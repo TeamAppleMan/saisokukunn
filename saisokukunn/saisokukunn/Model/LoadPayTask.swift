@@ -36,4 +36,26 @@ class LoadPayTask {
             completion(payTasks,nil)
         }
     }
+
+    func fetchBorrowPayTask2(completion: @escaping([PayTask]?,Error?) -> Void){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        // UsersにuidでアクセスしてborrowPayTaskIdを取得
+        db.collection("Users").document(uid).getDocument { snapShot, error in
+            if let error = error {
+                print("Firestoreからユーザの情報を取得できませんでした",error)
+            }
+            guard let data = snapShot?.data() else { return }
+            guard let borrowPayTaskIdS = data["borrowPayTaskId"] as? [String] else { return }
+
+            // PayTasksのロード
+            borrowPayTaskIdS.forEach { borrowPayTaskId in
+                <#code#>
+            }
+        }
+
+
+
+        // taskIDを元にPayTasksにアクセスして、lenderUIDが存在するか＆isTaskFinishedがfalseの条件で
+
+    }
 }
