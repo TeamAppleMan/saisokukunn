@@ -14,7 +14,7 @@ struct ConfirmLendInfoView: View {
     @Binding var endTime: Date
     @State private var toCreateQrCodeView = false
     @State private var isPresentedProgressView = false
-    @State var qrImage: Image
+    @State var createdQrImage: Image
 
     let registerPayTask = RegisterPayTask()
 
@@ -53,7 +53,7 @@ struct ConfirmLendInfoView: View {
             Spacer()
 
             // CreateQrCodeに遷移する時にqrの画像を渡す
-            NavigationLink(destination: CreateQrCodeView(qrImage: qrImage),isActive: $toCreateQrCodeView){
+            NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage),isActive: $toCreateQrCodeView){
                 EmptyView()
             }
             ZStack {
@@ -67,7 +67,7 @@ struct ConfirmLendInfoView: View {
                     .frame(width: squareTextBoxSize, height: squareTextBoxSize)
                     .padding(.top)
 
-                NavigationLink(destination: CreateQrCodeView(qrImage: qrImage)) {
+                NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage)) {
                     Image(systemName: "qrcode.viewfinder")
                         .font(.largeTitle)
                         .padding()
@@ -79,9 +79,13 @@ struct ConfirmLendInfoView: View {
                             isPresentedProgressView.toggle()
                             Task{
                                 do{
+                                    // paytaskのドキュメントID発行
+                                    registerPayTask.payTaskDocumentPath = NSUUID().uuidString
                                     // QRコード生成
                                     let qrDecodedData = try await registerPayTask.fetchQrCode()
-                                    qrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
+                                    
+                                    createdQrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
+
                                     try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
                                     // CreateQrCodeの画面に遷移
