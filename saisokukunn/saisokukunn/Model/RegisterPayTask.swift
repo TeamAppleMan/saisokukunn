@@ -14,6 +14,7 @@ import Alamofire
 class RegisterPayTask {
 
     let db = Firestore.firestore()
+    var payTaskDocumentPath = String() // createPayTaskToFirestoreとfetchQrCodeで同一のPathを使用
 
     func createPayTaskToFirestore(title: String,money: Int,endTime: Date) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -29,15 +30,14 @@ class RegisterPayTask {
         //  payTaskのドキュメントIDを発行
         let payTaskPath = NSUUID().uuidString
         // PayTaskをFirestoreにセット
-        try await db.collection("PayTasks").document(payTaskPath).setData(payTask)
+        try await db.collection("PayTasks").document(payTaskDocumentPath).setData(payTask)
         // UsersにあるtaskIdの更新
-        try await db.collection("Users").document(uid).updateData(["taskId": FieldValue.arrayUnion([payTaskPath])])
+        try await db.collection("Users").document(uid).updateData(["taskId": FieldValue.arrayUnion([payTaskDocumentPath])])
     }
 
     func fetchQrCode() async throws -> Data {
             try await withCheckedThrowingContinuation { continuation in
-                let qrUid = NSUUID().uuidString
-                AF.request("https://timelab-api.herokuapp.com/createQrCode/\(qrUid)").response { response in
+                AF.request("https://timelab-api.herokuapp.com/createQrCode/\(payTaskDocumentPath)").response { response in
                     switch response.result {
                     case .success(let element):
                         do {

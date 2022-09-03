@@ -78,10 +78,12 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
             // 下はみたいにwebを自動で開くコード。
             // TODO: GETするコードに書き換えれば良し。
             // openWeb(url: url)
+            print("code:",code)
             let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "23500", endTime: Date()))
             self.navigationController?.pushViewController(view, animated: true)
             qrScannerView.stopRunning()
         } else {
+            print("code:",code)
             showAlert(code: code)
         }
     }
