@@ -15,7 +15,7 @@ class QrCodeScannerViewController: UIViewController {
     @IBOutlet var qrScannerView: QRScannerView!
     @IBOutlet var flashButton: FlashButton!
 
-    let registerPayTask = RegisterPayTask()
+    let loadPayTask = LoadPayTask()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,27 +75,18 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
     }
 
     func qrScannerView(_ qrScannerView: QRScannerView, didSuccess code: String)  {
-            // TODO: このあたりの表示は前田さんに相談
-//            print("検索開始")
-//            // 下はみたいにwebを自動で開くコード。
-//            // TODO: GETするコードに書き換えれば良し。
-//            // openWeb(url: url)
-//            print("codeue:",code)
-//            let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "23500", endTime: Date()))
-//            self.navigationController?.pushViewController(view, animated: true)
-//            qrScannerView.stopRunning()
-            // Code(=ドキュメントID)を元にPayTaskにアクセスしてuidをフィールドに追加
-            Task{
-                do{
-                    try await registerPayTask.addLenderUIDToFireStore(payTaskPath: code)
-                    print("PayTasksに対してlenderUIDの送信に成功しました")
-                }
-                catch{
-                    print("PayTasksに対してlenderUIDの送信に失敗しました",error)
-                }
+        // code（= documentPath)を元にFirestoreからPayTaskを取得
+        loadPayTask.fetchPayTask(documentPath: code) { payTask, error in
+            if let error = error {
+                print("PayTaskの取得に失敗",error)
             }
-            // TODO: この表示も前田さんに相談
-            // showAlert(code: code)
+            guard let payTask = payTask else { return }
+
+            // 取得したPayTaskの送信
+            let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: payTask.title, lendPerson: payTask.borrowerUserName ?? "", money: String(payTask.money), endTime: payTask.endTime.dateValue(),documentPath: code))
+            self.navigationController?.pushViewController(view, animated: true)
+            qrScannerView.stopRunning()
+        }
     }
 
     func qrScannerView(_ qrScannerView: QRScannerView, didChangeTorchActive isOn: Bool) {

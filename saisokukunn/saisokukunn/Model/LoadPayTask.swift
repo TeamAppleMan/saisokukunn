@@ -17,7 +17,6 @@ class LoadPayTask {
 
     private var payTasks = [PayTask]()
 
-
     // TODO: async awaitで実行したい（PayTasksがCodableを準拠できない問題があるため保留）
     func fetchBorrowPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -63,6 +62,19 @@ class LoadPayTask {
                 payTasks.append(payTask)
             })
             completion(payTasks,nil)
+        }
+    }
+
+    func fetchPayTask(documentPath: String, completion: @escaping(PayTask?,Error?) -> Void) {
+        db.collection("PayTasks").document(documentPath).getDocument { snapShot, error in
+            if let error = error {
+                print("FirestoreからPayTaskの取得に失敗しました",error)
+                completion(nil,error)
+            }
+            guard let data = snapShot?.data() else { return }
+            var payTask = PayTask(dic: data)
+            payTask.borrowerUserName = data["borrowerUserName"] as? String
+            completion(payTask,nil)
         }
     }
 

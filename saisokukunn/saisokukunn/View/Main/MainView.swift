@@ -252,7 +252,7 @@ struct MainView: View {
                                     // TODO: QRスキャン後に表示したい（近藤タスク）
                                     ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
                                         LoanListView(title: lendPayTaskList[index].title,
-                                                     person: "",
+                                                     person: lendPayTaskList[index].borrowerUserName ?? "",
                                                      money: lendPayTaskList[index].money,
                                                      limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
                                             .frame(height: 70)
