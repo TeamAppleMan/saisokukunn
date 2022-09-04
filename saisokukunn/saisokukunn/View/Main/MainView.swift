@@ -279,7 +279,6 @@ struct MainView: View {
                 borrowPayTasks.forEach { borrowPayTask in
                     totalBorrowingMoney += borrowPayTask.money
                 }
-
             }
 
             // Firestoreから貸しているPayTaskの情報を取得する

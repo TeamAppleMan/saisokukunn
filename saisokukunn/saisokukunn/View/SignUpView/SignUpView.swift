@@ -11,6 +11,7 @@ import FirebaseAuth
 struct SignUpView: View {
     @State private var isActiveSignUpView = false
     @State private var userName = String()
+    @State private var isPresentedProgressView = false
 
     let registerUser = RegisterUser()
 
@@ -36,6 +37,14 @@ struct SignUpView: View {
                     }
                 }.padding(.bottom, 50)
 
+                // インジケータ
+                ZStack{
+                    if isPresentedProgressView{
+                        ProgressView()
+                            .scaleEffect(x: 2,y: 2, anchor: .center)
+                    }
+                }
+
                 // 下半分をインプット部分
                 VStack {
 
@@ -48,10 +57,12 @@ struct SignUpView: View {
 
                     NavigationLink(destination: MainView(isActiveSignUpView: $isActiveSignUpView), isActive: $isActiveSignUpView){
                         Button(action: {
+                            isPresentedProgressView.toggle()
                             Task{
                                 do{
                                     try await registerUser.signIn(userName:userName)
                                     // MainViewへ画面遷移
+                                    isPresentedProgressView.toggle()
                                     isActiveSignUpView = true
                                 }
                                 catch{
