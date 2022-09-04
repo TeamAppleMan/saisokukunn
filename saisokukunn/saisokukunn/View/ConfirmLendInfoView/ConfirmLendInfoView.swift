@@ -42,6 +42,12 @@ struct ConfirmLendInfoView: View {
 
         VStack {
 
+            // CreateQrCodeに遷移する時にqrの画像を渡す
+            NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage),isActive: $toCreateQrCodeView){
+                EmptyView()
+            }
+
+
             Spacer()
 
             HStack() {
@@ -49,21 +55,20 @@ struct ConfirmLendInfoView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
-            }.padding(.bottom, 50)
 
+            }.padding(.bottom, 50)
             Spacer()
 
-            // CreateQrCodeに遷移する時にqrの画像を渡す
-            NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage),isActive: $toCreateQrCodeView){
-                EmptyView()
-            }
-            ZStack {
-                if isPresentedProgressView {
-                    ProgressView().progressViewStyle(CircularProgressViewStyle())
-                }
-            }
 
             VStack {
+                ZStack{
+                    if isPresentedProgressView {
+                            ProgressView()
+                                .scaleEffect(x: 2,y: 2, anchor: .center)
+                                .padding(10)
+                    }
+                }
+
                 LendInfoView(title: title, money: money, endTime: endTime)
                     .frame(width: squareTextBoxSize, height: squareTextBoxSize)
                     .padding(.top)
@@ -84,7 +89,7 @@ struct ConfirmLendInfoView: View {
                                     registerPayTask.payTaskDocumentPath = NSUUID().uuidString
                                     // QRコード生成
                                     let qrDecodedData = try await registerPayTask.fetchQrCode()
-                                    
+
                                     createdQrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
                                     try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
