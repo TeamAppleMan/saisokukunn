@@ -13,9 +13,12 @@ struct ConfirmQrCodeInfoView: View {
     @State var lendPerson: String
     @State var money: String
     @State var endTime: Date
+    @State var documentPath: String
     @State var showingAlert: Bool = false
 
     var body: some View {
+        let registerPayTask = RegisterPayTask()
+
         let displayBounds = UIScreen.main.bounds
         let displayWidth = displayBounds.width
         let displayHeight = displayBounds.height
@@ -60,7 +63,17 @@ struct ConfirmQrCodeInfoView: View {
                     Button("キャンセル"){
                     }
                     Button("決定"){
-                        // TODO: データ連結の処理
+                        // Firestoreに貸す側のUIDをPayTaskのフィールドに送信
+                        Task{
+                            do{
+                                try await registerPayTask.addLenderUIDToFireStore(payTaskPath: documentPath)
+                                print("PayTasksに対してlenderUIDの送信に成功しました")
+                            }
+                            catch{
+                                print("PayTasksに対してlenderUIDの送信に失敗しました",error)
+                            }
+                        }
+
                         // TODO: 下記はMainViewに戻るコード（まだうまく動かない。要改善。）
                         environmentData.isMainActiveEnvironment.wrappedValue = false
                     }
@@ -86,7 +99,7 @@ struct ConfirmQrCodeInfoView: View {
 struct ConfirmQrCodeInfoView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "25000", endTime: Date())
+            ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "25000", endTime: Date(), documentPath: "ダミー")
         }
     }
 }
