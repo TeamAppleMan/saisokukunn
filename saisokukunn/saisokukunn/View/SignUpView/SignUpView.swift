@@ -52,7 +52,7 @@ struct SignUpView: View {
 
                     NavigationLink(destination: MainView(isActiveSignUpView: $isActiveSignUpView), isActive: $isActiveSignUpView){
                         Button(action: {
-                            // 前後の空白を消すコード
+                            // 前後の空白を消すコード。文字数が足りなければアラート表示
                             userName = userName.trimmingCharacters(in: .whitespaces)
                             if userName.isEmpty {
                                 isNotCharactersAlert = true
@@ -61,6 +61,7 @@ struct SignUpView: View {
                                 isNotCharactersAlert = false
                             }
 
+                            // PKHUDの表示
                             isPkhudProgress = true
                             Task{
                                 do{
@@ -83,12 +84,10 @@ struct SignUpView: View {
                                 .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
                                 .padding()
                         }.alert("エラー", isPresented: $isNotCharactersAlert){
-                            Button("キャンセル"){
-                            }
                             Button("確認"){
                             }
                         } message: {
-                            Text("１文字以上入力して下さい")
+                            Text("１文字以上入力して下さい。")
                         }
 
                     }
@@ -99,7 +98,7 @@ struct SignUpView: View {
 
             }
             .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "作成中", subtitle: "アカウントを作成中です"), delay: .infinity)
-            .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "失敗", subtitle: "アカウント作成に失敗しました"), delay: .infinity)
+            .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "アカウント作成に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
             .onAppear {
                 // uidが存在するならMainViewへ移動
                 if let uid = Auth.auth().currentUser?.uid {
