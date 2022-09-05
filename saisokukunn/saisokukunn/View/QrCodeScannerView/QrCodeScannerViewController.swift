@@ -50,8 +50,8 @@ class QrCodeScannerViewController: UIViewController {
 
     private func showAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            let alert = UIAlertController(title: "Error", message: "Camera is required to use in this application", preferredStyle: .alert)
-            alert.addAction(.init(title: "OK", style: .default))
+            let alert = UIAlertController(title: "エラー", message: "本アプリは設定からカメラアクセスを許可にする必要があります。", preferredStyle: .alert)
+            alert.addAction(.init(title: "確認", style: .default))
             self?.present(alert, animated: true)
         }
     }

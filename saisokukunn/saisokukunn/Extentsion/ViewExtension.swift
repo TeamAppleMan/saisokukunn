@@ -7,6 +7,20 @@
 
 import Foundation
 import SwiftUI
+import PKHUD
+
+extension View {
+
+    func cornerRadius(_ radius: CGFloat, maskedCorners: CACornerMask) -> some View {
+        self.modifier(PartlyRoundedCornerModifier(cornerRadius: radius,
+                                                  maskedCorners: maskedCorners))
+    }
+
+    public func PKHUD(isPresented: Binding<Bool>, HUDContent: HUDContentType, delay: Double) -> some View {
+        PKHUDViewModifier(isPresented: isPresented, HUDContent: HUDContent, delay: delay, parent: self)
+    }
+
+}
 
 struct PartlyRoundedCornerView: UIViewRepresentable {
     let cornerRadius: CGFloat
@@ -32,12 +46,5 @@ struct PartlyRoundedCornerModifier: ViewModifier {
     func body(content: Content) -> some View {
         content.mask(PartlyRoundedCornerView(cornerRadius: self.cornerRadius,
                                              maskedCorners: self.maskedCorners))
-    }
-}
-
-extension View {
-    func cornerRadius(_ radius: CGFloat, maskedCorners: CACornerMask) -> some View {
-        self.modifier(PartlyRoundedCornerModifier(cornerRadius: radius,
-                                                  maskedCorners: maskedCorners))
     }
 }

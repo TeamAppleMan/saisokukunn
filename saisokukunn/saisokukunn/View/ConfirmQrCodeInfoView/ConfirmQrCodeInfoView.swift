@@ -15,6 +15,8 @@ struct ConfirmQrCodeInfoView: View {
     @State var endTime: Date
     @State var documentPath: String
     @State var showingAlert: Bool = false
+    @State private var isPkhudProgress = false
+    @State private var isPkhudFailure = false
 
     var body: some View {
         let registerPayTask = RegisterPayTask()
@@ -63,14 +65,17 @@ struct ConfirmQrCodeInfoView: View {
                     Button("キャンセル"){
                     }
                     Button("決定"){
+                        isPkhudProgress = true
                         // Firestoreに貸す側のUIDをPayTaskのフィールドに送信
                         Task{
                             do{
+
                                 try await registerPayTask.addLenderUIDToFireStore(payTaskPath: documentPath)
+                                isPkhudProgress = false
                                 print("PayTasksに対してlenderUIDの送信に成功しました")
-                            }
-                            catch{
-                                print("PayTasksに対してlenderUIDの送信に失敗しました",error)
+                            } catch {
+                                isPkhudFailure = true
+                                print("PayTasksに対してlenderUIDの送信に失敗しました", error)
                             }
                         }
 
@@ -93,6 +98,8 @@ struct ConfirmQrCodeInfoView: View {
 
             Spacer(minLength: 15)
         }
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "通信中", subtitle: "通信中です。\nしばらくお待ち下さい。"), delay: .infinity)
+        .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "通信に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
     }
 }
 
