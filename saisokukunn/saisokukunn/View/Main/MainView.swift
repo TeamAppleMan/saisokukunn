@@ -32,9 +32,8 @@ struct MainView: View {
     @State var isPressedAccount: Bool = false
     @State private var totalBorrowingMoney: Int = 0
     @State private var totalLendingMoney: Int = 0
-    private var accountName: String
+    @AppStorage("userName") var userName: String = ""
 
-    @State private var toSignUpView = false
     @State private var borrowPayTaskList = [PayTask]()
     @State private var lendPayTaskList = [PayTask]()
 
@@ -42,24 +41,10 @@ struct MainView: View {
     let loadPayTask = LoadPayTask()
     let loadUser = LoadUser()
 
-    var lendPersons = [
-        Person.init(title: "お好み焼", name: "有村架純", money: 5000, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "広瀬すず", money: 2500, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "浜辺美波", money: 50000, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "新垣結衣", money: 300, stateDate: Date(), endDate: Date())
-    ]
-
-    var borrowPersons = [
-        Person.init(title: "お好み焼", name: "新田真剣佑", money: 12300, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "小栗旬", money: 1000, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "松坂桃李", money: 2000, stateDate: Date(), endDate: Date()),
-    ]
-
-    init(isActiveSignUpView: Binding<Bool>, accountName: String) {
+    init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
         UITableView.appearance().backgroundColor = .clear
         self._isActiveSignUpView = isActiveSignUpView
-        self.accountName = accountName
     }
 
     var body: some View {
@@ -69,7 +54,7 @@ struct MainView: View {
         let imageHeight = displayHeight/3.0
         let qrSystemImageName = "qrcode.viewfinder"
         let addLoanSystemImageName = "note.text.badge.plus"
-        let accountButtonSystemImageName = "chevron.down"
+        let accountButtonSystemImageName = "person.crop.circle"
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
         let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
@@ -93,7 +78,6 @@ struct MainView: View {
                             Task {
                                 do {
                                     try await registerUser.signOut()
-                                    toSignUpView = true
                                 }
                                 catch{
                                     print("サインインに失敗",error)
@@ -101,14 +85,15 @@ struct MainView: View {
                             }
                         }) {
                             HStack {
-                                Text(accountName)
+                                Image(systemName: accountButtonSystemImageName)
+                                    .foregroundColor(Color(UIColor.white))
+                                Text(userName)
                                     .font(.callout)
                                     .foregroundColor(Color(UIColor.white))
-                                Image(systemName: accountButtonSystemImageName)
-                                    .foregroundColor(Color(UIColor.gray))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.1)
                             }
-                            .padding()
-                        }
+                        }.padding()
 
 
                         Spacer()

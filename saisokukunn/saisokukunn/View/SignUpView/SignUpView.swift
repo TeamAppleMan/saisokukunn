@@ -21,6 +21,7 @@ struct SignUpView: View {
     var body: some View{
         let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
         let inputAccessoryHorizontalMargin = 25.0
+        let mainView = MainView(isActiveSignUpView: $isActiveSignUpView)
 
         let displayBounds = UIScreen.main.bounds
         let displayHeight = displayBounds.height
@@ -50,7 +51,7 @@ struct SignUpView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     }.padding(inputAccessoryHorizontalMargin)
 
-                    NavigationLink(destination: MainView(isActiveSignUpView: $isActiveSignUpView, accountName: userName), isActive: $isActiveSignUpView){
+                    NavigationLink(destination: mainView, isActive: $isActiveSignUpView){
                         Button(action: {
                             // 前後の空白を消すコード。文字数が足りなければアラート表示
                             userName = userName.trimmingCharacters(in: .whitespaces)
@@ -66,6 +67,8 @@ struct SignUpView: View {
                             Task{
                                 do{
                                     try await registerUser.signIn(userName:userName)
+                                    //UserProfile
+                                    mainView.userName = userName
                                     // MainViewへ画面遷移
                                     isPkhudProgress = false
                                     isActiveSignUpView = true
