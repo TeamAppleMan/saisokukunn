@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import PKHUD
 
 struct Person {
     var title: String
@@ -25,35 +26,22 @@ struct MainView: View {
     @State var isMainActive: Bool = false
     @EnvironmentObject var environmentData: EnvironmentData
     @Binding var isActiveSignUpView: Bool
+    @State private var isPkhudProgress = false
 
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
-    @State var isPressedAccount: Bool = false
-    @State var accountName: String = "サインアウト"
+    @State var isShowingUserDeleteAlert: Bool = false
     @State private var totalBorrowingMoney: Int = 0
     @State private var totalLendingMoney: Int = 0
+    @AppStorage("userName") var userName: String = ""
 
-    @State private var toSignUpView = false
     @State private var borrowPayTaskList = [PayTask]()
     @State private var lendPayTaskList = [PayTask]()
 
     let registerUser = RegisterUser()
     let loadPayTask = LoadPayTask()
     let loadUser = LoadUser()
-
-    var lendPersons = [
-        Person.init(title: "お好み焼", name: "有村架純", money: 5000, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "広瀬すず", money: 2500, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "浜辺美波", money: 50000, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "新垣結衣", money: 300, stateDate: Date(), endDate: Date())
-    ]
-
-    var borrowPersons = [
-        Person.init(title: "お好み焼", name: "新田真剣佑", money: 12300, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "小栗旬", money: 1000, stateDate: Date(), endDate: Date()),
-        Person.init(title: "お好み焼", name: "松坂桃李", money: 2000, stateDate: Date(), endDate: Date()),
-    ]
 
     init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
@@ -68,7 +56,7 @@ struct MainView: View {
         let imageHeight = displayHeight/3.0
         let qrSystemImageName = "qrcode.viewfinder"
         let addLoanSystemImageName = "note.text.badge.plus"
-        let accountButtonSystemImageName = "chevron.down"
+        let accountButtonSystemImageName = "person.crop.circle"
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
         let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
@@ -87,27 +75,41 @@ struct MainView: View {
 
                         // サインアウトボタン
                         Button(action: {
-                            isActiveSignUpView = false
-                            isPressedAccount.toggle()
-                            Task {
-                                do {
-                                    try await registerUser.signOut()
-                                    toSignUpView = true
-                                }
-                                catch{
-                                    print("サインインに失敗",error)
-                                }
-                            }
+                            isShowingUserDeleteAlert = true
                         }) {
                             HStack {
-                                Text("サインアウト")
+                                Image(systemName: accountButtonSystemImageName)
+                                    .foregroundColor(Color(UIColor.white))
+                                Text(userName)
                                     .font(.callout)
                                     .foregroundColor(Color(UIColor.white))
-                                Image(systemName: accountButtonSystemImageName)
-                                    .foregroundColor(Color(UIColor.gray))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.1)
                             }
-                            .padding()
+                        }.alert(isPresented: $isShowingUserDeleteAlert) {
+                            Alert(
+                                title: Text("アカウント削除"),
+                                message: Text("アカウントが完全に削除されます。\nこの操作は取り消せません。"),
+                                primaryButton: .cancel(Text("キャンセル"), action: {
+                                    isShowingUserDeleteAlert = false
+                                }),
+                                secondaryButton: .destructive(Text("削除"), action: {
+                                    isPkhudProgress = true
+                                    Task {
+                                        do {
+                                            try await registerUser.signOut()
+                                            isPkhudProgress = false
+                                            isActiveSignUpView = false
+                                        }
+                                        catch{
+                                            print("サインインに失敗",error)
+                                        }
+                                    }
+
+                                })
+                            )
                         }
+                        .padding()
 
 
                         Spacer()
@@ -219,8 +221,8 @@ struct MainView: View {
                                                          person: borrowPayTaskList[index].lenderUserName ?? "",
                                                          money: borrowPayTaskList[index].money,
                                                          limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
-                                                .frame(height: 70)
-                                                .listRowBackground(Color.clear)
+                                            .frame(height: 70)
+                                            .listRowBackground(Color.clear)
                                         }
                                     }.listRowSeparator(.hidden)
                                 }
@@ -246,27 +248,47 @@ struct MainView: View {
 
                         } else {
 
-                            // TODO: List空時に表示させる画像は、貸してくれるListに限って未設定。変数完成後実装させる。
-                            List{
-                                Section {
-                                    // TODO: QRスキャン後に表示したい（近藤タスク）
-                                    ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
-                                        LoanListView(title: lendPayTaskList[index].title,
-                                                     person: lendPayTaskList[index].borrowerUserName ?? "",
-                                                     money: lendPayTaskList[index].money,
-                                                     limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
+                            if lendPayTaskList.count != 0 {
+                                // TODO: List空時に表示させる画像は、貸してくれるListに限って未設定。変数完成後実装させる。
+                                List{
+                                    Section {
+                                        // TODO: QRスキャン後に表示したい（近藤タスク）
+                                        ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
+                                            LoanListView(title: lendPayTaskList[index].title,
+                                                         person: lendPayTaskList[index].borrowerUserName ?? "",
+                                                         money: lendPayTaskList[index].money,
+                                                         limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
                                             .frame(height: 70)
                                             .listRowBackground(Color.clear)
-                                    }
-                                }.listRowSeparator(.hidden)
+                                        }
+                                    }.listRowSeparator(.hidden)
+                                }
+                                .listStyle(.insetGrouped)
+                                .ignoresSafeArea()
+                            } else {
+                                Spacer()
+                                VStack(alignment: .center) {
+                                    Image("ManWithMan")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: imageHeight, alignment: .center)
+
+                                    Text("現在、誰にもお金を貸していません")
+                                        .foregroundColor(textColor)
+                                        .font(.callout)
+
+                                }
+                                .listStyle(.insetGrouped)
+                                .ignoresSafeArea()
+                                Spacer()
                             }
-                            .listStyle(.insetGrouped)
-                            .ignoresSafeArea()
                         }
                     }
                 }
             }
-        }.onAppear{
+        }
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
+        .onAppear{
             // Firestoreから借りているPayTaskの情報を取得する
             loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
@@ -298,22 +320,22 @@ struct MainView: View {
     }
 }
 
-    // TODO: 他のモデルにぶっ込みたい
-    private func createLimitDay(endTime: Timestamp) -> Int {
-        let endDate = endTime.dateValue()
-        let now = Date()
-        let limit = endDate.timeIntervalSince(now)
-        var limitDay = Int(limit/60/60/24)
-        if(limit>0){
-            limitDay += 1
-        }else{
-            limitDay = 0
-        }
-        return Int(limitDay)
+// TODO: 他のモデルにぶっ込みたい
+private func createLimitDay(endTime: Timestamp) -> Int {
+    let endDate = endTime.dateValue()
+    let now = Date()
+    let limit = endDate.timeIntervalSince(now)
+    var limitDay = Int(limit/60/60/24)
+    if(limit>0){
+        limitDay += 1
+    }else{
+        limitDay = 0
     }
+    return Int(limitDay)
+}
 
-    //struct MainView_Previews: PreviewProvider {
-    //    static var previews: some View {
-    //        MainView()
-    //    }
-    //}
+//struct MainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainView()
+//    }
+//}
