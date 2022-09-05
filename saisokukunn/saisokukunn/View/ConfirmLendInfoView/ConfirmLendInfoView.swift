@@ -13,7 +13,6 @@ struct ConfirmLendInfoView: View {
     @Binding var money: String
     @Binding var endTime: Date
     @State private var toCreateQrCodeView = false
-    //@State private var isPresentedProgressView = false
     @State private var isPkhudProgress = false
     @State private var isPkhudFailure = false
     @State var createdQrImage: Image
@@ -93,8 +92,9 @@ struct ConfirmLendInfoView: View {
                                     toCreateQrCodeView = true
 
                                 } catch {
+                                    isPkhudProgress = false
                                     isPkhudFailure = true
-                                    print("PayTaskの登録エラー",error)
+                                    print("PayTaskの登録エラー", error)
                                 }
                             }
                         }

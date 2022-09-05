@@ -71,6 +71,7 @@ struct SignUpView: View {
                                     isActiveSignUpView = true
                                 }
                                 catch{
+                                    isPkhudProgress = false
                                     isPkhudFailure = true
                                 }
                             }
