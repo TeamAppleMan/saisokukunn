@@ -221,8 +221,8 @@ struct MainView: View {
                                                          person: borrowPayTaskList[index].lenderUserName ?? "",
                                                          money: borrowPayTaskList[index].money,
                                                          limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
-                                                .frame(height: 70)
-                                                .listRowBackground(Color.clear)
+                                            .frame(height: 70)
+                                            .listRowBackground(Color.clear)
                                         }
                                     }.listRowSeparator(.hidden)
                                 }
@@ -248,22 +248,40 @@ struct MainView: View {
 
                         } else {
 
-                            // TODO: List空時に表示させる画像は、貸してくれるListに限って未設定。変数完成後実装させる。
-                            List{
-                                Section {
-                                    // TODO: QRスキャン後に表示したい（近藤タスク）
-                                    ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
-                                        LoanListView(title: lendPayTaskList[index].title,
-                                                     person: lendPayTaskList[index].borrowerUserName ?? "",
-                                                     money: lendPayTaskList[index].money,
-                                                     limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
+                            if lendPayTaskList.count != 0 {
+                                // TODO: List空時に表示させる画像は、貸してくれるListに限って未設定。変数完成後実装させる。
+                                List{
+                                    Section {
+                                        // TODO: QRスキャン後に表示したい（近藤タスク）
+                                        ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
+                                            LoanListView(title: lendPayTaskList[index].title,
+                                                         person: lendPayTaskList[index].borrowerUserName ?? "",
+                                                         money: lendPayTaskList[index].money,
+                                                         limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
                                             .frame(height: 70)
                                             .listRowBackground(Color.clear)
-                                    }
-                                }.listRowSeparator(.hidden)
+                                        }
+                                    }.listRowSeparator(.hidden)
+                                }
+                                .listStyle(.insetGrouped)
+                                .ignoresSafeArea()
+                            } else {
+                                Spacer()
+                                VStack(alignment: .center) {
+                                    Image("ManWithMan")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: imageHeight, alignment: .center)
+
+                                    Text("現在、誰にもお金を貸していません")
+                                        .foregroundColor(textColor)
+                                        .font(.callout)
+
+                                }
+                                .listStyle(.insetGrouped)
+                                .ignoresSafeArea()
+                                Spacer()
                             }
-                            .listStyle(.insetGrouped)
-                            .ignoresSafeArea()
                         }
                     }
                 }
@@ -302,22 +320,22 @@ struct MainView: View {
     }
 }
 
-    // TODO: 他のモデルにぶっ込みたい
-    private func createLimitDay(endTime: Timestamp) -> Int {
-        let endDate = endTime.dateValue()
-        let now = Date()
-        let limit = endDate.timeIntervalSince(now)
-        var limitDay = Int(limit/60/60/24)
-        if(limit>0){
-            limitDay += 1
-        }else{
-            limitDay = 0
-        }
-        return Int(limitDay)
+// TODO: 他のモデルにぶっ込みたい
+private func createLimitDay(endTime: Timestamp) -> Int {
+    let endDate = endTime.dateValue()
+    let now = Date()
+    let limit = endDate.timeIntervalSince(now)
+    var limitDay = Int(limit/60/60/24)
+    if(limit>0){
+        limitDay += 1
+    }else{
+        limitDay = 0
     }
+    return Int(limitDay)
+}
 
-    //struct MainView_Previews: PreviewProvider {
-    //    static var previews: some View {
-    //        MainView()
-    //    }
-    //}
+//struct MainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainView()
+//    }
+//}
