@@ -82,6 +82,7 @@
 		87B44E6C28BAFF3F00928374 /* UIAplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAplication.swift; sourceTree = "<group>"; };
 		87B44E6E28BB07C200928374 /* LendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendInfoView.swift; sourceTree = "<group>"; };
 		87B44E7028BB39E900928374 /* DateToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToString.swift; sourceTree = "<group>"; };
+		87B4C90E28C5F3FE00083A3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowButtonView.swift; sourceTree = "<group>"; };
 		9529C3E028BC452000EA4314 /* QrCodeBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeBoxView.swift; sourceTree = "<group>"; };
 		95345ED128B368D3006FAA96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -268,6 +269,7 @@
 		D4B1784D28B0FF55005F6EC4 /* saisokukunn */ = {
 			isa = PBXGroup;
 			children = (
+				87B4C90E28C5F3FE00083A3B /* Info.plist */,
 				D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */,
 				95345ED128B368D3006FAA96 /* AppDelegate.swift */,
 				95345ED328B36925006FAA96 /* GoogleService-Info.plist */,
@@ -639,6 +641,7 @@
 				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = saisokukunn/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "QRコードをスキャンするために使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -671,6 +674,7 @@
 				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = saisokukunn/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "QRコードをスキャンするために使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

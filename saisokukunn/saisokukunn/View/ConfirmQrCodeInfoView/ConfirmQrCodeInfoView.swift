@@ -51,7 +51,7 @@ struct ConfirmQrCodeInfoView: View {
                     self.showingAlert = true
                 }) {
                     HStack(spacing: 5) {
-                        Text("貸りる")
+                        Text("貸す")
                         Image(systemName: "checkmark")
                     }
                     .font(.title3)
@@ -83,14 +83,15 @@ struct ConfirmQrCodeInfoView: View {
                         environmentData.isMainActiveEnvironment.wrappedValue = false
                     }
                 } message: {
-                    Text("本当にこの内容でよろしいですか？")
+                    Text("本当に貸してよろしいですか？")
                 }
                 .offset(x: qrcodeButtonOffsetXSize, y: qrcodeButtonOffsetYSize)
             }
 
             VStack(spacing: 0) {
-                Text("締め切り３日前から、催促通知が届きます。")
-                Text("アプリの通知をオンにしておきましょう。")
+                Text("締め切り３日前から")
+                Text("借りる相手に催促通知が届きます。")
+                Text("相手のアプリ通知がオンか確認しましょう。")
             }
             .font(.callout)
             .foregroundColor(textColor)
@@ -103,10 +104,10 @@ struct ConfirmQrCodeInfoView: View {
     }
 }
 
-struct ConfirmQrCodeInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView{
-            ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "25000", endTime: Date(), documentPath: "ダミー")
-        }
-    }
-}
+//struct ConfirmQrCodeInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView{
+//            ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "25000", endTime: Date(), documentPath: "ダミー")
+//        }
+//    }
+//}
