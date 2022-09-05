@@ -30,9 +30,9 @@ struct MainView: View {
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
     @State var isPressedAccount: Bool = false
-    @State var accountName: String = "サインアウト"
     @State private var totalBorrowingMoney: Int = 0
     @State private var totalLendingMoney: Int = 0
+    private var accountName: String
 
     @State private var toSignUpView = false
     @State private var borrowPayTaskList = [PayTask]()
@@ -55,10 +55,11 @@ struct MainView: View {
         Person.init(title: "お好み焼", name: "松坂桃李", money: 2000, stateDate: Date(), endDate: Date()),
     ]
 
-    init(isActiveSignUpView: Binding<Bool>) {
+    init(isActiveSignUpView: Binding<Bool>, accountName: String) {
         //List全体の背景色の設定
         UITableView.appearance().backgroundColor = .clear
         self._isActiveSignUpView = isActiveSignUpView
+        self.accountName = accountName
     }
 
     var body: some View {
@@ -100,7 +101,7 @@ struct MainView: View {
                             }
                         }) {
                             HStack {
-                                Text("サインアウト")
+                                Text(accountName)
                                     .font(.callout)
                                     .foregroundColor(Color(UIColor.white))
                                 Image(systemName: accountButtonSystemImageName)

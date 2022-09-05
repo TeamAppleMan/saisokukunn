@@ -50,15 +50,15 @@ struct SignUpView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     }.padding(inputAccessoryHorizontalMargin)
 
-                    NavigationLink(destination: MainView(isActiveSignUpView: $isActiveSignUpView), isActive: $isActiveSignUpView){
+                    NavigationLink(destination: MainView(isActiveSignUpView: $isActiveSignUpView, accountName: userName), isActive: $isActiveSignUpView){
                         Button(action: {
                             // 前後の空白を消すコード。文字数が足りなければアラート表示
                             userName = userName.trimmingCharacters(in: .whitespaces)
-                            if userName.isEmpty {
+                            if 3 <= userName.count && userName.count <= 10 {
+                                isNotCharactersAlert = false
+                            } else {
                                 isNotCharactersAlert = true
                                 return
-                            } else {
-                                isNotCharactersAlert = false
                             }
 
                             // PKHUDの表示
@@ -88,7 +88,7 @@ struct SignUpView: View {
                             Button("確認"){
                             }
                         } message: {
-                            Text("１文字以上入力して下さい。")
+                            Text("3文字〜10文字で入力して下さい。")
                         }
 
                     }
