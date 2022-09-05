@@ -7,11 +7,14 @@
 
 import SwiftUI
 import FirebaseAuth
+import PKHUD
 
 struct SignUpView: View {
     @State private var isActiveSignUpView = false
     @State private var userName = String()
-    @State private var isPresentedProgressView = false
+    @State private var isPkhudProgress = false
+    @State private var isPkhudFailure = false
+    @State private var isNotCharactersAlert = false
 
     let registerUser = RegisterUser()
 
@@ -37,14 +40,6 @@ struct SignUpView: View {
                     }
                 }.padding(.bottom, 50)
 
-                // インジケータ
-                ZStack{
-                    if isPresentedProgressView{
-                        ProgressView()
-                            .scaleEffect(x: 2,y: 2, anchor: .center)
-                    }
-                }
-
                 // 下半分をインプット部分
                 VStack {
 
@@ -52,21 +47,30 @@ struct SignUpView: View {
                         Text("表示名")
                             .foregroundColor(textColor)
                         TextField("表示名を入力して下さい。",text: $userName)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                     }.padding(inputAccessoryHorizontalMargin)
 
                     NavigationLink(destination: MainView(isActiveSignUpView: $isActiveSignUpView), isActive: $isActiveSignUpView){
                         Button(action: {
-                            isPresentedProgressView.toggle()
+                            // 前後の空白を消すコード
+                            userName = userName.trimmingCharacters(in: .whitespaces)
+                            if userName.isEmpty {
+                                isNotCharactersAlert = true
+                                return
+                            } else {
+                                isNotCharactersAlert = false
+                            }
+
+                            isPkhudProgress = true
                             Task{
                                 do{
                                     try await registerUser.signIn(userName:userName)
                                     // MainViewへ画面遷移
-                                    isPresentedProgressView.toggle()
+                                    isPkhudProgress = false
                                     isActiveSignUpView = true
                                 }
                                 catch{
-                                    print("サインインに失敗しました")
+                                    isPkhudFailure = true
                                 }
                             }
                         }) {
@@ -78,14 +82,25 @@ struct SignUpView: View {
                                 .cornerRadius(25)
                                 .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
                                 .padding()
+                        }.alert("エラー", isPresented: $isNotCharactersAlert){
+                            Button("キャンセル"){
+                            }
+                            Button("確認"){
+                            }
+                        } message: {
+                            Text("１文字以上入力して下さい")
                         }
+
                     }
 
                    Spacer()
 
                 }
 
-            }.onAppear {
+            }
+            .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "作成中", subtitle: "アカウントを作成中です"), delay: .infinity)
+            .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "失敗", subtitle: "アカウント作成に失敗しました"), delay: .infinity)
+            .onAppear {
                 // uidが存在するならMainViewへ移動
                 if let uid = Auth.auth().currentUser?.uid {
                     print("uid:",uid)
