@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import PKHUD
 
 struct Person {
     var title: String
@@ -25,11 +26,12 @@ struct MainView: View {
     @State var isMainActive: Bool = false
     @EnvironmentObject var environmentData: EnvironmentData
     @Binding var isActiveSignUpView: Bool
+    @State private var isPkhudProgress = false
 
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
-    @State var isPressedAccount: Bool = false
+    @State var isShowingUserDeleteAlert: Bool = false
     @State private var totalBorrowingMoney: Int = 0
     @State private var totalLendingMoney: Int = 0
     @AppStorage("userName") var userName: String = ""
@@ -73,16 +75,7 @@ struct MainView: View {
 
                         // サインアウトボタン
                         Button(action: {
-                            isActiveSignUpView = false
-                            isPressedAccount.toggle()
-                            Task {
-                                do {
-                                    try await registerUser.signOut()
-                                }
-                                catch{
-                                    print("サインインに失敗",error)
-                                }
-                            }
+                            isShowingUserDeleteAlert = true
                         }) {
                             HStack {
                                 Image(systemName: accountButtonSystemImageName)
@@ -93,7 +86,30 @@ struct MainView: View {
                                     .lineLimit(1)
                                     .minimumScaleFactor(0.1)
                             }
-                        }.padding()
+                        }.alert(isPresented: $isShowingUserDeleteAlert) {
+                            Alert(
+                                title: Text("アカウント削除"),
+                                message: Text("アカウントが完全に削除されます。\nこの操作は取り消せません。"),
+                                primaryButton: .cancel(Text("キャンセル"), action: {
+                                    isShowingUserDeleteAlert = false
+                                }),
+                                secondaryButton: .destructive(Text("削除"), action: {
+                                    isPkhudProgress = true
+                                    Task {
+                                        do {
+                                            try await registerUser.signOut()
+                                            isPkhudProgress = false
+                                            isActiveSignUpView = false
+                                        }
+                                        catch{
+                                            print("サインインに失敗",error)
+                                        }
+                                    }
+
+                                })
+                            )
+                        }
+                        .padding()
 
 
                         Spacer()
@@ -252,7 +268,9 @@ struct MainView: View {
                     }
                 }
             }
-        }.onAppear{
+        }
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
+        .onAppear{
             // Firestoreから借りているPayTaskの情報を取得する
             loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
