@@ -75,12 +75,26 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
     }
 
     func qrScannerView(_ qrScannerView: QRScannerView, didSuccess code: String)  {
+
+        // コードに"/"が含まれていればアラート。FireBaseの通信的に何故か"/"でクラッシュする。
+        if code.contains("/") {
+            showInvalidAlert()
+            return
+        }
+
         // code（= documentPath)を元にFirestoreからPayTaskを取得
         loadPayTask.fetchPayTask(documentPath: code) { payTask, error in
             if let error = error {
                 print("PayTaskの取得に失敗",error)
             }
-            guard let payTask = payTask else { return }
+            if payTask == nil && error == nil {
+                self.showInvalidAlert()
+                return
+            }
+            guard let payTask = payTask else {
+                self.showInvalidAlert()
+                return
+            }
 
             // 取得したPayTaskの送信
             let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: payTask.title, lendPerson: payTask.borrowerUserName ?? "", money: String(payTask.money), endTime: payTask.endTime.dateValue(),documentPath: code))
@@ -102,19 +116,10 @@ private extension QrCodeScannerViewController {
         })
     }
 
-    func showAlert(code: String) {
-        let alertController = UIAlertController(title: code, message: nil, preferredStyle: .actionSheet)
-        let copyAction = UIAlertAction(title: "Copy", style: .default) { [weak self] _ in
-            UIPasteboard.general.string = code
-            self?.qrScannerView.rescan()
-        }
-        alertController.addAction(copyAction)
-        let searchWebAction = UIAlertAction(title: "Search Web", style: .default) { [weak self] _ in
-            UIApplication.shared.open(URL(string: "https://www.google.com/search?q=\(code)")!, options: [:], completionHandler: nil)
-            self?.qrScannerView.rescan()
-        }
-        alertController.addAction(searchWebAction)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] _ in
+    func showInvalidAlert() {
+        let alertController = UIAlertController(title: "無効なQRコード", message: "正しいQRコードを再度スキャンして下さい。", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
             self?.qrScannerView.rescan()
         })
         alertController.addAction(cancelAction)

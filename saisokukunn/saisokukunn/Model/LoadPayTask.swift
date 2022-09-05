@@ -66,13 +66,19 @@ class LoadPayTask {
     }
 
     func fetchPayTask(documentPath: String, completion: @escaping(PayTask?,Error?) -> Void) {
+
         db.collection("PayTasks").document(documentPath).getDocument { snapShot, error in
             if let error = error {
                 print("FirestoreからPayTaskの取得に失敗しました",error)
-                completion(nil,error)
+                completion(nil, error)
                 return
             }
-            guard let data = snapShot?.data() else { return }
+
+            // 通信ができてもdataが空なら通信エラーにする。
+            guard let data = snapShot?.data() else {
+                completion(nil, error)
+                return
+            }
             var payTask = PayTask(dic: data)
             payTask.borrowerUserName = data["borrowerUserName"] as? String
             completion(payTask,nil)
