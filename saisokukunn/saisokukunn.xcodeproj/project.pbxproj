@@ -20,6 +20,7 @@
 		87318DB228B3136200609C6B /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB128B3136200609C6B /* SignUpView.swift */; };
 		87318DB828B318BC00609C6B /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB728B318BC00609C6B /* ViewExtension.swift */; };
 		87318DBA28B3192700609C6B /* LoanListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB928B3192700609C6B /* LoanListView.swift */; };
+		8739303C28C5B3DA00624FCB /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8739303B28C5B3DA00624FCB /* PKHUD */; };
 		87B44E6D28BAFF3F00928374 /* UIAplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6C28BAFF3F00928374 /* UIAplication.swift */; };
 		87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6E28BB07C200928374 /* LendInfoView.swift */; };
 		87B44E7128BB39E900928374 /* DateToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E7028BB39E900928374 /* DateToString.swift */; };
@@ -109,6 +110,7 @@
 				95345ECE28B36801006FAA96 /* FirebaseAuth in Frameworks */,
 				95E673A528BDCA9400A42B2A /* Alamofire in Frameworks */,
 				8715EB3B28BD05310080E6B0 /* QRScanner in Frameworks */,
+				8739303C28C5B3DA00624FCB /* PKHUD in Frameworks */,
 				95E673A828BDCAC600A42B2A /* SwiftyJSON in Frameworks */,
 				95345ED028B36801006FAA96 /* FirebaseFirestore in Frameworks */,
 			);
@@ -322,6 +324,7 @@
 				8715EB3A28BD05310080E6B0 /* QRScanner */,
 				95E673A428BDCA9400A42B2A /* Alamofire */,
 				95E673A728BDCAC600A42B2A /* SwiftyJSON */,
+				8739303B28C5B3DA00624FCB /* PKHUD */,
 			);
 			productName = saisokukunn;
 			productReference = D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */;
@@ -400,6 +403,7 @@
 				8715EB3928BD05310080E6B0 /* XCRemoteSwiftPackageReference "QRScanner" */,
 				95E673A328BDCA9400A42B2A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				95E673A628BDCAC600A42B2A /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				8739303A28C5B3DA00624FCB /* XCRemoteSwiftPackageReference "PKHUD" */,
 			);
 			productRefGroup = D4B1784C28B0FF55005F6EC4 /* Products */;
 			projectDirPath = "";
@@ -810,6 +814,14 @@
 				kind = branch;
 			};
 		};
+		8739303A28C5B3DA00624FCB /* XCRemoteSwiftPackageReference "PKHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pkluz/PKHUD";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		95345ECC28B36801006FAA96 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -841,6 +853,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8715EB3928BD05310080E6B0 /* XCRemoteSwiftPackageReference "QRScanner" */;
 			productName = QRScanner;
+		};
+		8739303B28C5B3DA00624FCB /* PKHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8739303A28C5B3DA00624FCB /* XCRemoteSwiftPackageReference "PKHUD" */;
+			productName = PKHUD;
 		};
 		95345ECD28B36801006FAA96 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
