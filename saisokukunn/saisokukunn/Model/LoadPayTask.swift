@@ -70,6 +70,7 @@ class LoadPayTask {
             if let error = error {
                 print("FirestoreからPayTaskの取得に失敗しました",error)
                 completion(nil,error)
+                return
             }
             guard let data = snapShot?.data() else { return }
             var payTask = PayTask(dic: data)
