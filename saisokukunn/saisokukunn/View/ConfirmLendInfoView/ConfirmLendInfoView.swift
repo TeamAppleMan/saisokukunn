@@ -13,7 +13,9 @@ struct ConfirmLendInfoView: View {
     @Binding var money: String
     @Binding var endTime: Date
     @State private var toCreateQrCodeView = false
-    @State private var isPresentedProgressView = false
+    //@State private var isPresentedProgressView = false
+    @State private var isPkhudProgress = false
+    @State private var isPkhudFailure = false
     @State var createdQrImage: Image
     var userName = String()
 
@@ -59,15 +61,7 @@ struct ConfirmLendInfoView: View {
             }.padding(.bottom, 50)
             Spacer()
 
-
             VStack {
-                ZStack{
-                    if isPresentedProgressView {
-                            ProgressView()
-                                .scaleEffect(x: 2,y: 2, anchor: .center)
-                                .padding(10)
-                    }
-                }
 
                 LendInfoView(title: title, money: money, endTime: endTime)
                     .frame(width: squareTextBoxSize, height: squareTextBoxSize)
@@ -82,7 +76,7 @@ struct ConfirmLendInfoView: View {
                         .cornerRadius(40)
                         .shadow(color: qrcodeButtonShadowColor, radius: 10)
                         .onTapGesture {
-                            isPresentedProgressView.toggle()
+                            isPkhudProgress = true
                             Task{
                                 do{
                                     // paytaskのドキュメントID発行
@@ -93,12 +87,13 @@ struct ConfirmLendInfoView: View {
                                     createdQrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
                                     try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
+
+                                    isPkhudProgress = false
                                     // CreateQrCodeの画面に遷移
                                     toCreateQrCodeView = true
 
-                                    // Progress停止
-                                    isPresentedProgressView.toggle()
                                 } catch {
+                                    isPkhudFailure = true
                                     print("PayTaskの登録エラー",error)
                                 }
                             }
@@ -110,6 +105,8 @@ struct ConfirmLendInfoView: View {
 
             Spacer()
         }
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "QR作成中", subtitle: "QRコードを作成中です"), delay: .infinity)
+        .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "QR作成に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
     }
 }
 
