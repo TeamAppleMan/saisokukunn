@@ -327,7 +327,7 @@ struct MainView: View {
                     print("borrowPayTasksの取得に失敗",error)
                 }
                 guard let borrowPayTasks = borrowPayTasks else { return }
-                borrowPayTaskList = borrowPayTasks
+                borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
                 // 借りている合計金額の表示
                 totalBorrowingMoney = 0
                 borrowPayTasks.forEach { borrowPayTask in
@@ -341,7 +341,7 @@ struct MainView: View {
                     print("lendPayTaskのドキュメントid取得に失敗",error)
                 }
                 guard let lendPayTasks = lendPayTasks else { return }
-                lendPayTaskList = lendPayTasks
+                lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
                 // 貸してる合計金額の表示
                 totalLendingMoney = 0
                 lendPayTasks.forEach { lendPayTask in
@@ -373,6 +373,18 @@ private func createStringDate(timestamp: Timestamp) -> String {
     let dateString = formatter.string(from: date)
 
     return dateString
+}
+
+private func sortPayTasks(paytasks: [PayTask]) -> [PayTask] {
+
+    var tasks = [PayTask]()
+    let aaa = paytasks.sorted(by: { (a, b) -> Bool in
+        return a.endTime.dateValue() < b.endTime.dateValue()
+    })
+    for data in aaa {
+        tasks.append(data)
+    }
+    return tasks
 }
 
 //struct MainView_Previews: PreviewProvider {
