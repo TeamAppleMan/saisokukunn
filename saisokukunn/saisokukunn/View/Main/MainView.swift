@@ -31,7 +31,9 @@ struct MainView: View {
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
-    @State var isShowingUserDeleteAlert: Bool = false
+    @State private var isBorrowInfoAlert: Bool = false
+    @State private var isLendInfoAlert: Bool = false
+    @State private var isShowingUserDeleteAlert: Bool = false
     @State private var totalBorrowingMoney: Int = 0
     @State private var totalLendingMoney: Int = 0
     @AppStorage("userName") var userName: String = ""
@@ -217,12 +219,27 @@ struct MainView: View {
                                     Section {
                                         // 借り手の残高を表示
                                         ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
-                                            LoanListView(title: borrowPayTaskList[index].title,
-                                                         person: borrowPayTaskList[index].lenderUserName ?? "",
-                                                         money: borrowPayTaskList[index].money,
-                                                         limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
-                                            .frame(height: 70)
-                                            .listRowBackground(Color.clear)
+                                            Button(action: {
+                                                self.isBorrowInfoAlert = true
+                                            }, label: {
+                                                LoanListView(title: borrowPayTaskList[index].title,
+                                                             person: borrowPayTaskList[index].lenderUserName ?? "",
+                                                             money: borrowPayTaskList[index].money,
+                                                             limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
+                                                .frame(height: 70)
+                                                .listRowBackground(Color.clear)
+                                            }).alert(isPresented: self.$isBorrowInfoAlert) {
+                                                Alert(title: Text("借りている詳細"),
+                                                      message: Text("""
+                                                                    \(createStringDate(timestamp: borrowPayTaskList[index].createdAt))〜\(createStringDate(timestamp: borrowPayTaskList[index].endTime))
+                                                                    \(borrowPayTaskList[index].title)
+                                                                    \(borrowPayTaskList[index].money)円
+                                                                    \(borrowPayTaskList[index].lenderUserName ?? "")さん
+                                                                    残り\(createLimitDay(endTime: borrowPayTaskList[index].endTime))日
+                                                                    """),
+                                                      dismissButton: .default(Text("OK"))
+                                                )
+                                            }
                                         }
                                     }.listRowSeparator(.hidden)
                                 }
@@ -254,12 +271,27 @@ struct MainView: View {
                                     Section {
                                         // TODO: QRスキャン後に表示したい（近藤タスク）
                                         ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
-                                            LoanListView(title: lendPayTaskList[index].title,
-                                                         person: lendPayTaskList[index].borrowerUserName ?? "",
-                                                         money: lendPayTaskList[index].money,
-                                                         limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
-                                            .frame(height: 70)
-                                            .listRowBackground(Color.clear)
+                                            Button(action: {
+                                                self.isLendInfoAlert = true
+                                            }, label: {
+                                                LoanListView(title: lendPayTaskList[index].title,
+                                                             person: lendPayTaskList[index].borrowerUserName ?? "",
+                                                             money: lendPayTaskList[index].money,
+                                                             limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
+                                                .frame(height: 70)
+                                                .listRowBackground(Color.clear)
+                                            }).alert(isPresented: self.$isLendInfoAlert) {
+                                                Alert(title: Text("貸している詳細"),
+                                                      message: Text("""
+                                                                    \(createStringDate(timestamp: lendPayTaskList[index].createdAt))〜\(createStringDate(timestamp: lendPayTaskList[index].endTime))
+                                                                    \(lendPayTaskList[index].title)
+                                                                    \(lendPayTaskList[index].money)円
+                                                                    \(lendPayTaskList[index].borrowerUserName ?? "")さん
+                                                                    残り\(createLimitDay(endTime: lendPayTaskList[index].endTime))日
+                                                                    """),
+                                                      dismissButton: .default(Text("OK"))
+                                                )
+                                            }
                                         }
                                     }.listRowSeparator(.hidden)
                                 }
@@ -295,7 +327,7 @@ struct MainView: View {
                     print("borrowPayTasksの取得に失敗",error)
                 }
                 guard let borrowPayTasks = borrowPayTasks else { return }
-                borrowPayTaskList = borrowPayTasks
+                borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
                 // 借りている合計金額の表示
                 totalBorrowingMoney = 0
                 borrowPayTasks.forEach { borrowPayTask in
@@ -309,7 +341,7 @@ struct MainView: View {
                     print("lendPayTaskのドキュメントid取得に失敗",error)
                 }
                 guard let lendPayTasks = lendPayTasks else { return }
-                lendPayTaskList = lendPayTasks
+                lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
                 // 貸してる合計金額の表示
                 totalLendingMoney = 0
                 lendPayTasks.forEach { lendPayTask in
@@ -332,6 +364,27 @@ private func createLimitDay(endTime: Timestamp) -> Int {
         limitDay = 0
     }
     return Int(limitDay)
+}
+
+private func createStringDate(timestamp: Timestamp) -> String {
+    let date: Date = timestamp.dateValue()
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd"
+    let dateString = formatter.string(from: date)
+
+    return dateString
+}
+
+private func sortPayTasks(paytasks: [PayTask]) -> [PayTask] {
+
+    var tasks = [PayTask]()
+    let aaa = paytasks.sorted(by: { (a, b) -> Bool in
+        return a.endTime.dateValue() < b.endTime.dateValue()
+    })
+    for data in aaa {
+        tasks.append(data)
+    }
+    return tasks
 }
 
 //struct MainView_Previews: PreviewProvider {
