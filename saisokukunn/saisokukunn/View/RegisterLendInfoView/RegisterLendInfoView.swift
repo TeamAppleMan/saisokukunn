@@ -45,7 +45,7 @@ struct RegisterLendInfoView: View {
                     .font(.callout)
                     .foregroundColor(titleTextColor)
                     .padding(.leading, textHorizontalMargin)
-                TextField("お金を貸すタイトル", text: $title)
+                TextField("お金を借りるタイトル", text: $title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
 
@@ -53,7 +53,7 @@ struct RegisterLendInfoView: View {
                     .font(.callout)
                     .foregroundColor(titleTextColor)
                     .padding(.leading, textHorizontalMargin)
-                TextField("貸す金額", text: $money)
+                TextField("借りる金額", text: $money)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.numberPad)
                     .padding([.leading, .bottom, .trailing], inputAccessoryHorizontalMargin)
