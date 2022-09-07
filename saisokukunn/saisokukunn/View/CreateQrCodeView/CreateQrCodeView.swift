@@ -61,7 +61,6 @@ struct CreateQrCodeView: View {
                     }
 
                     if let _ = borrowPayTasks?.lenderUID, let _ = borrowPayTasks?.lenderUserName {
-                        print()
                         environmentData.isBorrowViewActiveEnvironment.wrappedValue = false
                     }
                 })
@@ -69,6 +68,10 @@ struct CreateQrCodeView: View {
         }
         .onDisappear {
             timer?.invalidate()
+            // 画面がMainへ直接遷移した際にPKHUDの出力。
+            if !environmentData.isBorrowViewActiveEnvironment.wrappedValue {
+                environmentData.isAddDataPkhudAlert = true
+            }
         }
 
     }

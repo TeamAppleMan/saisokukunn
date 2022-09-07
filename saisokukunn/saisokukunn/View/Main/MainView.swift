@@ -18,6 +18,7 @@ enum LendListAlertType {
 class EnvironmentData: ObservableObject {
     @Published var isBorrowViewActiveEnvironment: Binding<Bool> = Binding<Bool>.constant(false)
     @Published var isLendViewActiveEnvironment: Binding<Bool> = Binding<Bool>.constant(false)
+    @Published var isAddDataPkhudAlert: Bool = false
 }
 
 struct MainView: View {
@@ -353,6 +354,7 @@ struct MainView: View {
                 }
             }
             .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
+            .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .labeledSuccess(title: "成功", subtitle: "データが追加されました"), delay: 1.5)
             .onAppear {
                 loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                     if let error = error {

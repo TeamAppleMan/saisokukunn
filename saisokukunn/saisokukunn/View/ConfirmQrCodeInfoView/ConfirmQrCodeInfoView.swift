@@ -98,6 +98,11 @@ struct ConfirmQrCodeInfoView: View {
         }
         .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "通信中", subtitle: "通信中です。\nしばらくお待ち下さい。"), delay: .infinity)
         .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "通信に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
+        .onDisappear {
+            if !environmentData.isLendViewActiveEnvironment.wrappedValue {
+                environmentData.isAddDataPkhudAlert = true
+            }
+        }
     }
 }
 
