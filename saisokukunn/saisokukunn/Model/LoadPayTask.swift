@@ -85,5 +85,27 @@ class LoadPayTask {
         }
     }
 
+    // QRコード出力画面で連続的に通信を行い、相手の情報がnilでなくなった場合に画面遷移する部分で使う
+    func fetchLinkPayTask(documentPath: String, completion: @escaping(PayTask?, Error?) -> Void)  {
+
+        db.collection("PayTasks").document(documentPath).getDocument { snapShot, error in
+            if let error = error {
+                print("FirestoreからPayTaskの取得に失敗しました",error)
+                completion(nil, error)
+                return
+            }
+
+            // 通信ができてもdataが空なら通信エラーにする。
+            guard let data = snapShot?.data() else {
+                completion(nil, error)
+                return
+            }
+            var payTask = PayTask(dic: data)
+            payTask.lenderUserName = data["lenderUserName"] as? String
+            payTask.lenderUID = data["lenderUID"] as? String
+            completion(payTask, nil)
+        }
+    }
+
 }
 

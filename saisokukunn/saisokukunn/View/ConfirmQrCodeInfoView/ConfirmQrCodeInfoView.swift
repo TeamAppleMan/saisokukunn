@@ -69,18 +69,15 @@ struct ConfirmQrCodeInfoView: View {
                         // Firestoreに貸す側のUIDをPayTaskのフィールドに送信
                         Task{
                             do{
-
                                 try await registerPayTask.addLenderUIDToFireStore(payTaskPath: documentPath)
                                 isPkhudProgress = false
+                                environmentData.isLendViewActiveEnvironment.wrappedValue = false
                                 print("PayTasksに対してlenderUIDの送信に成功しました")
                             } catch {
                                 isPkhudFailure = true
                                 print("PayTasksに対してlenderUIDの送信に失敗しました", error)
                             }
                         }
-
-                        // TODO: 下記はMainViewに戻るコード（まだうまく動かない。要改善。）
-                        environmentData.isMainActiveEnvironment.wrappedValue = false
                     }
                 } message: {
                     Text("本当に貸してよろしいですか？")

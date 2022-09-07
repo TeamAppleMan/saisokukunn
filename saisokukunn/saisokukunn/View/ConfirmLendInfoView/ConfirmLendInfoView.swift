@@ -16,6 +16,7 @@ struct ConfirmLendInfoView: View {
     @State private var isPkhudProgress = false
     @State private var isPkhudFailure = false
     @State var createdQrImage: Image
+    @State var documentPath: String = ""
     var userName = String()
 
     let registerPayTask = RegisterPayTask()
@@ -44,7 +45,7 @@ struct ConfirmLendInfoView: View {
         VStack {
 
             // CreateQrCodeに遷移する時にqrの画像を渡す
-            NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage),isActive: $toCreateQrCodeView){
+            NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage, documentPath: documentPath),isActive: $toCreateQrCodeView){
                 EmptyView()
             }
 
@@ -66,7 +67,7 @@ struct ConfirmLendInfoView: View {
                     .frame(width: squareTextBoxSize, height: squareTextBoxSize)
                     .padding(.top)
 
-                NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage)) {
+                NavigationLink(destination: CreateQrCodeView(qrImage: createdQrImage, documentPath: documentPath)) {
                     Image(systemName: "qrcode.viewfinder")
                         .font(.largeTitle)
                         .padding()
@@ -80,6 +81,7 @@ struct ConfirmLendInfoView: View {
                                 do{
                                     // paytaskのドキュメントID発行
                                     registerPayTask.payTaskDocumentPath = NSUUID().uuidString
+                                    self.documentPath = registerPayTask.payTaskDocumentPath
                                     // QRコード生成
                                     let qrDecodedData = try await registerPayTask.fetchQrCode()
 
