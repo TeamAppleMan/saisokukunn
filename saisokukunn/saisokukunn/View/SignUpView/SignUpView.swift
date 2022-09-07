@@ -104,7 +104,11 @@ struct SignUpView: View {
             // uidが存在するならMainViewへ移動
             if let uid = Auth.auth().currentUser?.uid {
                 print("uid:",uid)
-                isActiveSignUpView = true
+                var transaction = Transaction()
+                transaction.disablesAnimations = true
+                withTransaction(transaction) {
+                    isActiveSignUpView = true
+                }
             }
         }// onAppearここまで
         .onTapGesture { UIApplication.shared.closeKeyboard() }
