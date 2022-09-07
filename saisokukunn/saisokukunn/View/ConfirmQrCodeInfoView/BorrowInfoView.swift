@@ -40,7 +40,7 @@ struct BorrowInfoView: View {
                 Divider()
 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("貸してくれる人")
+                    Text("借りる人")
                         .font(.caption)
                         .foregroundColor(.gray)
                     // 文字数ごとにサイズを変更させる
