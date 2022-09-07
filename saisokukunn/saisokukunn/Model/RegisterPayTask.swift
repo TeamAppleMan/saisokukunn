@@ -16,6 +16,7 @@ class RegisterPayTask {
     let db = Firestore.firestore()
     var payTaskDocumentPath = String() // createPayTaskToFirestoreとfetchQrCodeで同一のPathを使用
     let loadUser = LoadUser()
+    let loadPayTask = LoadPayTask()
 
     func createPayTaskToFirestore(title: String,money: Int,endTime: Date) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }

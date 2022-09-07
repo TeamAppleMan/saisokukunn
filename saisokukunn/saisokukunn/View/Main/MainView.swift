@@ -41,6 +41,7 @@ struct MainView: View {
     @State private var lendPayTaskList = [PayTask]()
 
     let registerUser = RegisterUser()
+    let registerPayTask = RegisterPayTask()
     let loadPayTask = LoadPayTask()
     let loadUser = LoadUser()
 
@@ -281,8 +282,6 @@ struct MainView: View {
                                                              lendListAlertType: $lendListAlertType)
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
-
-
                                             })
                                             .alert(isPresented: self.$isLendAlert) {
                                                 switch lendListAlertType {
@@ -301,7 +300,19 @@ struct MainView: View {
                                                     return Alert(title: Text("完了"),
                                                                  message: Text("貸したお金は返済されましたか？"),
                                                                  primaryButton: .cancel(Text("キャンセル")),
-                                                                 secondaryButton: .destructive(Text("完了"), action: {lendPayTaskList[index].isFinished = true}))
+                                                                 secondaryButton: .destructive(
+                                                                    Text("完了"),
+                                                                    action: {
+                                                                        Task{
+                                                                            do{
+                                                                               //TODO: lendPayTaskList[index].isFinished を True にするコードを追記
+                                                                                
+                                                                            } catch {
+                                                                                print("isFinished=Trueのデータ書き換えに失敗")
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                 ))
                                                 }
 
                                             }
@@ -335,6 +346,39 @@ struct MainView: View {
         }
         .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
         .onAppear {
+            loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
+                if let error = error {
+                    print("borrowPayTasksの取得に失敗",error)
+                }
+
+                // isFinishedがfalseのみ出力させる
+                let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
+                guard let borrowPayTasks = filterborrowPayTasks else { return }
+
+                borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
+                // 借りている合計金額の表示
+                totalBorrowingMoney = 0
+                borrowPayTasks.forEach { borrowPayTask in
+                    totalBorrowingMoney += borrowPayTask.money
+                }
+            }
+
+            // Firestoreから貸しているPayTaskの情報を取得する
+            loadPayTask.fetchLenderPayTask { lendPayTasks, error in
+                if let error = error {
+                    print("lendPayTaskのドキュメントid取得に失敗",error)
+                }
+
+                // isFinishedがfalseのみ出力させる
+                let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
+                guard let lendPayTasks = filterLendPayTasks else { return }
+                lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
+                // 貸してる合計金額の表示
+                totalLendingMoney = 0
+                lendPayTasks.forEach { lendPayTask in
+                    totalLendingMoney += lendPayTask.money
+                }
+            }
 
             // 5秒おきに通信を行う処理
             // 貸し側が削除された際に自動で借りを削除させる必要があるため。
@@ -344,7 +388,11 @@ struct MainView: View {
                     if let error = error {
                         print("borrowPayTasksの取得に失敗",error)
                     }
-                    guard let borrowPayTasks = borrowPayTasks else { return }
+
+                    // isFinishedがfalseのみ出力させる
+                    let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
+                    guard let borrowPayTasks = filterborrowPayTasks else { return }
+
                     borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
                     // 借りている合計金額の表示
                     totalBorrowingMoney = 0
@@ -358,7 +406,10 @@ struct MainView: View {
                     if let error = error {
                         print("lendPayTaskのドキュメントid取得に失敗",error)
                     }
-                    guard let lendPayTasks = lendPayTasks else { return }
+
+                    // isFinishedがfalseのみ出力させる
+                    let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
+                    guard let lendPayTasks = filterLendPayTasks else { return }
                     lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
                     // 貸してる合計金額の表示
                     totalLendingMoney = 0
