@@ -86,7 +86,6 @@ struct ConfirmLendInfoView: View {
                                     createdQrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
                                     try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
-
                                     isPkhudProgress = false
                                     // CreateQrCodeの画面に遷移
                                     toCreateQrCodeView = true

@@ -9,12 +9,9 @@ import SwiftUI
 import Firebase
 import PKHUD
 
-struct Person {
-    var title: String
-    var name: String
-    var money: Int
-    var stateDate: Date
-    var endDate: Date
+enum LendListAlertType {
+    case lendInfo
+    case payCompleted
 }
 
 // ConfirmQrCodeInfoViewから戻るために必要
@@ -27,12 +24,14 @@ struct MainView: View {
     @EnvironmentObject var environmentData: EnvironmentData
     @Binding var isActiveSignUpView: Bool
     @State private var isPkhudProgress = false
+    @State var timer: Timer?
 
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
     @State private var isBorrowInfoAlert: Bool = false
-    @State private var isLendInfoAlert: Bool = false
+    @State private var isLendAlert: Bool = false  // enumで定義した２種類のアラートに更に分岐する
+    @State private var lendListAlertType = LendListAlertType.lendInfo
     @State private var isShowingUserDeleteAlert: Bool = false
     @State private var totalBorrowingMoney: Int = 0
     @State private var totalLendingMoney: Int = 0
@@ -42,6 +41,7 @@ struct MainView: View {
     @State private var lendPayTaskList = [PayTask]()
 
     let registerUser = RegisterUser()
+    let registerPayTask = RegisterPayTask()
     let loadPayTask = LoadPayTask()
     let loadUser = LoadUser()
 
@@ -62,7 +62,7 @@ struct MainView: View {
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
         let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
-        
+
         ZStack {
             // 背景を黒にする
             Color.init(red: 0, green: 0, blue: 0)
@@ -222,7 +222,7 @@ struct MainView: View {
                                             Button(action: {
                                                 self.isBorrowInfoAlert = true
                                             }, label: {
-                                                LoanListView(title: borrowPayTaskList[index].title,
+                                                BorrowListView(title: borrowPayTaskList[index].title,
                                                              person: borrowPayTaskList[index].lenderUserName ?? "",
                                                              money: borrowPayTaskList[index].money,
                                                              limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
@@ -266,32 +266,57 @@ struct MainView: View {
                         } else {
 
                             if lendPayTaskList.count != 0 {
-                                // TODO: List空時に表示させる画像は、貸してくれるListに限って未設定。変数完成後実装させる。
                                 List{
                                     Section {
                                         // TODO: QRスキャン後に表示したい（近藤タスク）
                                         ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
                                             Button(action: {
-                                                self.isLendInfoAlert = true
+                                                self.isLendAlert = true
+                                                self.lendListAlertType = .lendInfo
                                             }, label: {
-                                                LoanListView(title: lendPayTaskList[index].title,
+                                                LendListView(title: lendPayTaskList[index].title,
                                                              person: lendPayTaskList[index].borrowerUserName ?? "",
                                                              money: lendPayTaskList[index].money,
-                                                             limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime))
+                                                             limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime),
+                                                             isPayCompletedAlert: $isLendAlert,
+                                                             lendListAlertType: $lendListAlertType)
                                                 .frame(height: 70)
                                                 .listRowBackground(Color.clear)
-                                            }).alert(isPresented: self.$isLendInfoAlert) {
-                                                Alert(title: Text("貸している詳細"),
-                                                      message: Text("""
-                                                                    \(createStringDate(timestamp: lendPayTaskList[index].createdAt))〜\(createStringDate(timestamp: lendPayTaskList[index].endTime))
-                                                                    \(lendPayTaskList[index].title)
-                                                                    \(lendPayTaskList[index].money)円
-                                                                    \(lendPayTaskList[index].borrowerUserName ?? "")さん
-                                                                    残り\(createLimitDay(endTime: lendPayTaskList[index].endTime))日
-                                                                    """),
-                                                      dismissButton: .default(Text("OK"))
-                                                )
+                                            })
+                                            .alert(isPresented: self.$isLendAlert) {
+                                                switch lendListAlertType {
+                                                case .lendInfo:
+                                                    return Alert(title: Text("貸している詳細"),
+                                                                 message: Text("""
+                                                                               \(createStringDate(timestamp: lendPayTaskList[index].createdAt))〜\(createStringDate(timestamp: lendPayTaskList[index].endTime))
+                                                                               \(lendPayTaskList[index].title)
+                                                                               \(lendPayTaskList[index].money)円
+                                                                               \(lendPayTaskList[index].borrowerUserName ?? "")さん
+                                                                               残り\(createLimitDay(endTime: lendPayTaskList[index].endTime))日
+                                                                               """),
+                                                                 dismissButton: .default(Text("OK"))
+                                                           )
+                                                case .payCompleted:
+                                                    return Alert(title: Text("完了"),
+                                                                 message: Text("貸したお金は返済されましたか？"),
+                                                                 primaryButton: .cancel(Text("キャンセル")),
+                                                                 secondaryButton: .destructive(
+                                                                    Text("完了"),
+                                                                    action: {
+                                                                        Task{
+                                                                            do{
+                                                                               //TODO: lendPayTaskList[index].isFinished を True にするコードを追記
+                                                                                
+                                                                            } catch {
+                                                                                print("isFinished=Trueのデータ書き換えに失敗")
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                 ))
+                                                }
+
                                             }
+
                                         }
                                     }.listRowSeparator(.hidden)
                                 }
@@ -320,13 +345,16 @@ struct MainView: View {
             }
         }
         .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
-        .onAppear{
-            // Firestoreから借りているPayTaskの情報を取得する
+        .onAppear {
             loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                 if let error = error {
                     print("borrowPayTasksの取得に失敗",error)
                 }
-                guard let borrowPayTasks = borrowPayTasks else { return }
+
+                // isFinishedがfalseのみ出力させる
+                let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
+                guard let borrowPayTasks = filterborrowPayTasks else { return }
+
                 borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
                 // 借りている合計金額の表示
                 totalBorrowingMoney = 0
@@ -340,7 +368,10 @@ struct MainView: View {
                 if let error = error {
                     print("lendPayTaskのドキュメントid取得に失敗",error)
                 }
-                guard let lendPayTasks = lendPayTasks else { return }
+
+                // isFinishedがfalseのみ出力させる
+                let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
+                guard let lendPayTasks = filterLendPayTasks else { return }
                 lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
                 // 貸してる合計金額の表示
                 totalLendingMoney = 0
@@ -348,7 +379,50 @@ struct MainView: View {
                     totalLendingMoney += lendPayTask.money
                 }
             }
-        }.navigationBarHidden(true)
+
+            // 5秒おきに通信を行う処理
+            // 貸し側が削除された際に自動で借りを削除させる必要があるため。
+            timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+                // Firestoreから借りているPayTaskの情報を取得する
+                loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
+                    if let error = error {
+                        print("borrowPayTasksの取得に失敗",error)
+                    }
+
+                    // isFinishedがfalseのみ出力させる
+                    let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
+                    guard let borrowPayTasks = filterborrowPayTasks else { return }
+
+                    borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
+                    // 借りている合計金額の表示
+                    totalBorrowingMoney = 0
+                    borrowPayTasks.forEach { borrowPayTask in
+                        totalBorrowingMoney += borrowPayTask.money
+                    }
+                }
+
+                // Firestoreから貸しているPayTaskの情報を取得する
+                loadPayTask.fetchLenderPayTask { lendPayTasks, error in
+                    if let error = error {
+                        print("lendPayTaskのドキュメントid取得に失敗",error)
+                    }
+
+                    // isFinishedがfalseのみ出力させる
+                    let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
+                    guard let lendPayTasks = filterLendPayTasks else { return }
+                    lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
+                    // 貸してる合計金額の表示
+                    totalLendingMoney = 0
+                    lendPayTasks.forEach { lendPayTask in
+                        totalLendingMoney += lendPayTask.money
+                    }
+                }
+            }
+        }
+        .onDisappear {
+            timer?.invalidate()
+        }
+        .navigationBarHidden(true)
     }
 }
 
@@ -386,9 +460,3 @@ private func sortPayTasks(paytasks: [PayTask]) -> [PayTask] {
     }
     return tasks
 }
-
-//struct MainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainView()
-//    }
-//}

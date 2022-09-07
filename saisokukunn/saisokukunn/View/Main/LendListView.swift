@@ -1,17 +1,19 @@
 //
-//  LoanListView.swift
+//  LendListView.swift
 //  saisokukunn
 //
-//  Created by 前田航汰 on 2022/08/22.
+//  Created by 前田航汰 on 2022/09/07.
 //
 
 import SwiftUI
 
-struct LoanListView: View {
+struct LendListView: View {
     let title: String
     let person: String
     let money: Int
     let limitDay: Int
+    @Binding var isPayCompletedAlert: Bool
+    @Binding var lendListAlertType: LendListAlertType
 
     var body: some View {
         HStack {
@@ -66,14 +68,16 @@ struct LoanListView: View {
             Text("¥ \(money)")
                 .bold()
                 .padding()
+
+            Button(action: {
+                isPayCompletedAlert = true
+                lendListAlertType = .payCompleted
+            }, label: {
+                Image(systemName: "x.circle")
+            })
+
         }
         .frame(height: 70)
         .listRowBackground(Color.clear)
-    }// bodyここmで
-}
-
-struct LoanListView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoanListView(title: "zzz", person: "石原", money: 5000, limitDay: 50)
     }
 }

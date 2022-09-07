@@ -97,6 +97,7 @@ extension QrCodeScannerViewController: QRScannerViewDelegate {
             }
 
             // 取得したPayTaskの送信
+            print(code)
             let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: payTask.title, lendPerson: payTask.borrowerUserName ?? "", money: String(payTask.money), endTime: payTask.endTime.dateValue(),documentPath: code))
             self.navigationController?.pushViewController(view, animated: true)
             qrScannerView.stopRunning()
