@@ -82,4 +82,9 @@ class RegisterPayTask {
         try await db.collection("Users").document(uid).updateData(["lendPayTaskId": FieldValue.arrayUnion([payTaskPath])])
     }
 
+    // isFinishedをfalseからtrueにする
+    func updateIsFinishedPayTask(){
+        
+    }
+
 }

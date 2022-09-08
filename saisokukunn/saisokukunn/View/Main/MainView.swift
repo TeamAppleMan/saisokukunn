@@ -314,10 +314,23 @@ struct MainView: View {
                                                                         action: {
                                                                             Task{
                                                                                 do{
-                                                                                    //TODO: lendPayTaskList[index].isFinished を True にするコードを追記
+                                                                                    // lendPayTaskList[index].isFinished を True にする
+                                                                                    // FIXME: indexの表示がおかしいかも？
+                                                                                    print("index",index)
+                                                                                    // UsersのlendPayTaskIdを取得
+                                                                                    loadUser.fetchLendPayTaskId { lendPayTaskIds, error in
+                                                                                        if let error = error {
+                                                                                            print("PayTaskのドキュメントID取得に失敗",error)
+                                                                                        }
+                                                                                        // lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
+                                                                                        guard let lendPayTaskIds = lendPayTaskIds else { return }
+                                                                                        let lendPayTaskId = lendPayTaskIds[index]
+                                                                                        print("lendPay",lendPayTaskId)
+                                                                                        // TODO: lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
 
+                                                                                    }
                                                                                 } catch {
-                                                                                    print("isFinished=Trueのデータ書き換えに失敗")
+                                                                                    print("isFinished=Trueのデータ書き換えに失敗",error)
                                                                                 }
                                                                             }
                                                                         }
@@ -391,7 +404,7 @@ struct MainView: View {
                 }
 
                 // 5秒おきに通信を行う処理
-                // 貸し側が削除された際に自動で借りを削除させる必要があるため。
+                // 貸し側が削除された際に自動で借りを削除させる必要があるため。（← もしかしてFirestoreのaddSnapshotListenerを使えば、5秒起きに通信しなくていいかも？？近藤コメ）
                 timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
                     // Firestoreから借りているPayTaskの情報を取得する
                     loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
