@@ -83,8 +83,8 @@ class RegisterPayTask {
     }
 
     // isFinishedをfalseからtrueにする
-    func updateIsFinishedPayTask(){
-        
+    func updateIsFinishedPayTask(documentPath: String) async throws {
+        try await db.collection("PayTasks").document(documentPath).updateData(["isFinished": true])
     }
 
 }

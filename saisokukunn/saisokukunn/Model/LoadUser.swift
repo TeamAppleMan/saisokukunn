@@ -25,7 +25,7 @@ class LoadUser {
         }
     }
 
-    func fetchLendPayTaskId(completion: @escaping(Array<Any>?,Error?) -> Void) {
+    func fetchLendPayTaskId(completion: @escaping(Array<String>?,Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("Users").document(uid).getDocument { snapShot, error in
             if let error = error {

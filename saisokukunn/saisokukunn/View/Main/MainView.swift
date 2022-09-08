@@ -312,25 +312,24 @@ struct MainView: View {
                                                                      secondaryButton: .destructive(
                                                                         Text("完了"),
                                                                         action: {
-                                                                            Task{
-                                                                                do{
-                                                                                    // lendPayTaskList[index].isFinished を True にする
-                                                                                    // FIXME: indexの表示がおかしいかも？
-                                                                                    print("index",index)
-                                                                                    // UsersのlendPayTaskIdを取得
-                                                                                    loadUser.fetchLendPayTaskId { lendPayTaskIds, error in
-                                                                                        if let error = error {
-                                                                                            print("PayTaskのドキュメントID取得に失敗",error)
-                                                                                        }
-                                                                                        // lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
-                                                                                        guard let lendPayTaskIds = lendPayTaskIds else { return }
-                                                                                        let lendPayTaskId = lendPayTaskIds[index]
-                                                                                        print("lendPay",lendPayTaskId)
-                                                                                        // TODO: lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
-
+                                                                            // lendPayTaskList[index].isFinished を True にする
+                                                                            // FIXME: indexの表示がおかしいかも？
+                                                                            print("index",index)
+                                                                            // UsersのlendPayTaskIdを取得
+                                                                            loadUser.fetchLendPayTaskId { lendPayTaskIds, error in
+                                                                                if let error = error {
+                                                                                    print("PayTaskのドキュメントID取得に失敗",error)
+                                                                                }
+                                                                                // lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
+                                                                                guard let lendPayTaskIds = lendPayTaskIds else { return }
+                                                                                let lendPayTaskId = lendPayTaskIds[index]
+                                                                                Task {
+                                                                                    do{
+                                                                                        try await registerPayTask.updateIsFinishedPayTask(documentPath: lendPayTaskId)
                                                                                     }
-                                                                                } catch {
-                                                                                    print("isFinished=Trueのデータ書き換えに失敗",error)
+                                                                                    catch{
+                                                                                        print("isFinishedの更新に失敗")
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
