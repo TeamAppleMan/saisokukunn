@@ -25,6 +25,18 @@ class LoadUser {
         }
     }
 
+    func fetchLendPayTaskId(completion: @escaping(Array<Any>?,Error?) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("Users").document(uid).getDocument { snapShot, error in
+            if let error = error {
+                completion(nil,error)
+            }
+            guard let data = snapShot?.data() else { return }
+            guard let lendPayTaskIds = data["lendPayTaskId"] as? Array<String> else { return }
+            completion(lendPayTaskIds,nil)
+        }
+    }
+
 //    // async await ver なぜかエラー出る
 //    func fetchUserName2(uid: String) async throws -> String {
 //         try await db.collection("Users").document(uid).getDocument { snapShot, error in
