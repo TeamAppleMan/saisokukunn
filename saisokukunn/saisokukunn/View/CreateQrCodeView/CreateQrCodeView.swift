@@ -52,19 +52,17 @@ struct CreateQrCodeView: View {
             Spacer()
         }
         .onAppear {
-            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-                print("相手がQRスキャンしたか、通信中")
-                // Firestoreから借りているPayTaskの情報を取得する
-                loadPayTask.fetchLinkPayTask(documentPath: documentPath, completion: { borrowPayTasks, error in
-                    if let error = error {
-                        print("borrowPayTasksの取得に失敗",error)
-                    }
+            print("相手がQRスキャンしたか、通信中")
+            // Firestoreから借りているPayTaskの情報を取得する
+            loadPayTask.fetchLinkPayTask(documentPath: documentPath, completion: { borrowPayTasks, error in
+                if let error = error {
+                    print("borrowPayTasksの取得に失敗",error)
+                }
 
-                    if let _ = borrowPayTasks?.lenderUID, let _ = borrowPayTasks?.lenderUserName {
-                        environmentData.isBorrowViewActiveEnvironment.wrappedValue = false
-                    }
-                })
-            }
+                if let _ = borrowPayTasks?.lenderUID, let _ = borrowPayTasks?.lenderUserName {
+                    environmentData.isBorrowViewActiveEnvironment.wrappedValue = false
+                }
+            })
         }
         .onDisappear {
             timer?.invalidate()
