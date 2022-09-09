@@ -9,8 +9,9 @@ import SwiftUI
 import Firebase
 import PKHUD
 
-enum LendListAlertType {
-    case lendInfo
+enum AlertType {
+    case borrowInfo
+    case lendLendInfo
     case payCompleted
 }
 
@@ -32,9 +33,13 @@ struct MainView: View {
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
     @State var isScanButton: Bool = false
-    @State private var isBorrowInfoAlert: Bool = false
-    @State private var isLendAlert: Bool = false  // enumで定義した２種類のアラートに更に分岐する
-    @State private var lendListAlertType = LendListAlertType.lendInfo
+
+    // アラートを表示させる。１つのViewで1つのアラートしか作れない。enum用いて条件分岐させることで作れた。
+    @State private var isShownAlert: Bool = false  // enumで定義した３種類のアラートに更に分岐する
+    @State private var alertType = AlertType.borrowInfo
+    @State private var payTask: PayTask?
+    @State private var selecetdIndex: Int = 0
+
     @State private var isShowingUserDeleteAlert: Bool = false
     @State private var totalBorrowingMoney: Int = 0
     @State private var totalLendingMoney: Int = 0
@@ -125,12 +130,12 @@ struct MainView: View {
                                     isBorrowActive = true
                                     environmentData.isBorrowViewActiveEnvironment = $isBorrowActive
                                 }, label: {
-                                Image(systemName: addLoanSystemImageName)
-                                    .padding()
-                                    .accentColor(Color.black)
-                                    .background(Color.white)
-                                    .cornerRadius(25)
-                                    .shadow(color: Color.white, radius: 10, x: 0, y: 3)
+                                    Image(systemName: addLoanSystemImageName)
+                                        .padding()
+                                        .accentColor(Color.black)
+                                        .background(Color.white)
+                                        .cornerRadius(25)
+                                        .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                                 })
                             }
 
@@ -224,32 +229,80 @@ struct MainView: View {
 
                                 // リストが空なら画像表示
                                 if borrowPayTaskList.count != 0 {
+
                                     List{
                                         Section {
                                             // 借り手の残高を表示
                                             ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
                                                 Button(action: {
-                                                    self.isBorrowInfoAlert = true
+                                                    self.payTask = borrowPayTaskList[index]
+                                                    self.alertType = .borrowInfo
+                                                    self.isShownAlert = true
                                                 }, label: {
-                                                    BorrowListView(title: borrowPayTaskList[index].title,
-                                                                   person: borrowPayTaskList[index].lenderUserName ?? "",
-                                                                   money: borrowPayTaskList[index].money,
-                                                                   limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
+
+                                                    // List表示部分
+                                                    // 別のViewに書きたかったが、Alert関係でココに記述
+                                                    HStack {
+                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: borrowPayTaskList[index].endTime)
+
+                                                        HStack {
+                                                            if limitDay < 10 {
+                                                                Text("\(limitDay)")
+                                                                    .offset(x: 7, y: 0)
+                                                                    .font(.title2)
+                                                                Text("day")
+                                                                    .font(.caption2)
+                                                                    .offset(x: 0, y: 5)
+                                                            } else if limitDay < 100 {
+                                                                Text("\(limitDay)")
+                                                                    .font(.system(size: 20))
+                                                                    .offset(x: 8, y: 0)
+                                                                Text("day")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: -2, y: 8)
+                                                            } else if limitDay < 1000 {
+                                                                Text("\(limitDay)")
+                                                                    .font(.system(size: 15))
+                                                                    .offset(x: 8, y: 0)
+                                                                Text("day")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: -2, y: 8)
+                                                            } else {
+                                                                Text("\(limitDay)")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: 8, y: 0)
+                                                                Text("day")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: -2, y: 8)
+                                                            }
+                                                        }
+                                                        .frame(width: 60, height: 60)
+                                                        .foregroundColor(Color.gray)
+                                                        .background(Color.init(red: 0.95, green: 0.95, blue: 0.95))
+                                                        .overlay(RoundedRectangle(cornerRadius: 35).stroke(Color.init(red: 0.85, green: 0.85, blue: 0.85), lineWidth: 5))
+                                                        .cornerRadius(35)
+
+                                                        VStack(alignment: .leading) {
+                                                            Text(borrowPayTaskList[index].title)
+                                                                .font(.system(.headline, design: .rounded))
+                                                                .bold()
+                                                            Text(borrowPayTaskList[index].lenderUserName ?? "")
+                                                                .foregroundColor(.gray)
+                                                                .font(.system(size: 10))
+                                                        }
+
+                                                        Spacer()
+                                                        Text("¥ \(borrowPayTaskList[index].money)")
+                                                            .bold()
+                                                            .padding()
+                                                    }
+                                                    
                                                     .frame(height: 70)
                                                     .listRowBackground(Color.clear)
-                                                }).alert(isPresented: self.$isBorrowInfoAlert) {
-                                                    Alert(title: Text("借りている詳細"),
-                                                          message: Text("""
-                                                                    \(createStringDate(timestamp: borrowPayTaskList[index].createdAt))〜\(createStringDate(timestamp: borrowPayTaskList[index].endTime))
-                                                                    \(borrowPayTaskList[index].title)
-                                                                    \(borrowPayTaskList[index].money)円
-                                                                    \(borrowPayTaskList[index].lenderUserName ?? "")さん
-                                                                    残り\(createLimitDay(endTime: borrowPayTaskList[index].endTime))日
-                                                                    """),
-                                                          dismissButton: .default(Text("OK"))
-                                                    )
+
                                                 }
-                                            }
+                                                )}
+
                                         }.listRowSeparator(.hidden)
                                     }
                                     .listStyle(.insetGrouped)
@@ -280,64 +333,81 @@ struct MainView: View {
                                             // TODO: QRスキャン後に表示したい（近藤タスク）
                                             ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
                                                 Button(action: {
-                                                    self.isLendAlert = true
-                                                    self.lendListAlertType = .lendInfo
+                                                    self.payTask = lendPayTaskList[index]
+                                                    self.alertType = .lendLendInfo
+                                                    self.isShownAlert = true
                                                 }, label: {
-                                                    LendListView(title: lendPayTaskList[index].title,
-                                                                 person: lendPayTaskList[index].borrowerUserName ?? "",
-                                                                 money: lendPayTaskList[index].money,
-                                                                 limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime),
-                                                                 isPayCompletedAlert: $isLendAlert,
-                                                                 lendListAlertType: $lendListAlertType)
+
+                                                    // List表示部分
+                                                    // 別のViewに書きたかったが、Alert関係でココに記述
+
+                                                    HStack {
+                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: lendPayTaskList[index].endTime)
+                                                        HStack {
+                                                            if limitDay < 10 {
+                                                                Text("\(limitDay)")
+                                                                    .offset(x: 7, y: 0)
+                                                                    .font(.title2)
+                                                                Text("day")
+                                                                    .font(.caption2)
+                                                                    .offset(x: 0, y: 5)
+                                                            } else if limitDay < 100 {
+                                                                Text("\(limitDay)")
+                                                                    .font(.system(size: 20))
+                                                                    .offset(x: 8, y: 0)
+                                                                Text("day")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: -2, y: 8)
+                                                            } else if limitDay < 1000 {
+                                                                Text("\(limitDay)")
+                                                                    .font(.system(size: 15))
+                                                                    .offset(x: 8, y: 0)
+                                                                Text("day")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: -2, y: 8)
+                                                            } else {
+                                                                Text("\(limitDay)")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: 8, y: 0)
+                                                                Text("day")
+                                                                    .font(.system(size: 10))
+                                                                    .offset(x: -2, y: 8)
+                                                            }
+                                                        }
+                                                        .frame(width: 60, height: 60)
+                                                        .foregroundColor(Color.gray)
+                                                        .background(Color.init(red: 0.95, green: 0.95, blue: 0.95))
+                                                        .overlay(RoundedRectangle(cornerRadius: 35).stroke(Color.init(red: 0.85, green: 0.85, blue: 0.85), lineWidth: 5))
+                                                        .cornerRadius(35)
+
+                                                        VStack(alignment: .leading) {
+                                                            Text(lendPayTaskList[index].title)
+                                                                .font(.system(.headline, design: .rounded))
+                                                                .bold()
+                                                            Text(lendPayTaskList[index].borrowerUserName ?? "")
+                                                                .foregroundColor(.gray)
+                                                                .font(.system(size: 10))
+                                                        }
+
+                                                        Spacer()
+                                                        Text("¥ \(lendPayTaskList[index].money)")
+                                                            .bold()
+                                                            .padding()
+
+                                                        Button(action: {
+                                                            self.selecetdIndex = index
+                                                            self.payTask = lendPayTaskList[index]
+                                                            self.alertType = .payCompleted
+                                                            self.isShownAlert = true
+                                                        }, label: {
+                                                            Image(systemName: "x.circle")
+                                                        })
+
+                                                    }
                                                     .frame(height: 70)
                                                     .listRowBackground(Color.clear)
+
                                                 })
-                                                .alert(isPresented: self.$isLendAlert) {
-                                                    switch lendListAlertType {
-                                                    case .lendInfo:
-                                                        return Alert(title: Text("貸している詳細"),
-                                                                     message: Text("""
-                                                                               \(createStringDate(timestamp: lendPayTaskList[index].createdAt))〜\(createStringDate(timestamp: lendPayTaskList[index].endTime))
-                                                                               \(lendPayTaskList[index].title)
-                                                                               \(lendPayTaskList[index].money)円
-                                                                               \(lendPayTaskList[index].borrowerUserName ?? "")さん
-                                                                               残り\(createLimitDay(endTime: lendPayTaskList[index].endTime))日
-                                                                               """),
-                                                                     dismissButton: .default(Text("OK"))
-                                                        )
-                                                    case .payCompleted:
-                                                        return Alert(title: Text("完了"),
-                                                                     message: Text("貸したお金は返済されましたか？"),
-                                                                     primaryButton: .cancel(Text("キャンセル")),
-                                                                     secondaryButton: .destructive(
-                                                                        Text("完了"),
-                                                                        action: {
-                                                                            // lendPayTaskList[index].isFinished を True にする
-                                                                            // FIXME: indexの表示がおかしいかも？
-                                                                            print("index",index)
-                                                                            // UsersのlendPayTaskIdを取得
-                                                                            loadUser.fetchLendPayTaskId { lendPayTaskIds, error in
-                                                                                if let error = error {
-                                                                                    print("PayTaskのドキュメントID取得に失敗",error)
-                                                                                }
-                                                                                // lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
-                                                                                guard let lendPayTaskIds = lendPayTaskIds else { return }
-                                                                                let lendPayTaskId = lendPayTaskIds[index]
-                                                                                Task {
-                                                                                    do{
-                                                                                        try await registerPayTask.updateIsFinishedPayTask(documentPath: lendPayTaskId)
-                                                                                    }
-                                                                                    catch{
-                                                                                        print("isFinishedの更新に失敗")
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                     ))
-                                                    }
-
-                                                }
-
                                             }
                                         }.listRowSeparator(.hidden)
                                     }
@@ -363,11 +433,107 @@ struct MainView: View {
                             }
                         }
                     }
+                    // アラート表示, ３つの場合分け
+                    // TODO: アラート表示内容変える。強制アンラップはやめよう。
+                    .alert(isPresented: $isShownAlert) {
+                        switch alertType {
+                        case .borrowInfo:
+                            return Alert(title: Text("借り詳細"),
+                                         message: Text("""
+                                                       \(createStringDate(timestamp: payTask!.createdAt))〜\(createStringDate(timestamp: payTask!.endTime))
+                                                       \(payTask!.title)
+                                                       \(payTask!.money)円
+                                                       〇〇さん
+                                                       残り〇〇日
+                                                       """))
+                        case .lendLendInfo:
+                            return Alert(title: Text("貸し詳細"),
+                                         message: Text("""
+                                                       \(createStringDate(timestamp: payTask!.createdAt))〜\(createStringDate(timestamp: payTask!.endTime))
+                                                       \(payTask!.title)
+                                                       \(payTask!.money)円
+                                                       〇〇さん
+                                                       残り〇〇日
+                                                       """))
+                        case .payCompleted:
+                            return Alert(title: Text("完了"),
+                                         message: Text("貸したお金は返済されましたか？"),
+                                         primaryButton: .cancel(Text("キャンセル")),
+                                         secondaryButton: .destructive(
+                                            Text("完了"),
+                                            action: {
+
+                                                // TODO: ここに完了させるコード付ける
+                                                /* self.payTaskに選択されたpayTask入っている。
+                                                   self.selecetdIndexに選択されたIndex入ってる */
+
+                                                // lendPayTaskList[index].isFinished を True にする
+                                                // UsersのlendPayTaskIdを取得
+                                                loadUser.fetchLendPayTaskId { lendPayTaskIds, error in
+                                                    if let error = error {
+                                                        print("PayTaskのドキュメントID取得に失敗",error)
+                                                    }
+                                                    // lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
+                                                    guard let lendPayTaskIds = lendPayTaskIds else { return }
+                                                    let lendPayTaskId = lendPayTaskIds[selecetdIndex]
+                                                    Task {
+                                                        do{
+                                                            try await registerPayTask.updateIsFinishedPayTask(documentPath: lendPayTaskId)
+                                                        }
+                                                        catch{
+                                                            print("isFinishedの更新に失敗")
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                         )
+                            )
+                        }
+                    }
+                }
+
+        }
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
+        .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .labeledSuccess(title: "成功", subtitle: "データが追加されました"), delay: 1.5)
+        .onAppear {
+            loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
+                if let error = error {
+                    print("borrowPayTasksの取得に失敗",error)
+                }
+
+                // isFinishedがfalseのみ出力させる
+                let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
+                guard let borrowPayTasks = filterborrowPayTasks else { return }
+
+                borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
+                // 借りている合計金額の表示
+                totalBorrowingMoney = 0
+                borrowPayTasks.forEach { borrowPayTask in
+                    totalBorrowingMoney += borrowPayTask.money
                 }
             }
-            .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
-            .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .labeledSuccess(title: "成功", subtitle: "データが追加されました"), delay: 1.5)
-            .onAppear {
+
+            // Firestoreから貸しているPayTaskの情報を取得する
+            loadPayTask.fetchLenderPayTask { lendPayTasks, error in
+                if let error = error {
+                    print("lendPayTaskのドキュメントid取得に失敗",error)
+                }
+
+                // isFinishedがfalseのみ出力させる
+                let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
+                guard let lendPayTasks = filterLendPayTasks else { return }
+                lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
+                // 貸してる合計金額の表示
+                totalLendingMoney = 0
+                lendPayTasks.forEach { lendPayTask in
+                    totalLendingMoney += lendPayTask.money
+                }
+            }
+
+            // 5秒おきに通信を行う処理
+            // 貸し側が削除された際に自動で借りを削除させる必要があるため。（← もしかしてFirestoreのaddSnapshotListenerを使えば、5秒起きに通信しなくていいかも？？近藤コメ）
+            timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+                // Firestoreから借りているPayTaskの情報を取得する
                 loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
                     if let error = error {
                         print("borrowPayTasksの取得に失敗",error)
@@ -401,67 +567,16 @@ struct MainView: View {
                         totalLendingMoney += lendPayTask.money
                     }
                 }
-
-                // 5秒おきに通信を行う処理
-                // 貸し側が削除された際に自動で借りを削除させる必要があるため。（← もしかしてFirestoreのaddSnapshotListenerを使えば、5秒起きに通信しなくていいかも？？近藤コメ）
-                timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
-                    // Firestoreから借りているPayTaskの情報を取得する
-                    loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
-                        if let error = error {
-                            print("borrowPayTasksの取得に失敗",error)
-                        }
-
-                        // isFinishedがfalseのみ出力させる
-                        let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
-                        guard let borrowPayTasks = filterborrowPayTasks else { return }
-
-                        borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
-                        // 借りている合計金額の表示
-                        totalBorrowingMoney = 0
-                        borrowPayTasks.forEach { borrowPayTask in
-                            totalBorrowingMoney += borrowPayTask.money
-                        }
-                    }
-
-                    // Firestoreから貸しているPayTaskの情報を取得する
-                    loadPayTask.fetchLenderPayTask { lendPayTasks, error in
-                        if let error = error {
-                            print("lendPayTaskのドキュメントid取得に失敗",error)
-                        }
-
-                        // isFinishedがfalseのみ出力させる
-                        let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
-                        guard let lendPayTasks = filterLendPayTasks else { return }
-                        lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
-                        // 貸してる合計金額の表示
-                        totalLendingMoney = 0
-                        lendPayTasks.forEach { lendPayTask in
-                            totalLendingMoney += lendPayTask.money
-                        }
-                    }
-                }
             }
-            .onDisappear {
-                timer?.invalidate()
-            }
-            .navigationBarHidden(true)
         }
+        .onDisappear {
+            timer?.invalidate()
+        }
+        .navigationBarHidden(true)
     }
+}
 }
 
-// TODO: 他のモデルにぶっ込みたい
-private func createLimitDay(endTime: Timestamp) -> Int {
-    let endDate = endTime.dateValue()
-    let now = Date()
-    let limit = endDate.timeIntervalSince(now)
-    var limitDay = Int(limit/60/60/24)
-    if(limit>0){
-        limitDay += 1
-    }else{
-        limitDay = 0
-    }
-    return Int(limitDay)
-}
 
 private func createStringDate(timestamp: Timestamp) -> String {
     let date: Date = timestamp.dateValue()
