@@ -231,10 +231,7 @@ struct MainView: View {
                                                 Button(action: {
                                                     self.isBorrowInfoAlert = true
                                                 }, label: {
-                                                    BorrowListView(title: borrowPayTaskList[index].title,
-                                                                   person: borrowPayTaskList[index].lenderUserName ?? "",
-                                                                   money: borrowPayTaskList[index].money,
-                                                                   limitDay: createLimitDay(endTime: borrowPayTaskList[index].endTime))
+                                                    BorrowListView(borrowPayTask: borrowPayTaskList[index])
                                                     .frame(height: 70)
                                                     .listRowBackground(Color.clear)
                                                 }).alert(isPresented: self.$isBorrowInfoAlert) {
@@ -283,12 +280,7 @@ struct MainView: View {
                                                     self.isLendAlert = true
                                                     self.lendListAlertType = .lendInfo
                                                 }, label: {
-                                                    LendListView(title: lendPayTaskList[index].title,
-                                                                 person: lendPayTaskList[index].borrowerUserName ?? "",
-                                                                 money: lendPayTaskList[index].money,
-                                                                 limitDay: createLimitDay(endTime: lendPayTaskList[index].endTime),
-                                                                 isPayCompletedAlert: $isLendAlert,
-                                                                 lendListAlertType: $lendListAlertType)
+                                                    LendListView(lendPayTask: lendPayTaskList[index])
                                                     .frame(height: 70)
                                                     .listRowBackground(Color.clear)
                                                 })

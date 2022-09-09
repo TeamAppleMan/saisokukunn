@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct BorrowListView: View {
-    let title: String
-    let person: String
-    let money: Int
-    let limitDay: Int
+    let borrowPayTask: PayTask
 
     var body: some View {
+        let limitDay = CreateLimiteDay().createLimitDay(endTime: borrowPayTask.endTime)
+
         HStack {
             // 円形のやつ
             HStack {
@@ -54,16 +53,16 @@ struct BorrowListView: View {
             .cornerRadius(35)
 
             VStack(alignment: .leading) {
-                Text(title)
+                Text(borrowPayTask.title)
                     .font(.system(.headline, design: .rounded))
                     .bold()
-                Text(person)
+                Text(borrowPayTask.lenderUserName ?? "")
                     .foregroundColor(.gray)
                     .font(.system(size: 10))
             }
 
             Spacer()
-            Text("¥ \(money)")
+            Text("¥ \(borrowPayTask.money)")
                 .bold()
                 .padding()
         }
@@ -72,8 +71,8 @@ struct BorrowListView: View {
     }
 }
 
-struct LoanListView_Previews: PreviewProvider {
-    static var previews: some View {
-        BorrowListView(title: "zzz", person: "石原", money: 5000, limitDay: 50)
-    }
-}
+//struct LoanListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BorrowListView(title: "zzz", person: "石原", money: 5000, limitDay: 50)
+//    }
+//}

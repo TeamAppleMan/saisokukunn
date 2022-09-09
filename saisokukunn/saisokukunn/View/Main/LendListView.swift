@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct LendListView: View {
-    let title: String
-    let person: String
-    let money: Int
-    let limitDay: Int
-    @Binding var isPayCompletedAlert: Bool
-    @Binding var lendListAlertType: LendListAlertType
+    let lendPayTask: PayTask
+    @State var isShowAlert: Bool = false
 
     var body: some View {
+        let limitDay = CreateLimiteDay().createLimitDay(endTime: lendPayTask.endTime)
+
         HStack {
             // 円形のやつ
             HStack {
@@ -56,25 +54,30 @@ struct LendListView: View {
             .cornerRadius(35)
 
             VStack(alignment: .leading) {
-                Text(title)
+                Text(lendPayTask.title)
                     .font(.system(.headline, design: .rounded))
                     .bold()
-                Text(person)
+                Text(lendPayTask.borrowerUserName ?? "")
                     .foregroundColor(.gray)
                     .font(.system(size: 10))
             }
 
             Spacer()
-            Text("¥ \(money)")
+            Text("¥ \(lendPayTask.money)")
                 .bold()
                 .padding()
 
             Button(action: {
-                isPayCompletedAlert = true
-                lendListAlertType = .payCompleted
+                //isPayCompletedAlert = true
+                //lendListAlertType = .payCompleted
             }, label: {
                 Image(systemName: "x.circle")
-            })
+            }).alert("確認", isPresented: $isShowAlert){
+                Button("キャンセル"){
+                }
+                Button("決定"){
+                }
+            }
 
         }
         .frame(height: 70)

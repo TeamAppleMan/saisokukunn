@@ -26,6 +26,7 @@
 		87B44E6D28BAFF3F00928374 /* UIAplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6C28BAFF3F00928374 /* UIAplication.swift */; };
 		87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6E28BB07C200928374 /* LendInfoView.swift */; };
 		87B44E7128BB39E900928374 /* DateToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E7028BB39E900928374 /* DateToString.swift */; };
+		87D00FA428CAC32100D95A6E /* CreateLimiteDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D00FA328CAC32100D95A6E /* CreateLimiteDay.swift */; };
 		87DDA98F28B48BC200123EF3 /* ShadowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */; };
 		9529C3E128BC452000EA4314 /* QrCodeBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9529C3E028BC452000EA4314 /* QrCodeBoxView.swift */; };
 		95345ECE28B36801006FAA96 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 95345ECD28B36801006FAA96 /* FirebaseAuth */; };
@@ -85,6 +86,7 @@
 		87B44E6E28BB07C200928374 /* LendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendInfoView.swift; sourceTree = "<group>"; };
 		87B44E7028BB39E900928374 /* DateToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToString.swift; sourceTree = "<group>"; };
 		87B4C90E28C5F3FE00083A3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		87D00FA328CAC32100D95A6E /* CreateLimiteDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateLimiteDay.swift; sourceTree = "<group>"; };
 		87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowButtonView.swift; sourceTree = "<group>"; };
 		9529C3E028BC452000EA4314 /* QrCodeBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeBoxView.swift; sourceTree = "<group>"; };
 		95345ED128B368D3006FAA96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				953EEEE628B4CEE5003E8F3D /* PayTask.swift */,
 				87B44E7028BB39E900928374 /* DateToString.swift */,
 				95E673A128BDCA2800A42B2A /* QrCode.swift */,
+				87D00FA328CAC32100D95A6E /* CreateLimiteDay.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				9529C3E128BC452000EA4314 /* QrCodeBoxView.swift in Sources */,
 				87B44E6D28BAFF3F00928374 /* UIAplication.swift in Sources */,
 				87318DAA28B3128D00609C6B /* CreateQrCodeView.swift in Sources */,
+				87D00FA428CAC32100D95A6E /* CreateLimiteDay.swift in Sources */,
 				95853C6D28B9A51100099AEC /* LoadPayTask.swift in Sources */,
 				87318DB228B3136200609C6B /* SignUpView.swift in Sources */,
 				958583B328B47B1B009AFD5E /* User.swift in Sources */,
@@ -642,7 +646,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X9S244452;
+				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saisokukunn/Info.plist;
@@ -675,7 +679,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X9S244452;
+				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saisokukunn/Info.plist;
