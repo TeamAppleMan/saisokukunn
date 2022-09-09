@@ -26,7 +26,7 @@ class RegisterUser {
         }
     }
 
-    func signOut() async throws{
+    func signOut() async throws {
         do {
             try Auth.auth().signOut()
             print("サインアウトしました")
@@ -34,6 +34,11 @@ class RegisterUser {
         catch {
             print("サインアウトに失敗しました",error)
         }
+    }
+
+    func deleteDocumentPath(documentPath: String) async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        try await db.collection("Users").document(uid).updateData(["lendPayTaskId": FieldValue.arrayRemove([documentPath])])
     }
 
     private func createdUserToFirestore(userName: String,uid: String) async throws{

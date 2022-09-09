@@ -38,7 +38,7 @@ struct MainView: View {
     @State private var isShownAlert: Bool = false  // enumで定義した３種類のアラートに更に分岐する
     @State private var alertType = AlertType.borrowInfo
     @State private var payTask: PayTask?
-    @State private var selecetdIndex: Int = 0
+    @State private var selectedIndex: Int = 0
 
     @State private var isShowingUserDeleteAlert: Bool = false
     @State private var totalBorrowingMoney: Int = 0
@@ -395,7 +395,7 @@ struct MainView: View {
                                                             .padding()
 
                                                         Button(action: {
-                                                            self.selecetdIndex = index
+                                                            self.selectedIndex = index
                                                             self.payTask = lendPayTaskList[index]
                                                             self.alertType = .payCompleted
                                                             self.isShownAlert = true
@@ -436,6 +436,7 @@ struct MainView: View {
                     // アラート表示, ３つの場合分け
                     // TODO: アラート表示内容変える。強制アンラップはやめよう。
                     .alert(isPresented: $isShownAlert) {
+                        print("selectedIndex:",selectedIndex)
                         switch alertType {
                         case .borrowInfo:
                             return Alert(title: Text("借り詳細"),
@@ -462,27 +463,13 @@ struct MainView: View {
                                          secondaryButton: .destructive(
                                             Text("完了"),
                                             action: {
-
-                                                // TODO: ここに完了させるコード付ける
-                                                /* self.payTaskに選択されたpayTask入っている。
-                                                   self.selecetdIndexに選択されたIndex入ってる */
-
-                                                // lendPayTaskList[index].isFinished を True にする
-                                                // UsersのlendPayTaskIdを取得
-                                                loadUser.fetchLendPayTaskId { lendPayTaskIds, error in
-                                                    if let error = error {
-                                                        print("PayTaskのドキュメントID取得に失敗",error)
-                                                    }
-                                                    // lendPayTaskIdからPayTasksにアクセスして、isFinishedをtrueに変える
-                                                    guard let lendPayTaskIds = lendPayTaskIds else { return }
-                                                    let lendPayTaskId = lendPayTaskIds[selecetdIndex]
-                                                    Task {
-                                                        do{
-                                                            try await registerPayTask.updateIsFinishedPayTask(documentPath: lendPayTaskId)
-                                                        }
-                                                        catch{
-                                                            print("isFinishedの更新に失敗")
-                                                        }
+                                                // isFinishedをfalseにする作業
+                                                let documentPath = lendPayTaskList[selectedIndex].documentPath
+                                                Task{
+                                                    do{
+                                                        try await registerPayTask.updateIsFinishedPayTask(documentPath: documentPath)
+                                                    }catch{
+                                                        print("isFinishedの更新に失敗")
                                                     }
                                                 }
                                             }
@@ -520,6 +507,7 @@ struct MainView: View {
                 }
 
                 // isFinishedがfalseのみ出力させる
+                // 前田さんコード
                 let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
                 guard let lendPayTasks = filterLendPayTasks else { return }
                 lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
@@ -532,42 +520,47 @@ struct MainView: View {
 
             // 5秒おきに通信を行う処理
             // 貸し側が削除された際に自動で借りを削除させる必要があるため。（← もしかしてFirestoreのaddSnapshotListenerを使えば、5秒起きに通信しなくていいかも？？近藤コメ）
-            timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
-                // Firestoreから借りているPayTaskの情報を取得する
-                loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
-                    if let error = error {
-                        print("borrowPayTasksの取得に失敗",error)
-                    }
-
-                    // isFinishedがfalseのみ出力させる
-                    let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
-                    guard let borrowPayTasks = filterborrowPayTasks else { return }
-
-                    borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
-                    // 借りている合計金額の表示
-                    totalBorrowingMoney = 0
-                    borrowPayTasks.forEach { borrowPayTask in
-                        totalBorrowingMoney += borrowPayTask.money
-                    }
-                }
-
-                // Firestoreから貸しているPayTaskの情報を取得する
-                loadPayTask.fetchLenderPayTask { lendPayTasks, error in
-                    if let error = error {
-                        print("lendPayTaskのドキュメントid取得に失敗",error)
-                    }
-
-                    // isFinishedがfalseのみ出力させる
-                    let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
-                    guard let lendPayTasks = filterLendPayTasks else { return }
-                    lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
-                    // 貸してる合計金額の表示
-                    totalLendingMoney = 0
-                    lendPayTasks.forEach { lendPayTask in
-                        totalLendingMoney += lendPayTask.money
-                    }
-                }
-            }
+//            timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+//                // Firestoreから借りているPayTaskの情報を取得する
+//                loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
+//                    if let error = error {
+//                        print("borrowPayTasksの取得に失敗",error)
+//                    }
+//
+//                    // isFinishedがfalseのみ出力させる
+//                    let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
+//                    guard let borrowPayTasks = filterborrowPayTasks else { return }
+//
+//                    borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
+//                    // 借りている合計金額の表示
+//                    totalBorrowingMoney = 0
+//                    borrowPayTasks.forEach { borrowPayTask in
+//                        totalBorrowingMoney += borrowPayTask.money
+//                    }
+//                }
+//
+//                // Firestoreから貸しているPayTaskの情報を取得する
+//                loadPayTask.fetchLenderPayTask { lendPayTasks, error in
+//                    if let error = error {
+//                        print("lendPayTaskのドキュメントid取得に失敗",error)
+//                    }
+//
+//                    // isFinishedがfalseのみ出力させる
+//                    // 前田さんコード
+//                    let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
+//                    guard let lendPayTasks = filterLendPayTasks else { return }
+//                    lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
+//
+//                    // 近藤コード
+////                    guard let lendPayTasks = lendPayTasks else { return }
+////                    lendPayTaskList = lendPayTasks
+//                    // 貸してる合計金額の表示
+//                    totalLendingMoney = 0
+//                    lendPayTasks.forEach { lendPayTask in
+//                        totalLendingMoney += lendPayTask.money
+//                    }
+//                }
+//            }
         }
         .onDisappear {
             timer?.invalidate()

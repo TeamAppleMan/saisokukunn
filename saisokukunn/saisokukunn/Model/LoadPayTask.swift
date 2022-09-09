@@ -20,7 +20,7 @@ class LoadPayTask {
     // TODO: async awaitで実行したい（PayTasksがCodableを準拠できない問題があるため保留）
     func fetchBorrowPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("PayTasks").whereField("borrowerUID", isEqualTo: uid).whereField("isFinished", isEqualTo: false).order(by: "createdAt", descending: true).getDocuments { snapShots, error in
+        db.collection("PayTasks").whereField("borrowerUID", isEqualTo: uid).whereField("isFinished", isEqualTo: false).order(by: "createdAt", descending: true).addSnapshotListener { snapShots, error in
             if let error = error {
                 print("FirestoreからPayTaskの取得に失敗",error)
                 return
@@ -44,7 +44,7 @@ class LoadPayTask {
 
     func fetchLenderPayTask(completion: @escaping([PayTask]?,Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("PayTasks").whereField("lenderUID", isEqualTo: uid).whereField("isFinished", isEqualTo: false).order(by: "createdAt", descending: true).getDocuments { snapShots, error in
+        db.collection("PayTasks").whereField("lenderUID", isEqualTo: uid).whereField("isFinished", isEqualTo: false).order(by: "endTime", descending: true).addSnapshotListener { snapShots, error in
             if let error = error {
                 print("FirestoreからPayTaskの取得に失敗",error)
                 return

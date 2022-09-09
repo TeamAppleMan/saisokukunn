@@ -26,7 +26,8 @@ class RegisterPayTask {
             "money": money,
             "endTime": endTime,
             "borrowerUID": uid,
-            "createdAt": Timestamp()
+            "createdAt": Timestamp(),
+            "documentPath": payTaskDocumentPath
         ]
         // PayTaskをFirestoreにセット
         try await db.collection("PayTasks").document(payTaskDocumentPath).setData(payTask)
