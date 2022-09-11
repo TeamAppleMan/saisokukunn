@@ -260,6 +260,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		959147DE28CD9AB4006B27E7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		D4B1784228B0FF55005F6EC4 = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +296,7 @@
 				95345ED128B368D3006FAA96 /* AppDelegate.swift */,
 				95345ED328B36925006FAA96 /* GoogleService-Info.plist */,
 				958583B128B47B08009AFD5E /* Model */,
+				959147DE28CD9AB4006B27E7 /* ViewModel */,
 				87318D9628B30F3200609C6B /* View */,
 				87318DB628B318AD00609C6B /* Extentsion */,
 				D4B1785228B0FF57005F6EC4 /* Assets.xcassets */,
