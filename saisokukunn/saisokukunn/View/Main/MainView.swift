@@ -51,7 +51,6 @@ struct MainView: View {
     let registerUser = RegisterUser()
     let registerPayTask = RegisterPayTask()
     let loadPayTask = LoadPayTask()
-    let loadUser = LoadUser()
 
     init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定

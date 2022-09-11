@@ -15,8 +15,6 @@ struct RegisterLendInfoView: View {
     @State var aleartText: String = ""
     @State private var isShowAlert = false
 
-    let registerPayTask = RegisterPayTask()
-
     var body: some View {
         let displayBounds = UIScreen.main.bounds
         let displayHeight = displayBounds.height
