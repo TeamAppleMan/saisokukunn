@@ -6,6 +6,7 @@ import FirebaseMessaging
 
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    @AppStorage("token") var token = ""
     
     let gcmMessageIDKey = "gcm.message_id"
     
@@ -69,11 +70,9 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
       print("Firebase registration token: \(String(describing: fcmToken))")
 
-      let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        
-        // Store to FireStore
-        print(dataDict)
-      
+
+        guard let fcmToken = fcmToken else { return }
+        token = String(describing: fcmToken)
     }
 
 }
