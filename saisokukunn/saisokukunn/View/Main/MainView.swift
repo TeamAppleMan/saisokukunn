@@ -23,6 +23,9 @@ class EnvironmentData: ObservableObject {
 }
 
 struct MainView: View {
+
+    @ObservedObject var mainViewModel = MainViewModel()
+
     @State var isBorrowActive: Bool = false
     @State var isLendActive: Bool = false
     @EnvironmentObject var environmentData: EnvironmentData
@@ -41,16 +44,8 @@ struct MainView: View {
     @State private var selectedIndex: Int = 0
 
     @State private var isShowingUserDeleteAlert: Bool = false
-    @State private var totalBorrowingMoney: Int = 0
-    @State private var totalLendingMoney: Int = 0
     @AppStorage("userName") var userName: String = ""
 
-    @State private var borrowPayTaskList = [PayTask]()
-    @State private var lendPayTaskList = [PayTask]()
-
-    let registerUser = RegisterUser()
-    let registerPayTask = RegisterPayTask()
-    let loadPayTask = LoadPayTask()
 
     init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
@@ -107,7 +102,7 @@ struct MainView: View {
                                         isPkhudProgress = true
                                         Task {
                                             do {
-                                                try await registerUser.signOut()
+                                                try await mainViewModel.registerUser.signOut()
                                                 isPkhudProgress = false
                                                 isActiveSignUpView = false
                                             }
@@ -167,7 +162,7 @@ struct MainView: View {
 
                             if selectedLoanIndex == 0 {
                                 // TODO: トータルの金額を表示したい
-                                Text(String.localizedStringWithFormat("%d", totalBorrowingMoney))
+                                Text(String.localizedStringWithFormat("%d", mainViewModel.totalBorrowingMoney))
                                     .font(.custom(loanTotalMoneyCustomFont, size: 30))
                                     .fontWeight(.heavy)
                                     .foregroundColor(Color(UIColor.white))
@@ -175,7 +170,7 @@ struct MainView: View {
                                     .bold()
                             } else {
                                 // TODO: トータルの金額を表示したい
-                                Text(String.localizedStringWithFormat("%d", totalLendingMoney))
+                                Text(String.localizedStringWithFormat("%d", mainViewModel.totalLendingMoney))
                                     .font(.custom(loanTotalMoneyCustomFont, size: 30))
                                     .fontWeight(.heavy)
                                     .foregroundColor(Color(UIColor.white))
@@ -227,14 +222,14 @@ struct MainView: View {
                             if selectedLoanIndex == 0 {
 
                                 // リストが空なら画像表示
-                                if borrowPayTaskList.count != 0 {
+                                if mainViewModel.borrowPayTaskList.count != 0 {
 
                                     List{
                                         Section {
                                             // 借り手の残高を表示
-                                            ForEach(0 ..< borrowPayTaskList.count,  id: \.self) { index in
+                                            ForEach(0 ..< mainViewModel.borrowPayTaskList.count,  id: \.self) { index in
                                                 Button(action: {
-                                                    self.payTask = borrowPayTaskList[index]
+                                                    self.payTask = mainViewModel.borrowPayTaskList[index]
                                                     self.alertType = .borrowInfo
                                                     self.isShownAlert = true
                                                 }, label: {
@@ -242,7 +237,7 @@ struct MainView: View {
                                                     // List表示部分
                                                     // 別のViewに書きたかったが、Alert関係でココに記述
                                                     HStack {
-                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: borrowPayTaskList[index].endTime)
+                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: mainViewModel.borrowPayTaskList[index].endTime)
 
                                                         HStack {
                                                             if limitDay < 10 {
@@ -282,16 +277,16 @@ struct MainView: View {
                                                         .cornerRadius(35)
 
                                                         VStack(alignment: .leading) {
-                                                            Text(borrowPayTaskList[index].title)
+                                                            Text(mainViewModel.borrowPayTaskList[index].title)
                                                                 .font(.system(.headline, design: .rounded))
                                                                 .bold()
-                                                            Text(borrowPayTaskList[index].lenderUserName ?? "")
+                                                            Text(mainViewModel.borrowPayTaskList[index].lenderUserName ?? "")
                                                                 .foregroundColor(.gray)
                                                                 .font(.system(size: 10))
                                                         }
 
                                                         Spacer()
-                                                        Text("¥ \(borrowPayTaskList[index].money)")
+                                                        Text("¥ \(mainViewModel.borrowPayTaskList[index].money)")
                                                             .bold()
                                                             .padding()
                                                     }
@@ -326,13 +321,13 @@ struct MainView: View {
 
                             } else {
 
-                                if lendPayTaskList.count != 0 {
+                                if mainViewModel.lendPayTaskList.count != 0 {
                                     List{
                                         Section {
                                             // TODO: QRスキャン後に表示したい（近藤タスク）
-                                            ForEach(0 ..< lendPayTaskList.count,  id: \.self) { index in
+                                            ForEach(0 ..< mainViewModel.lendPayTaskList.count,  id: \.self) { index in
                                                 Button(action: {
-                                                    self.payTask = lendPayTaskList[index]
+                                                    self.payTask = mainViewModel.lendPayTaskList[index]
                                                     self.alertType = .lendLendInfo
                                                     self.isShownAlert = true
                                                 }, label: {
@@ -341,7 +336,7 @@ struct MainView: View {
                                                     // 別のViewに書きたかったが、Alert関係でココに記述
 
                                                     HStack {
-                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: lendPayTaskList[index].endTime)
+                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: mainViewModel.lendPayTaskList[index].endTime)
                                                         HStack {
                                                             if limitDay < 10 {
                                                                 Text("\(limitDay)")
@@ -380,22 +375,22 @@ struct MainView: View {
                                                         .cornerRadius(35)
 
                                                         VStack(alignment: .leading) {
-                                                            Text(lendPayTaskList[index].title)
+                                                            Text(mainViewModel.lendPayTaskList[index].title)
                                                                 .font(.system(.headline, design: .rounded))
                                                                 .bold()
-                                                            Text(lendPayTaskList[index].borrowerUserName ?? "")
+                                                            Text(mainViewModel.lendPayTaskList[index].borrowerUserName ?? "")
                                                                 .foregroundColor(.gray)
                                                                 .font(.system(size: 10))
                                                         }
 
                                                         Spacer()
-                                                        Text("¥ \(lendPayTaskList[index].money)")
+                                                        Text("¥ \(mainViewModel.lendPayTaskList[index].money)")
                                                             .bold()
                                                             .padding()
 
                                                         Button(action: {
                                                             self.selectedIndex = index
-                                                            self.payTask = lendPayTaskList[index]
+                                                            self.payTask = mainViewModel.lendPayTaskList[index]
                                                             self.alertType = .payCompleted
                                                             self.isShownAlert = true
                                                         }, label: {
@@ -463,10 +458,10 @@ struct MainView: View {
                                             Text("完了"),
                                             action: {
                                                 // isFinishedをfalseにする作業
-                                                let documentPath = lendPayTaskList[selectedIndex].documentPath
+                                                let documentPath = mainViewModel.lendPayTaskList[selectedIndex].documentPath
                                                 Task{
                                                     do{
-                                                        try await registerPayTask.updateIsFinishedPayTask(documentPath: documentPath)
+                                                        try await mainViewModel.registerPayTask.updateIsFinishedPayTask(documentPath: documentPath)
                                                     }catch{
                                                         print("isFinishedの更新に失敗")
                                                     }
@@ -482,84 +477,8 @@ struct MainView: View {
         .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .labeledSuccess(title: "成功", subtitle: "データが追加されました"), delay: 1.5)
         .onAppear {
-            loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
-                if let error = error {
-                    print("borrowPayTasksの取得に失敗",error)
-                }
-
-                // isFinishedがfalseのみ出力させる
-                let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
-                guard let borrowPayTasks = filterborrowPayTasks else { return }
-
-                borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
-                // 借りている合計金額の表示
-                totalBorrowingMoney = 0
-                borrowPayTasks.forEach { borrowPayTask in
-                    totalBorrowingMoney += borrowPayTask.money
-                }
-            }
-
-            // Firestoreから貸しているPayTaskの情報を取得する
-            loadPayTask.fetchLenderPayTask { lendPayTasks, error in
-                if let error = error {
-                    print("lendPayTaskのドキュメントid取得に失敗",error)
-                }
-
-                // isFinishedがfalseのみ出力させる
-                // 前田さんコード
-                let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
-                guard let lendPayTasks = filterLendPayTasks else { return }
-                lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
-                // 貸してる合計金額の表示
-                totalLendingMoney = 0
-                lendPayTasks.forEach { lendPayTask in
-                    totalLendingMoney += lendPayTask.money
-                }
-            }
-
-            // 5秒おきに通信を行う処理
-            // 貸し側が削除された際に自動で借りを削除させる必要があるため。（← もしかしてFirestoreのaddSnapshotListenerを使えば、5秒起きに通信しなくていいかも？？近藤コメ）
-//            timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
-//                // Firestoreから借りているPayTaskの情報を取得する
-//                loadPayTask.fetchBorrowPayTask { borrowPayTasks, error in
-//                    if let error = error {
-//                        print("borrowPayTasksの取得に失敗",error)
-//                    }
-//
-//                    // isFinishedがfalseのみ出力させる
-//                    let filterborrowPayTasks = borrowPayTasks?.filter{ $0.isFinished == false }
-//                    guard let borrowPayTasks = filterborrowPayTasks else { return }
-//
-//                    borrowPayTaskList = sortPayTasks(paytasks: borrowPayTasks)
-//                    // 借りている合計金額の表示
-//                    totalBorrowingMoney = 0
-//                    borrowPayTasks.forEach { borrowPayTask in
-//                        totalBorrowingMoney += borrowPayTask.money
-//                    }
-//                }
-//
-//                // Firestoreから貸しているPayTaskの情報を取得する
-//                loadPayTask.fetchLenderPayTask { lendPayTasks, error in
-//                    if let error = error {
-//                        print("lendPayTaskのドキュメントid取得に失敗",error)
-//                    }
-//
-//                    // isFinishedがfalseのみ出力させる
-//                    // 前田さんコード
-//                    let filterLendPayTasks = lendPayTasks?.filter{ $0.isFinished == false }
-//                    guard let lendPayTasks = filterLendPayTasks else { return }
-//                    lendPayTaskList = sortPayTasks(paytasks: lendPayTasks)
-//
-//                    // 近藤コード
-////                    guard let lendPayTasks = lendPayTasks else { return }
-////                    lendPayTaskList = lendPayTasks
-//                    // 貸してる合計金額の表示
-//                    totalLendingMoney = 0
-//                    lendPayTasks.forEach { lendPayTask in
-//                        totalLendingMoney += lendPayTask.money
-//                    }
-//                }
-//            }
+            mainViewModel.fetchBorrowPayTask()
+            mainViewModel.fetchLenderPayTask()
         }
         .onDisappear {
             timer?.invalidate()
@@ -569,7 +488,6 @@ struct MainView: View {
 }
 }
 
-
 private func createStringDate(timestamp: Timestamp) -> String {
     let date: Date = timestamp.dateValue()
     let formatter = DateFormatter()
@@ -577,16 +495,4 @@ private func createStringDate(timestamp: Timestamp) -> String {
     let dateString = formatter.string(from: date)
 
     return dateString
-}
-
-private func sortPayTasks(paytasks: [PayTask]) -> [PayTask] {
-
-    var tasks = [PayTask]()
-    let aaa = paytasks.sorted(by: { (a, b) -> Bool in
-        return a.endTime.dateValue() < b.endTime.dateValue()
-    })
-    for data in aaa {
-        tasks.append(data)
-    }
-    return tasks
 }
