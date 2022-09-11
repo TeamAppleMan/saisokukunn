@@ -53,6 +53,7 @@ struct CreateQrCodeView: View {
         }
         .onAppear {
             print("相手がQRスキャンしたか、通信中")
+            print("documentPath:",documentPath)
             // Firestoreから借りているPayTaskの情報を取得する
             loadPayTask.fetchLinkPayTask(documentPath: documentPath, completion: { borrowPayTasks, error in
                 if let error = error {

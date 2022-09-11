@@ -41,10 +41,12 @@ class RegisterUser {
         try await db.collection("Users").document(uid).updateData(["lendPayTaskId": FieldValue.arrayRemove([documentPath])])
     }
 
-    private func createdUserToFirestore(userName: String,uid: String) async throws{
+    private func createdUserToFirestore(userName: String,uid: String) async throws {
+        guard let token = UserDefaults.standard.string(forKey: "token") else { return }
         let user: Dictionary<String, Any> = ["userName": userName,
                                              "uid": uid,
-                                             "createdAt": Timestamp()]
+                                             "createdAt": Timestamp(),
+                                             "token": token]
         do{
             try await db.collection("Users").document(uid).setData(user)
             print("Userデータの送信に成功しました")
