@@ -35,6 +35,11 @@
 		95853C6D28B9A51100099AEC /* LoadPayTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95853C6C28B9A51100099AEC /* LoadPayTask.swift */; };
 		958583B328B47B1B009AFD5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B228B47B1B009AFD5E /* User.swift */; };
 		958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958583B628B47C55009AFD5E /* RegisterUser.swift */; };
+		959147E028CD9B2B006B27E7 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959147DF28CD9B2B006B27E7 /* SignUpViewModel.swift */; };
+		959147E228CD9B39006B27E7 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959147E128CD9B39006B27E7 /* MainViewModel.swift */; };
+		959147E428CD9B4F006B27E7 /* ConfirmLendInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959147E328CD9B4F006B27E7 /* ConfirmLendInfoViewModel.swift */; };
+		959147E628CD9B5F006B27E7 /* CreateQrCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959147E528CD9B5F006B27E7 /* CreateQrCodeViewModel.swift */; };
+		959147E828CD9B7F006B27E7 /* ConfirmQrCodeInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959147E728CD9B7F006B27E7 /* ConfirmQrCodeInfoViewModel.swift */; };
 		95E673A228BDCA2800A42B2A /* QrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E673A128BDCA2800A42B2A /* QrCode.swift */; };
 		95E673A528BDCA9400A42B2A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 95E673A428BDCA9400A42B2A /* Alamofire */; };
 		95E673A828BDCAC600A42B2A /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 95E673A728BDCAC600A42B2A /* SwiftyJSON */; };
@@ -99,6 +104,11 @@
 		95853C6C28B9A51100099AEC /* LoadPayTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadPayTask.swift; sourceTree = "<group>"; };
 		958583B228B47B1B009AFD5E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		958583B628B47C55009AFD5E /* RegisterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
+		959147DF28CD9B2B006B27E7 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		959147E128CD9B39006B27E7 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		959147E328CD9B4F006B27E7 /* ConfirmLendInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLendInfoViewModel.swift; sourceTree = "<group>"; };
+		959147E528CD9B5F006B27E7 /* CreateQrCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateQrCodeViewModel.swift; sourceTree = "<group>"; };
+		959147E728CD9B7F006B27E7 /* ConfirmQrCodeInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmQrCodeInfoViewModel.swift; sourceTree = "<group>"; };
 		95E673A128BDCA2800A42B2A /* QrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCode.swift; sourceTree = "<group>"; };
 		D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = saisokukunn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B1784E28B0FF55005F6EC4 /* saisokukunnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saisokukunnApp.swift; sourceTree = "<group>"; };
@@ -263,6 +273,11 @@
 		959147DE28CD9AB4006B27E7 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				959147DF28CD9B2B006B27E7 /* SignUpViewModel.swift */,
+				959147E128CD9B39006B27E7 /* MainViewModel.swift */,
+				959147E328CD9B4F006B27E7 /* ConfirmLendInfoViewModel.swift */,
+				959147E528CD9B5F006B27E7 /* CreateQrCodeViewModel.swift */,
+				959147E728CD9B7F006B27E7 /* ConfirmQrCodeInfoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -296,8 +311,8 @@
 				95345ED128B368D3006FAA96 /* AppDelegate.swift */,
 				95345ED328B36925006FAA96 /* GoogleService-Info.plist */,
 				958583B128B47B08009AFD5E /* Model */,
-				959147DE28CD9AB4006B27E7 /* ViewModel */,
 				87318D9628B30F3200609C6B /* View */,
+				959147DE28CD9AB4006B27E7 /* ViewModel */,
 				87318DB628B318AD00609C6B /* Extentsion */,
 				D4B1785228B0FF57005F6EC4 /* Assets.xcassets */,
 				D4B1785428B0FF57005F6EC4 /* Preview Content */,
@@ -488,7 +503,10 @@
 				87318DB828B318BC00609C6B /* ViewExtension.swift in Sources */,
 				87318D9928B30F8500609C6B /* MainView.swift in Sources */,
 				87318DAC28B3129800609C6B /* ConfirmLendInfoView.swift in Sources */,
+				959147E028CD9B2B006B27E7 /* SignUpViewModel.swift in Sources */,
 				87B44E7128BB39E900928374 /* DateToString.swift in Sources */,
+				959147E428CD9B4F006B27E7 /* ConfirmLendInfoViewModel.swift in Sources */,
+				959147E228CD9B39006B27E7 /* MainViewModel.swift in Sources */,
 				D4FC848C28CCED8F0091AF60 /* PushNotificationView.swift in Sources */,
 				953EEEE928B4D04A003E8F3D /* RegisterPayTask.swift in Sources */,
 				953EEEE728B4CEE5003E8F3D /* PayTask.swift in Sources */,
@@ -505,9 +523,11 @@
 				958583B328B47B1B009AFD5E /* User.swift in Sources */,
 				958583B728B47C55009AFD5E /* RegisterUser.swift in Sources */,
 				87318DAE28B312A100609C6B /* RegisterLendInfoView.swift in Sources */,
+				959147E628CD9B5F006B27E7 /* CreateQrCodeViewModel.swift in Sources */,
 				D4B1784F28B0FF55005F6EC4 /* saisokukunnApp.swift in Sources */,
 				95E673A228BDCA2800A42B2A /* QrCode.swift in Sources */,
 				87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */,
+				959147E828CD9B7F006B27E7 /* ConfirmQrCodeInfoViewModel.swift in Sources */,
 				87318DA828B3128300609C6B /* ThrowQrCodeScannerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
