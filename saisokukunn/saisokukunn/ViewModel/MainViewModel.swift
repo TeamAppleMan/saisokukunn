@@ -36,7 +36,7 @@ class MainViewModel: ObservableObject {
             self.borrowPayTaskList = self.sortPayTasks(paytasks: borrowPayTasks)
             // 借りている合計金額の表示
             borrowPayTasks.forEach { borrowPayTask in
-                self.totalBorrowingMoney = borrowPayTask.money
+                self.totalBorrowingMoney += borrowPayTask.money
             }
         }
     }
@@ -50,7 +50,7 @@ class MainViewModel: ObservableObject {
             self.lendPayTaskList = self.sortPayTasks(paytasks: lendPayTasks)
             // 貸している合計金額の表示
             lendPayTasks.forEach { lendPayTask in
-                self.totalLendingMoney = lendPayTask.money
+                self.totalLendingMoney += lendPayTask.money
             }
         }
 

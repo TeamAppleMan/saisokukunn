@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ConfirmLendInfoView: View {
+    @ObservedObject var confirmLendInfoViewModel = ConfirmLendInfoViewModel()
+
     @Binding var title: String
     @Binding var money: String
     @Binding var endTime: Date
@@ -18,8 +20,6 @@ struct ConfirmLendInfoView: View {
     @State var createdQrImage: Image
     @State var documentPath: String = ""
     var userName = String()
-
-    let registerPayTask = RegisterPayTask()
 
     // TODO: 下の関数は改良してModelに突っ込みたい
     func dateToString(date: Date) -> String {
@@ -79,14 +79,14 @@ struct ConfirmLendInfoView: View {
                             isPkhudProgress = true
                             Task{
                                 do{
-                                    // paytaskのドキュメントID発行
-                                    registerPayTask.payTaskDocumentPath = NSUUID().uuidString
-                                    self.documentPath = registerPayTask.payTaskDocumentPath
+                                    // この辺りリファクタリングしたい（ViewModelにまとめたい）
+                                    confirmLendInfoViewModel.registerPayTask.payTaskDocumentPath = NSUUID().uuidString
+                                    self.documentPath = confirmLendInfoViewModel.registerPayTask.payTaskDocumentPath
                                     // QRコード生成
-                                    let qrDecodedData = try await registerPayTask.fetchQrCode()
+                                    try await confirmLendInfoViewModel.fetchQrCode()
 
-                                    createdQrImage = Image(uiImage: UIImage(data: qrDecodedData ) ?? UIImage())
-                                    try await registerPayTask.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
+                                    createdQrImage = Image(uiImage: UIImage(data: confirmLendInfoViewModel.qrDecodedData ) ?? UIImage())
+                                    try await confirmLendInfoViewModel.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
                                     isPkhudProgress = false
                                     // CreateQrCodeの画面に遷移
