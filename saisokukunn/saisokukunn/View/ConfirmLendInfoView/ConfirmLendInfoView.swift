@@ -81,11 +81,13 @@ struct ConfirmLendInfoView: View {
                                 do{
                                     // この辺りリファクタリングしたい（ViewModelにまとめたい）
                                     confirmLendInfoViewModel.registerPayTask.payTaskDocumentPath = NSUUID().uuidString
+                                    // CreateQrCodeViewに渡す用のパス
                                     self.documentPath = confirmLendInfoViewModel.registerPayTask.payTaskDocumentPath
                                     // QRコード生成
                                     try await confirmLendInfoViewModel.fetchQrCode()
 
-                                    createdQrImage = Image(uiImage: UIImage(data: confirmLendInfoViewModel.qrDecodedData ) ?? UIImage())
+                                    // CreateQrCodeViewに渡す用のイメージ
+                                    self.createdQrImage = Image(uiImage: UIImage(data: confirmLendInfoViewModel.qrDecodedData ) ?? UIImage())
                                     try await confirmLendInfoViewModel.createPayTaskToFirestore(title: title, money: Int(money) ?? 0, endTime: endTime)
 
                                     isPkhudProgress = false

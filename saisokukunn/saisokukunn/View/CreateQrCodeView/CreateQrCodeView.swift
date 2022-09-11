@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct CreateQrCodeView: View {
+    // ConfirmQrCodeViewから受け取るQrのimage
     let qrImage: Image
     @EnvironmentObject var environmentData: EnvironmentData
+    // ConfirmQrCodeViewから受け取るドキュメントPath
     @State var documentPath: String
     @State var timer: Timer?
 
@@ -64,6 +66,7 @@ struct CreateQrCodeView: View {
                     environmentData.isBorrowViewActiveEnvironment.wrappedValue = false
                 }
             })
+
         }
         .onDisappear {
             timer?.invalidate()
