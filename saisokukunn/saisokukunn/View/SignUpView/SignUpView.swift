@@ -10,13 +10,14 @@ import FirebaseAuth
 import PKHUD
 
 struct SignUpView: View {
+
+    @ObservedObject var signUpViewModel = SignUpViewModel()
+
     @State private var isActiveSignUpView = false
     @State private var userName = String()
     @State private var isPkhudProgress = false
     @State private var isPkhudFailure = false
     @State private var isNotCharactersAlert = false
-
-    let registerUser = RegisterUser()
 
     var body: some View{
         let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
@@ -63,9 +64,7 @@ struct SignUpView: View {
                     isPkhudProgress = true
                     Task{
                         do{
-                            try await registerUser.signIn(userName: userName.replacingOccurrences(of: "　", with: " "))
-                            //UserProfile
-                            mainView.userName = userName
+                            try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "))
                             // MainViewへ画面遷移
                             isPkhudProgress = false
                             isActiveSignUpView = true

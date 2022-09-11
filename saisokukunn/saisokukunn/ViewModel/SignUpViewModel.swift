@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
+
+class SignUpViewModel: ObservableObject {
+    @Published var registerUser = RegisterUser()
+
+    func signIn(userName: String) async throws {
+        try await registerUser.signIn(userName: userName)
+    }
+
+}
