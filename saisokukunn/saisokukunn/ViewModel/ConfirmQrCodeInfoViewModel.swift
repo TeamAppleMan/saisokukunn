@@ -6,3 +6,12 @@
 //
 
 import Foundation
+import SwiftUI
+
+class ConfirmQrCodeInfoViewModel: ObservableObject {
+   @Published var registerPayTask = RegisterPayTask()
+
+    func addLenderUIDToFireStore(documentPath: String) async throws {
+        try await registerPayTask.addLenderUIDToFireStore(payTaskPath: documentPath)
+    }
+}

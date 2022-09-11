@@ -5,10 +5,14 @@
 //  Created by 前田航汰 on 2022/08/22.
 //
 
+//let view = UIHostingController(rootView: ConfirmQrCodeInfoView(title: payTask.title, lendPerson: payTask.borrowerUserName ?? "", money: String(payTask.money), endTime: payTask.endTime.dateValue(),documentPath: code))
+
 import SwiftUI
 
 struct ConfirmQrCodeInfoView: View {
+    @ObservedObject var confirmQrCodeInfoViewModel = ConfirmQrCodeInfoViewModel()
     @EnvironmentObject var environmentData: EnvironmentData
+    // title, lendPerson, money, endTime, documentPathはすべてQrCodeScannerViewControllerから受け取っている
     @State var title: String
     @State var lendPerson: String
     @State var money: String
@@ -19,7 +23,6 @@ struct ConfirmQrCodeInfoView: View {
     @State private var isPkhudFailure = false
 
     var body: some View {
-        let registerPayTask = RegisterPayTask()
 
         let displayBounds = UIScreen.main.bounds
         let displayWidth = displayBounds.width
@@ -69,7 +72,7 @@ struct ConfirmQrCodeInfoView: View {
                         // Firestoreに貸す側のUIDをPayTaskのフィールドに送信
                         Task{
                             do{
-                                try await registerPayTask.addLenderUIDToFireStore(payTaskPath: documentPath)
+                                try await confirmQrCodeInfoViewModel.addLenderUIDToFireStore(documentPath: documentPath)
                                 isPkhudProgress = false
                                 environmentData.isLendViewActiveEnvironment.wrappedValue = false
                                 print("PayTasksに対してlenderUIDの送信に成功しました")

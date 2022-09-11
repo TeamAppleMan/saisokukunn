@@ -35,6 +35,7 @@ class MainViewModel: ObservableObject {
             guard let borrowPayTasks = borrowPayTasks else { return }
             self.borrowPayTaskList = self.sortPayTasks(paytasks: borrowPayTasks)
             // 借りている合計金額の表示
+            self.totalBorrowingMoney = 0
             borrowPayTasks.forEach { borrowPayTask in
                 self.totalBorrowingMoney += borrowPayTask.money
             }
@@ -49,6 +50,7 @@ class MainViewModel: ObservableObject {
             guard let lendPayTasks = lendPayTasks else { return }
             self.lendPayTaskList = self.sortPayTasks(paytasks: lendPayTasks)
             // 貸している合計金額の表示
+            self.totalLendingMoney = 0
             lendPayTasks.forEach { lendPayTask in
                 self.totalLendingMoney += lendPayTask.money
             }
