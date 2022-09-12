@@ -61,7 +61,7 @@ struct MainView: View {
         let accountButtonSystemImageName = "person.crop.circle"
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
-        let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
+        let textThinGrayColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
         NavigationView {
             ZStack {
@@ -277,6 +277,7 @@ struct MainView: View {
 
                                                         VStack(alignment: .leading) {
                                                             Text(mainViewModel.borrowPayTaskList[index].title)
+                                                                .foregroundColor(Color.black)
                                                                 .font(.system(.headline, design: .rounded))
                                                                 .bold()
                                                             Text(mainViewModel.borrowPayTaskList[index].lenderUserName ?? "")
@@ -286,6 +287,7 @@ struct MainView: View {
 
                                                         Spacer()
                                                         Text("¥ \(mainViewModel.borrowPayTaskList[index].money)")
+                                                            .foregroundColor(Color.black)
                                                             .bold()
                                                             .padding()
                                                     }
@@ -309,7 +311,7 @@ struct MainView: View {
                                             .frame(height: imageHeight, alignment: .center)
 
                                         Text("現在、誰にもお金を借りていません")
-                                            .foregroundColor(textColor)
+                                            .foregroundColor(textThinGrayColor)
                                             .font(.callout)
 
                                     }
@@ -375,6 +377,7 @@ struct MainView: View {
 
                                                         VStack(alignment: .leading) {
                                                             Text(mainViewModel.lendPayTaskList[index].title)
+                                                                .foregroundColor(Color.black)
                                                                 .font(.system(.headline, design: .rounded))
                                                                 .bold()
                                                             Text(mainViewModel.lendPayTaskList[index].borrowerUserName ?? "")
@@ -384,6 +387,7 @@ struct MainView: View {
 
                                                         Spacer()
                                                         Text("¥ \(mainViewModel.lendPayTaskList[index].money)")
+                                                            .foregroundColor(Color.black)
                                                             .bold()
                                                             .padding()
 
@@ -415,7 +419,7 @@ struct MainView: View {
                                             .frame(height: imageHeight, alignment: .center)
 
                                         Text("現在、誰にもお金を貸していません")
-                                            .foregroundColor(textColor)
+                                            .foregroundColor(textThinGrayColor)
                                             .font(.callout)
 
                                     }
