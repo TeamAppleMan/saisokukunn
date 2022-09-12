@@ -99,7 +99,7 @@ struct ConfirmQrCodeInfoView: View {
 
             Spacer(minLength: 15)
         }
-        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "通信中", subtitle: "通信中です。\nしばらくお待ち下さい。"), delay: .infinity)
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "通信に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
         .onDisappear {
             if !environmentData.isLendViewActiveEnvironment.wrappedValue {
@@ -108,11 +108,3 @@ struct ConfirmQrCodeInfoView: View {
         }
     }
 }
-
-//struct ConfirmQrCodeInfoView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationView{
-//            ConfirmQrCodeInfoView(title: "お好み焼き代", lendPerson: "佐藤健", money: "25000", endTime: Date(), documentPath: "ダミー")
-//        }
-//    }
-//}

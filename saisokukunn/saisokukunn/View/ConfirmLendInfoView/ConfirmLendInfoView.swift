@@ -108,7 +108,7 @@ struct ConfirmLendInfoView: View {
 
             Spacer()
         }
-        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "QR作成中", subtitle: "QRコードを作成中です"), delay: .infinity)
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "QR作成に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
     }
 }

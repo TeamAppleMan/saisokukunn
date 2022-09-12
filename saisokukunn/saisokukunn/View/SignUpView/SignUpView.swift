@@ -14,7 +14,7 @@ struct SignUpView: View {
     @ObservedObject var signUpViewModel = SignUpViewModel()
 
     @State private var isActiveSignUpView = false
-    @State private var userName = String()
+    @AppStorage("userName") private var userName = String()
     @State private var isPkhudProgress = false
     @State private var isPkhudFailure = false
     @State private var isNotCharactersAlert = false
@@ -97,7 +97,7 @@ struct SignUpView: View {
             }
 
         }
-        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .labeledProgress(title: "作成中", subtitle: "アカウントを作成中です"), delay: .infinity)
+        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "アカウント作成に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
         .onAppear {
             // uidが存在するならMainViewへ移動

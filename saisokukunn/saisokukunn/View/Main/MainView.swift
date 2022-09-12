@@ -31,7 +31,6 @@ struct MainView: View {
     @EnvironmentObject var environmentData: EnvironmentData
     @Binding var isActiveSignUpView: Bool
     @State private var isPkhudProgress = false
-    @State var timer: Timer?
 
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
@@ -479,9 +478,6 @@ struct MainView: View {
         .onAppear {
             mainViewModel.fetchBorrowPayTask()
             mainViewModel.fetchLenderPayTask()
-        }
-        .onDisappear {
-            timer?.invalidate()
         }
         .navigationBarHidden(true)
     }
