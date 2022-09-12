@@ -127,8 +127,10 @@ struct MainView: View {
                                     isBorrowActive = true
                                     environmentData.isBorrowViewActiveEnvironment = $isBorrowActive
                                 }, label: {
-                                    Image(systemName: addLoanSystemImageName)
-                                        .padding()
+                                    Image("AddMoney2")
+                                        .resizable()
+                                        .frame(width: 35.0, height: 35.0)
+                                        .padding(8)
                                         .accentColor(Color.black)
                                         .background(Color.white)
                                         .cornerRadius(25)
@@ -143,7 +145,8 @@ struct MainView: View {
 
                                 }, label: {
                                     Image(systemName: qrSystemImageName)
-                                        .padding()
+                                        .font(.title)
+                                        .padding(9)
                                         .accentColor(Color.black)
                                         .background(Color.white)
                                         .cornerRadius(25)
