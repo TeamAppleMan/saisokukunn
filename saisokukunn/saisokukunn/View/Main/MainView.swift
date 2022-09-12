@@ -45,6 +45,7 @@ struct MainView: View {
     @State private var isShowingUserDeleteAlert: Bool = false
     @AppStorage("userName") var userName: String = ""
 
+
     init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
         UITableView.appearance().backgroundColor = .clear
@@ -62,6 +63,9 @@ struct MainView: View {
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
         let textThinGrayColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
+
+        // 下記はModelと繋がってしまっている。
+        let createLimitDay = CreateLimiteDay()
 
         NavigationView {
             ZStack {
@@ -441,8 +445,8 @@ struct MainView: View {
                                                        \(createStringDate(timestamp: payTask!.createdAt))〜\(createStringDate(timestamp: payTask!.endTime))
                                                        \(payTask!.title)
                                                        \(payTask!.money)円
-                                                       〇〇さん
-                                                       残り〇〇日
+                                                       \(payTask!.lenderUserName ?? "")さん
+                                                       残り\(createLimitDay.createLimitDay(endTime: payTask!.endTime))日
                                                        """))
                         case .lendLendInfo:
                             return Alert(title: Text("貸し詳細"),
@@ -450,8 +454,8 @@ struct MainView: View {
                                                        \(createStringDate(timestamp: payTask!.createdAt))〜\(createStringDate(timestamp: payTask!.endTime))
                                                        \(payTask!.title)
                                                        \(payTask!.money)円
-                                                       〇〇さん
-                                                       残り〇〇日
+                                                       \(payTask!.borrowerUserName ?? "")さん
+                                                       残り\(createLimitDay.createLimitDay(endTime: payTask!.endTime))日
                                                        """))
                         case .payCompleted:
                             return Alert(title: Text("完了"),
