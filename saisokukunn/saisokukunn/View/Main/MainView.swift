@@ -45,7 +45,6 @@ struct MainView: View {
     @State private var isShowingUserDeleteAlert: Bool = false
     @AppStorage("userName") var userName: String = ""
 
-
     init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
         UITableView.appearance().backgroundColor = .clear
@@ -103,6 +102,7 @@ struct MainView: View {
                                             do {
                                                 try await mainViewModel.registerUser.signOut()
                                                 isPkhudProgress = false
+                                                userName = ""
                                                 isActiveSignUpView = false
                                             }
                                             catch{
