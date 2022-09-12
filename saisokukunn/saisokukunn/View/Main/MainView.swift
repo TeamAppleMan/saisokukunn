@@ -482,7 +482,7 @@ struct MainView: View {
 
             }
             .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
-            .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .labeledSuccess(title: "成功", subtitle: "データが追加されました"), delay: 1.5)
+            .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .success, delay: 1.5)
             .onAppear {
                 mainViewModel.fetchBorrowPayTask()
                 mainViewModel.fetchLenderPayTask()
