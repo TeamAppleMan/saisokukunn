@@ -22,6 +22,7 @@ struct SignUpView: View {
         let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
         let inputAccessoryHorizontalMargin = 25.0
         let mainView = MainView(isActiveSignUpView: $isActiveSignUpView)
+        let thinGrayColor = Color.init(red: 0.92, green: 0.92, blue: 0.92)
 
         let displayBounds = UIScreen.main.bounds
         let displayHeight = displayBounds.height
@@ -68,15 +69,16 @@ struct SignUpView: View {
                     Text("アカウント登録")
                         .frame(width: 150.0, alignment: .center)
                         .padding()
-                        .accentColor(Color.white)
-                        .background(Color.gray)
+                        .accentColor(userName.isEmpty ? Color.black : Color.white)
+                        .background(userName.isEmpty ? thinGrayColor : Color.gray)
                         .cornerRadius(25)
-                        .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
+                        .shadow(color: userName.isEmpty ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
                         .padding()
                 }
                 .fullScreenCover(isPresented: $isActiveSignUpView) {
                     mainView.environmentObject(EnvironmentData())
                 }
+                .disabled(userName.isEmpty)
 
             }
 
