@@ -13,7 +13,6 @@ struct RegisterLendInfoView: View {
     @State var endTime: Date = Date()
     @State var isNextButtonActive: Bool = false
     @State var aleartText: String = ""
-    @State private var isShowAlert = false
 
     var body: some View {
         let displayBounds = UIScreen.main.bounds
@@ -23,6 +22,7 @@ struct RegisterLendInfoView: View {
         let inputAccessoryHorizontalMargin = 25.0
         let imageHeight = displayHeight/3.25
         let confirmationButtonWidth = 150.0
+        let thinGrayColor = Color.init(red: 0.92, green: 0.92, blue: 0.92)
 
         let titleTextColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
@@ -36,7 +36,6 @@ struct RegisterLendInfoView: View {
                     .scaledToFit()
                     .frame(height: imageHeight, alignment: .center)
             }.padding(.bottom)
-
 
             VStack(alignment: .leading, spacing: 5) {
                 Text("タイトル")
@@ -72,31 +71,18 @@ struct RegisterLendInfoView: View {
                         isActive: $isNextButtonActive,
                         label: {
                             Button(action: {
-                                if title.isEmpty && !money.isEmpty {
-                                    isShowAlert = true
-                                    aleartText = "タイトルを入力して下さい"
-                                } else if !title.isEmpty && money.isEmpty {
-                                    isShowAlert = true
-                                    aleartText = "金額を入力して下さい"
-                                } else if title.isEmpty && money.isEmpty {
-                                    isShowAlert = true
-                                    aleartText = "タイトルと金額を入力して下さい"
-                                } else {
-                                    isNextButtonActive = true
-                                }
+                                isNextButtonActive = true
                             }) {
                                 Text("確認")
                                     .frame(width: confirmationButtonWidth, alignment: .center)
                                     .padding()
-                                    .accentColor(Color.white)
-                                    .background(Color.gray)
+                                    .accentColor(title.isEmpty || money.isEmpty ? Color.gray : Color.white)
+                                    .background(title.isEmpty || money.isEmpty ? thinGrayColor : Color.gray)
                                     .cornerRadius(25)
-                                    .shadow(color: Color.gray, radius: 10, x: 0, y: 3)
+                                    .shadow(color: title.isEmpty || money.isEmpty ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
                                     .padding()
                             }
-                            .alert(isPresented: $isShowAlert) {
-                                Alert(title: Text("エラー"), message: Text(aleartText))
-                            }
+                            .disabled(title.isEmpty || money.isEmpty)
                         }
                     )
                     Spacer()

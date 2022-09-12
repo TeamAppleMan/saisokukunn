@@ -13,7 +13,6 @@ struct CreateQrCodeView: View {
     @EnvironmentObject var environmentData: EnvironmentData
     // ConfirmQrCodeViewから受け取るドキュメントPath
     @State var documentPath: String
-    @State var timer: Timer?
 
     let loadPayTask = LoadPayTask()
 
@@ -69,7 +68,6 @@ struct CreateQrCodeView: View {
 
         }
         .onDisappear {
-            timer?.invalidate()
             // 画面がMainへ直接遷移した際にPKHUDの出力。
             if !environmentData.isBorrowViewActiveEnvironment.wrappedValue {
                 environmentData.isAddDataPkhudAlert = true
@@ -79,9 +77,3 @@ struct CreateQrCodeView: View {
     }
 
 }
-
-//struct CreateQrCodeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateQrCodeView(title: Binding("お好み焼き代"), money: Binding(4850), endTime: Binding(Date()))
-//    }
-//}

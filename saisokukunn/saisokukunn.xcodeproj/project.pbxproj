@@ -689,10 +689,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X9S244452;
+				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saisokukunn/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "催促くん";
 				INFOPLIST_KEY_NSCameraUsageDescription = "QRコードをスキャンするために使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -706,7 +707,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.mkondo.saisokukunn;
+				PRODUCT_BUNDLE_IDENTIFIER = org.tetoblog.saisokukunn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -729,6 +730,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saisokukunn/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "催促くん";
 				INFOPLIST_KEY_NSCameraUsageDescription = "QRコードをスキャンするために使用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -742,7 +744,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.yuukirinnma.saisokukunn;
+				PRODUCT_BUNDLE_IDENTIFIER = org.tetoblog.saisokukunn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Saisokukunn Provisioning Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;

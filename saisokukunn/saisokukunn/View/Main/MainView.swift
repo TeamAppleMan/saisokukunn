@@ -31,7 +31,6 @@ struct MainView: View {
     @EnvironmentObject var environmentData: EnvironmentData
     @Binding var isActiveSignUpView: Bool
     @State private var isPkhudProgress = false
-    @State var timer: Timer?
 
     @State var selectedLoanIndex: Int = 0
     @State var isAddLoanButton: Bool = false
@@ -63,7 +62,10 @@ struct MainView: View {
         let accountButtonSystemImageName = "person.crop.circle"
         let yenMarkCustomFont = "Futura"
         let loanTotalMoneyCustomFont = "Futura-Bold"
-        let textColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
+        let textThinGrayColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
+
+        // 下記はModelと繋がってしまっている。
+        let createLimitDay = CreateLimiteDay()
 
         NavigationView {
             ZStack {
@@ -104,6 +106,7 @@ struct MainView: View {
                                             do {
                                                 try await mainViewModel.registerUser.signOut()
                                                 isPkhudProgress = false
+                                                userName = ""
                                                 isActiveSignUpView = false
                                             }
                                             catch{
@@ -124,8 +127,10 @@ struct MainView: View {
                                     isBorrowActive = true
                                     environmentData.isBorrowViewActiveEnvironment = $isBorrowActive
                                 }, label: {
-                                    Image(systemName: addLoanSystemImageName)
-                                        .padding()
+                                    Image("AddMoney2")
+                                        .resizable()
+                                        .frame(width: 35.0, height: 35.0)
+                                        .padding(8)
                                         .accentColor(Color.black)
                                         .background(Color.white)
                                         .cornerRadius(25)
@@ -140,7 +145,8 @@ struct MainView: View {
 
                                 }, label: {
                                     Image(systemName: qrSystemImageName)
-                                        .padding()
+                                        .font(.title)
+                                        .padding(9)
                                         .accentColor(Color.black)
                                         .background(Color.white)
                                         .cornerRadius(25)
@@ -278,6 +284,7 @@ struct MainView: View {
 
                                                         VStack(alignment: .leading) {
                                                             Text(mainViewModel.borrowPayTaskList[index].title)
+                                                                .foregroundColor(Color.black)
                                                                 .font(.system(.headline, design: .rounded))
                                                                 .bold()
                                                             Text(mainViewModel.borrowPayTaskList[index].lenderUserName ?? "")
@@ -287,6 +294,7 @@ struct MainView: View {
 
                                                         Spacer()
                                                         Text("¥ \(mainViewModel.borrowPayTaskList[index].money)")
+                                                            .foregroundColor(Color.black)
                                                             .bold()
                                                             .padding()
                                                     }
@@ -310,7 +318,7 @@ struct MainView: View {
                                             .frame(height: imageHeight, alignment: .center)
 
                                         Text("現在、誰にもお金を借りていません")
-                                            .foregroundColor(textColor)
+                                            .foregroundColor(textThinGrayColor)
                                             .font(.callout)
 
                                     }
@@ -376,6 +384,7 @@ struct MainView: View {
 
                                                         VStack(alignment: .leading) {
                                                             Text(mainViewModel.lendPayTaskList[index].title)
+                                                                .foregroundColor(Color.black)
                                                                 .font(.system(.headline, design: .rounded))
                                                                 .bold()
                                                             Text(mainViewModel.lendPayTaskList[index].borrowerUserName ?? "")
@@ -385,6 +394,7 @@ struct MainView: View {
 
                                                         Spacer()
                                                         Text("¥ \(mainViewModel.lendPayTaskList[index].money)")
+                                                            .foregroundColor(Color.black)
                                                             .bold()
                                                             .padding()
 
@@ -416,7 +426,7 @@ struct MainView: View {
                                             .frame(height: imageHeight, alignment: .center)
 
                                         Text("現在、誰にもお金を貸していません")
-                                            .foregroundColor(textColor)
+                                            .foregroundColor(textThinGrayColor)
                                             .font(.callout)
 
                                     }
@@ -438,8 +448,8 @@ struct MainView: View {
                                                        \(createStringDate(timestamp: payTask!.createdAt))〜\(createStringDate(timestamp: payTask!.endTime))
                                                        \(payTask!.title)
                                                        \(payTask!.money)円
-                                                       〇〇さん
-                                                       残り〇〇日
+                                                       \(payTask!.lenderUserName ?? "")さん
+                                                       残り\(createLimitDay.createLimitDay(endTime: payTask!.endTime))日
                                                        """))
                         case .lendLendInfo:
                             return Alert(title: Text("貸し詳細"),
@@ -447,8 +457,8 @@ struct MainView: View {
                                                        \(createStringDate(timestamp: payTask!.createdAt))〜\(createStringDate(timestamp: payTask!.endTime))
                                                        \(payTask!.title)
                                                        \(payTask!.money)円
-                                                       〇〇さん
-                                                       残り〇〇日
+                                                       \(payTask!.borrowerUserName ?? "")さん
+                                                       残り\(createLimitDay.createLimitDay(endTime: payTask!.endTime))日
                                                        """))
                         case .payCompleted:
                             return Alert(title: Text("完了"),
@@ -473,19 +483,16 @@ struct MainView: View {
                     }
                 }
 
+            }
+            .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
+            .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .success, delay: 1.5)
+            .onAppear {
+                mainViewModel.fetchBorrowPayTask()
+                mainViewModel.fetchLenderPayTask()
+            }
+            .navigationBarHidden(true)
         }
-        .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
-        .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .labeledSuccess(title: "成功", subtitle: "データが追加されました"), delay: 1.5)
-        .onAppear {
-            mainViewModel.fetchBorrowPayTask()
-            mainViewModel.fetchLenderPayTask()
-        }
-        .onDisappear {
-            timer?.invalidate()
-        }
-        .navigationBarHidden(true)
     }
-}
 }
 
 private func createStringDate(timestamp: Timestamp) -> String {
