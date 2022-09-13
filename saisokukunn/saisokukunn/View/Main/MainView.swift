@@ -251,6 +251,7 @@ struct MainView: View {
                                                             allDay: allDay,
                                                             valueRatio: valueRatio
                                                         )
+                                                        .padding(.trailing, 10)
 
                                                         VStack(alignment: .leading) {
                                                             Text(mainViewModel.borrowPayTaskList[index].title)
@@ -279,6 +280,7 @@ struct MainView: View {
                                     }
                                     .listStyle(.insetGrouped)
                                     .ignoresSafeArea()
+
                                 } else {
                                     Spacer()
                                     VStack(alignment: .center) {
@@ -318,7 +320,12 @@ struct MainView: View {
                                                         let allDay = CreateAllDay().createAllDay(startTime: mainViewModel.lendPayTaskList[index].createdAt, endTime: mainViewModel.lendPayTaskList[index].endTime)
                                                         let valueRatio = (1.0-CGFloat(limitDay)/CGFloat(allDay)) <= 0 ? 1.0 - CGFloat(limitDay)/CGFloat(allDay) : 1.0
 
-                                                        LimitDayGage(limitDay: limitDay, allDay: allDay, valueRatio: valueRatio)
+                                                        LimitDayGage(
+                                                            limitDay: limitDay,
+                                                            allDay: allDay,
+                                                            valueRatio: valueRatio
+                                                        )
+                                                        .padding(.trailing, 10)
 
                                                         VStack(alignment: .leading) {
                                                             Text(mainViewModel.lendPayTaskList[index].title)
@@ -427,7 +434,7 @@ struct MainView: View {
             .onAppear {
                 mainViewModel.fetchLenderPayTask()
                 mainViewModel.fetchBorrowPayTask()
-
+                print("呼ばれた")
             }
             .navigationBarHidden(true)
         }

@@ -17,14 +17,17 @@
 import SwiftUI
 
 struct LimitDayGage: View {
-    @State var limitDay: Int
-    @State var allDay: Int
+    var limitDay: Int
+    var allDay: Int
     @State var valueStartRatio: CGFloat = 0
-    @State var valueRatio: CGFloat
+    var valueRatio: CGFloat
 
     let pieRedBackGroundColorLv1 = Color.init(red: 1.0, green: 0.90, blue: 0.90)
+    let pieRedBackGroundColorLv1Outside = Color.init(red: 1.0, green: 0.75, blue: 0.75)
     let pieRedBackGroundColorLv2 = Color.init(red: 1.0, green: 0.70, blue: 0.70)
-    let pieRedBackGroundColorLv3 = Color.init(red: 1.0, green: 0.40, blue: 0.40)
+    let pieRedBackGroundColorLv2Outside = Color.init(red: 1.0, green: 0.60, blue: 0.60)
+    let pieRedBackGroundColorLv3 = Color.init(red: 1.0, green: 0.45, blue: 0.45)
+    let pieRedBackGroundColorLv3Outside = Color.init(red: 1.0, green: 0.2, blue: 0.2)
 
     let grayTextColor = Color.gray
     let grayBackgroundColor = Color.init(red: 0.95, green: 0.95, blue: 0.95)
@@ -33,18 +36,40 @@ struct LimitDayGage: View {
 
         ZStack {
 
-            PieProgressView(value: valueStartRatio)
-                .frame(width: 65, height: 65)
-                .onAppear {
-                    withAnimation(.linear(duration: 1.5)) {
-                        print(limitDay)
-                        print(allDay)
-                        print(CGFloat(limitDay)/CGFloat(allDay))
-                        print(valueRatio)
-                        self.valueStartRatio = valueRatio
+            if limitDay <= 0 {
+                PieProgressView(value: valueStartRatio, outsideColor: pieRedBackGroundColorLv3Outside)
+                    .frame(width: 65, height: 65)
+                    .onAppear {
+                        withAnimation(.linear(duration: 1.5)) {
+                            self.valueStartRatio = valueRatio
+                        }
                     }
-                }
+            } else if limitDay <= 3 {
+                PieProgressView(value: valueStartRatio, outsideColor: pieRedBackGroundColorLv2Outside)
+                    .frame(width: 65, height: 65)
+                    .onAppear {
+                        withAnimation(.linear(duration: 1.5)) {
+                            self.valueStartRatio = valueRatio
+                        }
+                    }
+            } else if limitDay <= 5 {
+                PieProgressView(value: valueStartRatio, outsideColor: pieRedBackGroundColorLv1Outside)
+                    .frame(width: 65, height: 65)
+                    .onAppear {
+                        withAnimation(.linear(duration: 1.5)) {
+                            self.valueStartRatio = valueRatio
+                        }
+                    }
+            } else {
+                PieProgressView(value: valueStartRatio, outsideColor: grayTextColor)
+                    .frame(width: 65, height: 65)
+                    .onAppear {
+                        withAnimation(.linear(duration: 1.5)) {
+                            self.valueStartRatio = valueRatio
+                        }
+                    }
 
+            }
 
             if limitDay <= 0 {
                 HStack {
@@ -139,12 +164,15 @@ struct LimitDayGage: View {
                 .background(Color.init(red: 0.95, green: 0.95, blue: 0.95))
                 .cornerRadius(35)
             }
+        }.onAppear{
+            valueStartRatio = 0
         }
     }
 }
 
 struct PieProgressView: View {
     let value: CGFloat
+    let outsideColor: Color
 
     var body: some View {
 
@@ -152,7 +180,7 @@ struct PieProgressView: View {
             Circle()
                 .fill(Color.black.opacity(0.08))
             PieShape(value: value)
-                .fill(.gray)
+                .fill(outsideColor)
                 .rotationEffect(.degrees(-90))
         }
 
