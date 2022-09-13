@@ -21,6 +21,8 @@
 		87318DB828B318BC00609C6B /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DB728B318BC00609C6B /* ViewExtension.swift */; };
 		8739303C28C5B3DA00624FCB /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 8739303B28C5B3DA00624FCB /* PKHUD */; };
 		8739303E28C5B48C00624FCB /* PKHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8739303D28C5B48C00624FCB /* PKHUDView.swift */; };
+		87976DF128CF755D00AC5586 /* LimitDayGage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87976DF028CF755D00AC5586 /* LimitDayGage.swift */; };
+		87976DF328CF7FFD00AC5586 /* CreateAllDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87976DF228CF7FFD00AC5586 /* CreateAllDay.swift */; };
 		87B44E6D28BAFF3F00928374 /* UIAplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6C28BAFF3F00928374 /* UIAplication.swift */; };
 		87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E6E28BB07C200928374 /* LendInfoView.swift */; };
 		87B44E7128BB39E900928374 /* DateToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E7028BB39E900928374 /* DateToString.swift */; };
@@ -89,6 +91,8 @@
 		87318DB128B3136200609C6B /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		87318DB728B318BC00609C6B /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		8739303D28C5B48C00624FCB /* PKHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKHUDView.swift; sourceTree = "<group>"; };
+		87976DF028CF755D00AC5586 /* LimitDayGage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitDayGage.swift; sourceTree = "<group>"; };
+		87976DF228CF7FFD00AC5586 /* CreateAllDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAllDay.swift; sourceTree = "<group>"; };
 		87B44E6C28BAFF3F00928374 /* UIAplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAplication.swift; sourceTree = "<group>"; };
 		87B44E6E28BB07C200928374 /* LendInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendInfoView.swift; sourceTree = "<group>"; };
 		87B44E7028BB39E900928374 /* DateToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateToString.swift; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 				87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */,
 				8739303D28C5B48C00624FCB /* PKHUDView.swift */,
 				D4FC848B28CCED8E0091AF60 /* PushNotificationView.swift */,
+				87976DF028CF755D00AC5586 /* LimitDayGage.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 				87B44E7028BB39E900928374 /* DateToString.swift */,
 				95E673A128BDCA2800A42B2A /* QrCode.swift */,
 				87D00FA328CAC32100D95A6E /* CreateLimiteDay.swift */,
+				87976DF228CF7FFD00AC5586 /* CreateAllDay.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -511,7 +517,9 @@
 				953EEEE928B4D04A003E8F3D /* RegisterPayTask.swift in Sources */,
 				953EEEE728B4CEE5003E8F3D /* PayTask.swift in Sources */,
 				87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */,
+				87976DF128CF755D00AC5586 /* LimitDayGage.swift in Sources */,
 				8715EB4128BD119E0080E6B0 /* BorrowInfoView.swift in Sources */,
+				87976DF328CF7FFD00AC5586 /* CreateAllDay.swift in Sources */,
 				87DDA98F28B48BC200123EF3 /* ShadowButtonView.swift in Sources */,
 				955CB57128C32B2F00060737 /* LoadUser.swift in Sources */,
 				9529C3E128BC452000EA4314 /* QrCodeBoxView.swift in Sources */,
