@@ -59,6 +59,8 @@
 		D4FC84A628CCEFCD0091AF60 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = D4FC84A528CCEFCD0091AF60 /* FirebaseFunctions */; };
 		D4FC84A828CCEFCD0091AF60 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D4FC84A728CCEFCD0091AF60 /* FirebaseMessaging */; };
 		D4FC84AA28CCEFCD0091AF60 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D4FC84A928CCEFCD0091AF60 /* FirebaseStorage */; };
+		D4FCE93D28D3401E00171DB3 /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FCE93C28D3401E00171DB3 /* PushNotification.swift */; };
+		D4FCE93F28D3408900171DB3 /* PushNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FCE93E28D3408900171DB3 /* PushNotificationResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +127,8 @@
 		D4B1786B28B0FF58005F6EC4 /* saisokukunnUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saisokukunnUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D4FC848B28CCED8E0091AF60 /* PushNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationView.swift; sourceTree = "<group>"; };
 		D4FC84AB28CCFB4A0091AF60 /* saisokukunn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = saisokukunn.entitlements; sourceTree = "<group>"; };
+		D4FCE93C28D3401E00171DB3 /* PushNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
+		D4FCE93E28D3408900171DB3 /* PushNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +276,8 @@
 				95E673A128BDCA2800A42B2A /* QrCode.swift */,
 				87D00FA328CAC32100D95A6E /* CreateLimiteDay.swift */,
 				87976DF228CF7FFD00AC5586 /* CreateAllDay.swift */,
+				D4FCE93C28D3401E00171DB3 /* PushNotification.swift */,
+				D4FCE93E28D3408900171DB3 /* PushNotificationResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -510,6 +516,7 @@
 				87318D9928B30F8500609C6B /* MainView.swift in Sources */,
 				87318DAC28B3129800609C6B /* ConfirmLendInfoView.swift in Sources */,
 				959147E028CD9B2B006B27E7 /* SignUpViewModel.swift in Sources */,
+				D4FCE93D28D3401E00171DB3 /* PushNotification.swift in Sources */,
 				87B44E7128BB39E900928374 /* DateToString.swift in Sources */,
 				959147E428CD9B4F006B27E7 /* ConfirmLendInfoViewModel.swift in Sources */,
 				959147E228CD9B39006B27E7 /* MainViewModel.swift in Sources */,
@@ -537,6 +544,7 @@
 				87B44E6F28BB07C200928374 /* LendInfoView.swift in Sources */,
 				959147E828CD9B7F006B27E7 /* ConfirmQrCodeInfoViewModel.swift in Sources */,
 				87318DA828B3128300609C6B /* ThrowQrCodeScannerViewController.swift in Sources */,
+				D4FCE93F28D3408900171DB3 /* PushNotificationResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,10 +702,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = saisokukunn/saisokukunn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = 558ZJSQN67;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BR3T8YBB5L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saisokukunn/Info.plist;
@@ -706,6 +716,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -715,9 +726,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.tetoblog.saisokukunn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.yuukirinnma.saisokukunn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Saisokukunn Provisioning Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -743,6 +755,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -752,7 +765,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.tetoblog.saisokukunn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.yuukirinnma.saisokukunn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Saisokukunn Provisioning Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
