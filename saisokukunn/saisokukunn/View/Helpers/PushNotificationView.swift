@@ -7,20 +7,13 @@
 
 import SwiftUI
 
-// HTTP通信のレスポンス
-struct Hoge: Codable {
-    var id: Int
-    var result: String
-    
-    init(id: Int, result: String) {
-        self.id = id
-        self.result = result
-    }
-}
-
 struct PushNotificationView: View {
     @State var pushNotificationResult = ""
     @State var isWatingAPI = false
+    
+    @State var user_fcm_token = "evdmWF-M2EdeoOG0hWU4JB:APA91bHDO-BJ8lt6c1O02qJ0jfHZyD_WSWks_dJP3m75PoQ-d8rMhQ9q4fE6c0hhGg6e1-HjCGB20AN07G4rToCziDuUFQmqH5bc3zAVm7hdCWW-nnh_63rEjnyBxSmR0UKaKfcb6yqZ"
+    @State var title = "お好み焼き"
+    @State var content = "¥1,000"
     
     var body: some View {
         VStack {
@@ -36,8 +29,9 @@ struct PushNotificationView: View {
                 
                 Button(action: {
                     Task {
-                        let result = try await pushNotificationAPI()
-                        if result == "success" {
+                        let response = try await PushNotification().fetchNews(user_fcm_token: user_fcm_token, title: title, body: content)
+                        print(response)
+                        if response.result == "success" {
                             pushNotificationResult = "Push通知 成功しました"
                         } else {
                             pushNotificationResult = "Push通知 エラーが発生しました"
@@ -54,6 +48,7 @@ struct PushNotificationView: View {
         }
     }
     
+    /*
     // TODO: Modelに分ける
     func pushNotificationAPI() async throws -> String {
         // GET
@@ -71,6 +66,7 @@ struct PushNotificationView: View {
         isWatingAPI = false
         return hoge.result
     }
+     */
 }
 
 
