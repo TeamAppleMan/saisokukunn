@@ -28,6 +28,7 @@
 		87B44E7128BB39E900928374 /* DateToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B44E7028BB39E900928374 /* DateToString.swift */; };
 		87D00FA428CAC32100D95A6E /* CreateLimiteDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D00FA328CAC32100D95A6E /* CreateLimiteDay.swift */; };
 		87DDA98F28B48BC200123EF3 /* ShadowButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDA98E28B48BC200123EF3 /* ShadowButtonView.swift */; };
+		9502409128DE92E200882183 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9502409028DE92E200882183 /* FirebaseFirestoreSwift */; };
 		9529C3E128BC452000EA4314 /* QrCodeBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9529C3E028BC452000EA4314 /* QrCodeBoxView.swift */; };
 		95345ED228B368D3006FAA96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95345ED128B368D3006FAA96 /* AppDelegate.swift */; };
 		95345ED428B36925006FAA96 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95345ED328B36925006FAA96 /* GoogleService-Info.plist */; };
@@ -147,6 +148,7 @@
 				D4FC84AA28CCEFCD0091AF60 /* FirebaseStorage in Frameworks */,
 				D4FC84A228CCEFCD0091AF60 /* FirebaseDatabase in Frameworks */,
 				95E673A828BDCAC600A42B2A /* SwiftyJSON in Frameworks */,
+				9502409128DE92E200882183 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +387,7 @@
 				D4FC84A528CCEFCD0091AF60 /* FirebaseFunctions */,
 				D4FC84A728CCEFCD0091AF60 /* FirebaseMessaging */,
 				D4FC84A928CCEFCD0091AF60 /* FirebaseStorage */,
+				9502409028DE92E200882183 /* FirebaseFirestoreSwift */,
 			);
 			productName = saisokukunn;
 			productReference = D4B1784B28B0FF55005F6EC4 /* saisokukunn.app */;
@@ -464,6 +467,7 @@
 				95E673A628BDCAC600A42B2A /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				8739303A28C5B3DA00624FCB /* XCRemoteSwiftPackageReference "PKHUD" */,
 				D4FC849C28CCEFCD0091AF60 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				9502408F28DE92E200882183 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = D4B1784C28B0FF55005F6EC4 /* Products */;
 			projectDirPath = "";
@@ -908,6 +912,14 @@
 				kind = branch;
 			};
 		};
+		9502408F28DE92E200882183 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		95E673A328BDCA9400A42B2A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -944,6 +956,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8739303A28C5B3DA00624FCB /* XCRemoteSwiftPackageReference "PKHUD" */;
 			productName = PKHUD;
+		};
+		9502409028DE92E200882183 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9502408F28DE92E200882183 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
 		};
 		95E673A428BDCA9400A42B2A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
