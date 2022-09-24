@@ -25,6 +25,10 @@ class LoadUser {
         }
     }
 
+    func fetchUserData(uid: String) async throws -> [String: Any]?{
+        try await db.collection("Users").document(uid).getDocument().data()
+    }
+
     func fetchLendPayTaskId(completion: @escaping(Array<String>?,Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("Users").document(uid).getDocument { snapShot, error in
@@ -36,17 +40,4 @@ class LoadUser {
             completion(lendPayTaskIds,nil)
         }
     }
-
-//    // async await ver なぜかエラー出る
-//    func fetchUserName2(uid: String) async throws -> String {
-//         try await db.collection("Users").document(uid).getDocument { snapShot, error in
-//            if let error = error {
-//                print("Firestoreからユーザ情報の取得に失敗しました")
-//                return error
-//            }
-//            guard let data = snapShot?.data() else { return }
-//            guard let userName = data["userName"] as? String else { return }
-//            return userName
-//        }
-//    }
 }

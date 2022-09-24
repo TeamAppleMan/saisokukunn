@@ -7,9 +7,10 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestoreSwift
 
-struct PayTask {
-    let id: String = UUID().uuidString
+struct PayTask: Codable, Identifiable {
+    public var id: String = UUID().uuidString
     let title: String
     let money: Int
     let endTime: Timestamp

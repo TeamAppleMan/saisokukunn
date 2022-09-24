@@ -31,16 +31,10 @@ class RegisterPayTask {
         ]
         // PayTaskをFirestoreにセット
         try await db.collection("PayTasks").document(payTaskDocumentPath).setData(payTask)
-
-        // userName(borrow側）をPayTaskに追加
-        loadUser.fetchUserName(uid: uid) { userName, error in
-            if let error = error {
-                print("ユーザ情報の取得に失敗",error)
-            }
-            guard let userName = userName else { return }
-            self.db.collection("PayTasks").document(self.payTaskDocumentPath).setData(["borrowerUserName": userName], merge: true)
-        }
-        
+        // useNameの取得
+        guard let data = try await loadUser.fetchUserData(uid: uid) else { return }
+        guard let userName = data["userName"] else { return }
+        try await db.collection("PayTasks").document(self.payTaskDocumentPath).setData(["borrowerUserName": userName], merge: true)
         // UsersにあるborrowPayTaskIdの更新
         try await db.collection("Users").document(uid).updateData(["borrowPayTaskId": FieldValue.arrayUnion([payTaskDocumentPath])])
     }
@@ -71,14 +65,11 @@ class RegisterPayTask {
     func addLenderUIDToFireStore(payTaskPath: String) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         try await db.collection("PayTasks").document(payTaskPath).setData(["lenderUID": uid,"isFinished": false], merge: true)
+        // UserNameの取得
+        guard let data = try await loadUser.fetchUserData(uid: uid) else { return }
+        guard let userName = data["userName"] else { return }
+        try await db.collection("PayTasks").document(payTaskPath).setData(["lenderUserName": userName], merge: true)
 
-        loadUser.fetchUserName(uid: uid) { userName, error in
-            if let error = error {
-                print("ユーザ情報の取得に失敗",error)
-            }
-            guard let userName = userName else { return }
-            self.db.collection("PayTasks").document(payTaskPath).setData(["lenderUserName": userName], merge: true)
-        }
         // UsersにあるborrowPayTaskIdの更新
         try await db.collection("Users").document(uid).updateData(["lendPayTaskId": FieldValue.arrayUnion([payTaskPath])])
     }
