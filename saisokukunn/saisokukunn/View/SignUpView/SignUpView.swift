@@ -15,6 +15,8 @@ struct SignUpView: View {
 
     @State private var isActiveSignUpView = false
     @AppStorage("userName") private var userName = String()
+    @State private var email = String()
+    @State private var password = String()
     @State private var isPkhudProgress = false
     @State private var isPkhudFailure = false
 
@@ -48,6 +50,17 @@ struct SignUpView: View {
                         .foregroundColor(textColor)
                     TextField("表示名を入力して下さい。",text: $userName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(10)
+                    Text("メールアドレス")
+                        .foregroundColor(textColor)
+                    TextField("メールアドレスを入力して下さい。",text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(10)
+                    Text("パスワード")
+                        .foregroundColor(textColor)
+                    TextField("パスワードを入力して下さい。",text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(10)
                 }.padding(inputAccessoryHorizontalMargin)
 
                 Button(action: {
@@ -55,7 +68,7 @@ struct SignUpView: View {
                     isPkhudProgress = true
                     Task{
                         do{
-                            try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "))
+                            try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "), email: email, password: password)
                             // MainViewへ画面遷移
                             isPkhudProgress = false
                             isActiveSignUpView = true
@@ -69,16 +82,16 @@ struct SignUpView: View {
                     Text("アカウント登録")
                         .frame(width: 150.0, alignment: .center)
                         .padding()
-                        .accentColor(userName.isEmpty ? Color.black : Color.white)
-                        .background(userName.isEmpty ? thinGrayColor : Color.gray)
+                        .accentColor(userName.isEmpty||email.isEmpty||password.isEmpty ? Color.black : Color.white)
+                        .background(userName.isEmpty||email.isEmpty||password.isEmpty ? thinGrayColor : Color.gray)
                         .cornerRadius(25)
-                        .shadow(color: userName.isEmpty ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
+                        .shadow(color: userName.isEmpty||email.isEmpty||password.isEmpty ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
                         .padding()
                 }
                 .fullScreenCover(isPresented: $isActiveSignUpView) {
                     mainView.environmentObject(EnvironmentData())
                 }
-                .disabled(userName.isEmpty)
+                .disabled(userName.isEmpty||email.isEmpty||password.isEmpty)
 
             }
 
