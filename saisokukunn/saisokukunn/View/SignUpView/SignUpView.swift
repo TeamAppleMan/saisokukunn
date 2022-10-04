@@ -82,16 +82,16 @@ struct SignUpView: View {
                     Text("アカウント登録")
                         .frame(width: 150.0, alignment: .center)
                         .padding()
-                        .accentColor(userName.isEmpty ? Color.black : Color.white)
-                        .background(userName.isEmpty ? thinGrayColor : Color.gray)
+                        .accentColor(userName.isEmpty||email.isEmpty||password.isEmpty ? Color.black : Color.white)
+                        .background(userName.isEmpty||email.isEmpty||password.isEmpty ? thinGrayColor : Color.gray)
                         .cornerRadius(25)
-                        .shadow(color: userName.isEmpty ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
+                        .shadow(color: userName.isEmpty||email.isEmpty||password.isEmpty ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
                         .padding()
                 }
                 .fullScreenCover(isPresented: $isActiveSignUpView) {
                     mainView.environmentObject(EnvironmentData())
                 }
-                .disabled(userName.isEmpty&&email.isEmpty&&password.isEmpty)
+                .disabled(userName.isEmpty||email.isEmpty||password.isEmpty)
 
             }
 
