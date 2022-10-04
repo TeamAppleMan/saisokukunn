@@ -24,7 +24,7 @@ struct User: Codable, Identifiable {
         self.uid = dic["uid"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.token = dic["token"] as? String ?? ""
-        self.email = dic["password"] as? String ?? ""
+        self.email = dic["email"] as? String ?? ""
         self.borrowPayTaskId = dic["borrowPayTaskId"] as? Array<String> ?? []
         self.lendPayTaskId = dic["lendPayTaskId"] as? Array<String> ?? []
     }

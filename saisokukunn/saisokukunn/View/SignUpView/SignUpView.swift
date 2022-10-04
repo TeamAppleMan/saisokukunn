@@ -16,7 +16,7 @@ struct SignUpView: View {
     @State private var isActiveSignUpView = false
     @AppStorage("userName") private var userName = String()
     @State private var email = String()
-    
+    @State private var password = String()
     @State private var isPkhudProgress = false
     @State private var isPkhudFailure = false
 
@@ -50,6 +50,17 @@ struct SignUpView: View {
                         .foregroundColor(textColor)
                     TextField("表示名を入力して下さい。",text: $userName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(10)
+                    Text("メールアドレス")
+                        .foregroundColor(textColor)
+                    TextField("メールアドレスを入力して下さい。",text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(10)
+                    Text("パスワード")
+                        .foregroundColor(textColor)
+                    TextField("パスワードを入力して下さい。",text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(10)
                 }.padding(inputAccessoryHorizontalMargin)
 
                 Button(action: {
@@ -80,7 +91,7 @@ struct SignUpView: View {
                 .fullScreenCover(isPresented: $isActiveSignUpView) {
                     mainView.environmentObject(EnvironmentData())
                 }
-                .disabled(userName.isEmpty)
+                .disabled(userName.isEmpty&&email.isEmpty&&password.isEmpty)
 
             }
 
