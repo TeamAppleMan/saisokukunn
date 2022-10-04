@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 struct User: Codable, Identifiable {
     public var id = UUID().uuidString
     var userName: String
-    var password: String
+    var email: String
     var uid: String
     var createdAt: Timestamp
     var token: String
@@ -24,7 +24,7 @@ struct User: Codable, Identifiable {
         self.uid = dic["uid"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.token = dic["token"] as? String ?? ""
-        self.password = dic["password"] as? String ?? ""
+        self.email = dic["password"] as? String ?? ""
         self.borrowPayTaskId = dic["borrowPayTaskId"] as? Array<String> ?? []
         self.lendPayTaskId = dic["lendPayTaskId"] as? Array<String> ?? []
     }

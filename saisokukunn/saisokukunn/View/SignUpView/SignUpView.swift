@@ -15,6 +15,8 @@ struct SignUpView: View {
 
     @State private var isActiveSignUpView = false
     @AppStorage("userName") private var userName = String()
+    @State private var email = String()
+    
     @State private var isPkhudProgress = false
     @State private var isPkhudFailure = false
 
