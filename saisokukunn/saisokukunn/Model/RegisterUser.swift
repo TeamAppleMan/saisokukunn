@@ -13,13 +13,13 @@ import FirebaseFirestore
 class RegisterUser {
     let db = Firestore.firestore()
 
-    func signIn(userName: String) async throws {
-        // 匿名サインイン
+    func signIn(userName: String,email: String,password: String) async throws {
+        // メールアドレス、パスワード、サインイン
         do{
-            let signInResult = try await Auth.auth().signInAnonymously()
+            let signInResult = try await Auth.auth().createUser(withEmail: email, password: password)
             print("匿名サインイン成功")
             let uid = signInResult.user.uid
-            try await createdUserToFirestore(userName: userName, uid: uid)
+            try await createdUserToFirestore(userName: userName,email: email, uid: uid)
         }
         catch{
             print("匿名サインイン失敗",error)
@@ -41,11 +41,12 @@ class RegisterUser {
         try await db.collection("Users").document(uid).updateData(["lendPayTaskId": FieldValue.arrayRemove([documentPath])])
     }
 
-    private func createdUserToFirestore(userName: String,uid: String) async throws {
+    private func createdUserToFirestore(userName: String,email: String,uid: String) async throws {
         guard let token = UserDefaults.standard.string(forKey: "token") else { return }
         let user: Dictionary<String, Any> = ["userName": userName,
                                              "uid": uid,
                                              "createdAt": Timestamp(),
+                                             "email": email,
                                              "token": token]
         do{
             try await db.collection("Users").document(uid).setData(user)

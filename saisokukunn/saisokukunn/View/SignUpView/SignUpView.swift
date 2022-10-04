@@ -68,7 +68,7 @@ struct SignUpView: View {
                     isPkhudProgress = true
                     Task{
                         do{
-                            try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "))
+                            try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "), email: email, password: password)
                             // MainViewへ画面遷移
                             isPkhudProgress = false
                             isActiveSignUpView = true
