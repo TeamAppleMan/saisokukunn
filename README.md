@@ -10,6 +10,7 @@
 - お金の貸し借りにストレスを感じる人
 
 ### デモ
+![taskInput](https://user-images.githubusercontent.com/65348333/194173478-3a0869b2-4672-4be1-bb00-1c6429d07ecd.gif)
 
 ![QRScan](https://user-images.githubusercontent.com/65348333/194172411-b12701ca-787f-409b-a4ab-17627d454e19.gif)
 
