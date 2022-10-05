@@ -26,16 +26,14 @@
 - MVVM (Model View ViewModel)
 - チケット駆動開発
 
-## コミットメッセージ
+## 開発ルール・コミットメッセージ
+- 2週間に一度、1時間ほどのMTGを行い進捗を管理。
+- SLACKとGitHubを連携させることでコミット通知に気が付きやすいようにする。
+- わからないことが出てきたらSLACKで相談。
 - 追加 : add ○○
 - 更新 : update ○○
 - 修正 : fix ○○
 - 削除 : delete ○○
-
-## 開発ルール
-- 2週間に一度、1時間ほどのMTGを行い進捗を管理。
-- SLACKとGitHubを連携させることでコミット通知に気が付きやすいようにする。
-- わからないことが出てきたらSLACKで相談。
 
 ## 開発メンバー
 * [hamadayuuki](https://github.com/hamadayuuki)
