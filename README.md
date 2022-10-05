@@ -46,7 +46,8 @@
 * [技育展2022 1ヶ月ゼロから開発部門 特設展示・結果発表ページ - サポーターズ](https://talent.supporterz.jp/geekten/2022/exhibition.html#theme15)
 * [技育展 2022 結果発表 【1ヶ月でゼロから開発】 - Twitter](https://twitter.com/geek_pjt/status/1573186583830073344?s=20&t=U83zU1fRvmugarFPB81fIA)
 * [催促くん_技育展_2022 - Googleスライド](https://docs.google.com/presentation/d/1Mj6D73o22VpGOUYNnIHmPLqKaTaYGRrL3Qh_EqAwwd0/edit?usp=sharing)
-* 
+
+
 ![image (1)](https://user-images.githubusercontent.com/65348333/193999543-58dd946f-e3a5-462e-94cb-a691e196bf33.png)
 
 
