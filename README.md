@@ -16,6 +16,7 @@
 - SwiftPackageManeger（ライブラリ管理）
 - Firebase(store, Auth, storage)
 - Alamofire
+- SwiftyJSON
 - QRScanner
 - PKHUD
 
