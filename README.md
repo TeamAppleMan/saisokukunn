@@ -14,11 +14,13 @@
 
 ## 使用技術・ライブラリ
 - SwiftPackageManeger（ライブラリ管理）
-- Firebase(store, Auth, storage)
+- Firebase(store, Auth, CloudMessaging)
 - Alamofire
 - SwiftyJSON
 - QRScanner
 - PKHUD
+- HEROKU
+- FastAPI
 
 ## アーキテクチャ・開発方法
 - MVVM (Model View ViewModel)
