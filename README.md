@@ -13,8 +13,8 @@
 
 
 ## 使用技術・ライブラリ
-- SwiftPackageManeger（ライブラリ管理）
-- Firebase(store, Auth, CloudMessaging)
+- SwiftPackageManeger （ライブラリ管理）
+- Firebase (store, Auth, CloudMessaging)
 - Alamofire
 - SwiftyJSON
 - QRScanner
