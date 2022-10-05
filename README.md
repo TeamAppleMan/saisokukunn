@@ -10,8 +10,8 @@
 - お金の貸し借りにストレスを感じる人
 
 ### デモ
-https://user-images.githubusercontent.com/65348333/194068443-eca82b8d-70d4-4de0-85de-09761c55a305.mp4
 
+![QRScan](https://user-images.githubusercontent.com/65348333/194172411-b12701ca-787f-409b-a4ab-17627d454e19.gif)
 
 ## 使用技術・ライブラリ
 - SwiftPackageManeger （ライブラリ管理）
