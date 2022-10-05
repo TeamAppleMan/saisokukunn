@@ -2,6 +2,7 @@
 
 ## アプリ概要
 お金の貸し借りを管理し、お金を貸した後のストレス（返金を催促）を少なくするiOSアプリ
+![Icon (1)](https://user-images.githubusercontent.com/65348333/193996530-204fd122-b5b0-413f-bc80-7cd9e6547969.png)
 
 ## 使用技術・ライブラリ
 - SwiftPackageManeger（ライブラリ管理）
