@@ -6,11 +6,12 @@
 ## 使用技術・ライブラリ
 - SwiftPackageManeger（ライブラリ管理）
 - Firebase(store,Auth,storage)
+- Alamofire
+- QRScanner
 - PKHUD
-- SDWebImage
 
 ## アーキテクチャ・開発方法
-- MVVM
+- MVVM (Model View ViewModel)
 - チケット駆動開発
 
 ## コミットメッセージ
