@@ -22,7 +22,7 @@
 - HEROKU
 - FastAPI
 
-## アーキテクチャ・開発方法
+### アーキテクチャ・開発方法
 - MVVM (Model View ViewModel)
 - チケット駆動開発
 
@@ -35,7 +35,7 @@
 - 修正 : `fix ○○`
 - 削除 : `delete ○○`
 
-## 開発メンバー
+### 開発メンバー
 * [hamadayuuki](https://github.com/hamadayuuki)
 * [mikekondo](https://github.com/mikekondo)
 * [MaedaKouta](https://github.com/MaedaKouta)
