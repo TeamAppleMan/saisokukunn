@@ -21,11 +21,16 @@
 - 削除 : delete ○○
 
 ## 開発ルール
-2週間に一度、1時間ほどのMTGを行い進捗を管理。
-SLACKとGitHubを連携させることでコミット通知に気が付きやすいようにする。
-わからないことが出てきたらSLACKで相談。
+- 2週間に一度、1時間ほどのMTGを行い進捗を管理。
+- SLACKとGitHubを連携させることでコミット通知に気が付きやすいようにする。
+- わからないことが出てきたらSLACKで相談。
 
 ## 開発メンバー
 * [hamadayuuki](https://github.com/hamadayuuki)
 * [mikekondo](https://github.com/mikekondo)
 * [MaedaKouta](https://github.com/MaedaKouta)
+
+## 技育展に関する資料
+* [技育展2022 1ヶ月ゼロから開発部門 特設展示・結果発表ページ - サポーターズ](https://talent.supporterz.jp/geekten/2022/exhibition.html#theme15)
+* [技育展 2022 結果発表 【1ヶ月でゼロから開発】 - Twitter](https://twitter.com/geek_pjt/status/1573186583830073344?s=20&t=U83zU1fRvmugarFPB81fIA)
+* [催促くん_技育展_2022 - Googleスライド](https://docs.google.com/presentation/d/1Mj6D73o22VpGOUYNnIHmPLqKaTaYGRrL3Qh_EqAwwd0/edit?usp=sharing)
