@@ -1,5 +1,5 @@
 # 💰催促くん💰 - お金の貸し借りを自由に - 
-### （技育展2022「1ヶ月で0から開発」の優秀賞作品）. 
+### （技育展2022「1ヶ月で0から開発」の優秀賞作品）
 
 ## アプリ概要
 ### コンセプト：お金の貸し借りを管理し、お金を貸した後のストレス（返金を催促）を少なくするiOSアプリ
@@ -38,7 +38,7 @@
 ### 開発メンバー
 * [hamadayuuki](https://github.com/hamadayuuki)
 * [mikekondo](https://github.com/mikekondo)
-* [MaedaKouta](https://github.com/MaedaKouta). 
+* [MaedaKouta](https://github.com/MaedaKouta)
 
 ## 技育展に関する資料
 * [技育展2022 1ヶ月ゼロから開発部門 特設展示・結果発表ページ - サポーターズ](https://talent.supporterz.jp/geekten/2022/exhibition.html#theme15)
