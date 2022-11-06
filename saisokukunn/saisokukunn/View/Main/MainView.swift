@@ -38,6 +38,7 @@ struct MainView: View {
 
     // アラートを表示させる。１つのViewで1つのアラートしか作れない。enum用いて条件分岐させることで作れた。
     @State private var isShownAlert: Bool = false  // enumで定義した３種類のアラートに更に分岐する
+    @State private var isShownSettingView: Bool = false
     @State private var alertType = AlertType.borrowInfo
     @State private var payTask: PayTask?
     @State private var selectedIndex: Int = 0
@@ -80,43 +81,53 @@ struct MainView: View {
                         HStack {
 
                             // サインアウトボタン
-                            Button(action: {
-                                isShowingUserDeleteAlert = true
-                            }) {
-                                HStack {
-                                    Image(systemName: accountButtonSystemImageName)
-                                        .foregroundColor(Color(UIColor.white))
-                                    Text(userName)
-                                        .font(.callout)
-                                        .foregroundColor(Color(UIColor.white))
-                                        .lineLimit(1)
-                                        .minimumScaleFactor(0.1)
-                                }
-                            }.alert(isPresented: $isShowingUserDeleteAlert) {
-                                Alert(
-                                    title: Text("アカウント削除"),
-                                    message: Text("アカウントが完全に削除されます。\nこの操作は取り消せません。"),
-                                    primaryButton: .cancel(Text("キャンセル"), action: {
-                                        isShowingUserDeleteAlert = false
-                                    }),
-                                    secondaryButton: .destructive(Text("削除"), action: {
-                                        isPkhudProgress = true
-                                        Task {
-                                            do {
-                                                try await mainViewModel.registerUser.signOut()
-                                                isPkhudProgress = false
-                                                userName = ""
-                                                isActiveSignUpView = false
-                                            }
-                                            catch{
-                                                print("サインインに失敗",error)
-                                            }
-                                        }
+                            NavigationLink(destination: SettingView(), isActive: $isShownSettingView) {
+                                Button(action: {
+                                    //ボタンが押されたときの処理
+                                    isShownSettingView = true
+//                                    isBorrowActive = true
+//                                    environmentData.isBorrowViewActiveEnvironment = $isBorrowActive
+                                }, label: {
+                                    HStack {
+                                        Image(systemName: accountButtonSystemImageName)
+                                            .foregroundColor(Color(UIColor.white))
+                                        Text(userName)
+                                            .font(.callout)
+                                            .foregroundColor(Color(UIColor.white))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.1)
+                                    }
+                                })
+                            }.padding()
 
-                                    })
-                                )
-                            }
-                            .padding()
+//                            Button(action: {
+//                                isShowingUserDeleteAlert = true
+//                            }) {
+//
+//                            }.alert(isPresented: $isShowingUserDeleteAlert) {
+//                                Alert(
+//                                    title: Text("アカウント削除"),
+//                                    message: Text("アカウントが完全に削除されます。\nこの操作は取り消せません。"),
+//                                    primaryButton: .cancel(Text("キャンセル"), action: {
+//                                        isShowingUserDeleteAlert = false
+//                                    }),
+//                                    secondaryButton: .destructive(Text("削除"), action: {
+//                                        isPkhudProgress = true
+//                                        Task {
+//                                            do {
+//                                                try await mainViewModel.registerUser.signOut()
+//                                                isPkhudProgress = false
+//                                                userName = ""
+//                                                isActiveSignUpView = false
+//                                            }
+//                                            catch{
+//                                                print("サインインに失敗",error)
+//                                            }
+//                                        }
+//
+//                                    })
+//                                )
+//                            }
 
 
                             Spacer()
