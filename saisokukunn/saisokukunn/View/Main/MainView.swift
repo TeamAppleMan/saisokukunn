@@ -83,10 +83,7 @@ struct MainView: View {
                             // サインアウトボタン
                             NavigationLink(destination: SettingView(), isActive: $isShownSettingView) {
                                 Button(action: {
-                                    //ボタンが押されたときの処理
                                     isShownSettingView = true
-//                                    isBorrowActive = true
-//                                    environmentData.isBorrowViewActiveEnvironment = $isBorrowActive
                                 }, label: {
                                     HStack {
                                         Image(systemName: accountButtonSystemImageName)
@@ -98,7 +95,8 @@ struct MainView: View {
                                             .minimumScaleFactor(0.1)
                                     }
                                 })
-                            }.padding()
+                            }
+                            .padding()
 
 //                            Button(action: {
 //                                isShowingUserDeleteAlert = true
