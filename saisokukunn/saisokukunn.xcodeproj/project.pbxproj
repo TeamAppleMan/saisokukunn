@@ -11,6 +11,7 @@
 		8715EB3E28BD05C50080E6B0 /* QrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8715EB3C28BD05C50080E6B0 /* QrCodeScannerViewController.swift */; };
 		8715EB3F28BD05C50080E6B0 /* QrCodeScannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8715EB3D28BD05C50080E6B0 /* QrCodeScannerViewController.xib */; };
 		8715EB4128BD119E0080E6B0 /* BorrowInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8715EB4028BD119E0080E6B0 /* BorrowInfoView.swift */; };
+		8722851429177AD300C7E416 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722851329177AD300C7E416 /* SettingView.swift */; };
 		87318D9928B30F8500609C6B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318D9828B30F8500609C6B /* MainView.swift */; };
 		87318DA628B3127900609C6B /* ConfirmQrCodeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA528B3127900609C6B /* ConfirmQrCodeInfoView.swift */; };
 		87318DA828B3128300609C6B /* ThrowQrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87318DA728B3128300609C6B /* ThrowQrCodeScannerViewController.swift */; };
@@ -85,6 +86,7 @@
 		8715EB3C28BD05C50080E6B0 /* QrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerViewController.swift; sourceTree = "<group>"; };
 		8715EB3D28BD05C50080E6B0 /* QrCodeScannerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QrCodeScannerViewController.xib; sourceTree = "<group>"; };
 		8715EB4028BD119E0080E6B0 /* BorrowInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowInfoView.swift; sourceTree = "<group>"; };
+		8722851329177AD300C7E416 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		87318D9828B30F8500609C6B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		87318DA528B3127900609C6B /* ConfirmQrCodeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmQrCodeInfoView.swift; sourceTree = "<group>"; };
 		87318DA728B3128300609C6B /* ThrowQrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowQrCodeScannerViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8722851229177AA200C7E416 /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				8722851329177AD300C7E416 /* SettingView.swift */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
 		87318D9628B30F3200609C6B /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +189,7 @@
 				87318D9D28B310D100609C6B /* CreateQrCodeView */,
 				87318D9E28B310F300609C6B /* QrCodeScannerView */,
 				87318D9F28B3111500609C6B /* ConfirmQrCodeInfoView */,
+				8722851229177AA200C7E416 /* SettingView */,
 				87DDA98D28B48B8500123EF3 /* Helpers */,
 			);
 			path = View;
@@ -517,6 +528,7 @@
 				8715EB3E28BD05C50080E6B0 /* QrCodeScannerViewController.swift in Sources */,
 				8739303E28C5B48C00624FCB /* PKHUDView.swift in Sources */,
 				87318DB828B318BC00609C6B /* ViewExtension.swift in Sources */,
+				8722851429177AD300C7E416 /* SettingView.swift in Sources */,
 				87318D9928B30F8500609C6B /* MainView.swift in Sources */,
 				87318DAC28B3129800609C6B /* ConfirmLendInfoView.swift in Sources */,
 				959147E028CD9B2B006B27E7 /* SignUpViewModel.swift in Sources */,
@@ -706,11 +718,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = saisokukunn/saisokukunn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X9S244452;
+				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saisokukunn/Info.plist;
@@ -729,10 +740,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.yuukirinnma.saisokukunn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.yuukirinnma.saisokukunn2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Saisokukunn Provisioning Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -746,10 +756,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = saisokukunn/saisokukunn.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"saisokukunn/Preview Content\"";
-				DEVELOPMENT_TEAM = BR3T8YBB5L;
+				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = saisokukunn/Info.plist;
@@ -768,9 +778,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.yuukirinnma.saisokukunn;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.yuukirinnma.saisokukunn2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Saisokukunn Provisioning Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
