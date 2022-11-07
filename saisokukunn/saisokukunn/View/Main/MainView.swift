@@ -38,6 +38,7 @@ struct MainView: View {
 
     // アラートを表示させる。１つのViewで1つのアラートしか作れない。enum用いて条件分岐させることで作れた。
     @State private var isShownAlert: Bool = false  // enumで定義した３種類のアラートに更に分岐する
+    @State private var isShownSettingView: Bool = false
     @State private var alertType = AlertType.borrowInfo
     @State private var payTask: PayTask?
     @State private var selectedIndex: Int = 0
@@ -48,7 +49,7 @@ struct MainView: View {
 
     init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
-        UITableView.appearance().backgroundColor = .clear
+        //UITableView.appearance().backgroundColor = .white
         self._isActiveSignUpView = isActiveSignUpView
     }
 
@@ -80,44 +81,22 @@ struct MainView: View {
                         HStack {
 
                             // サインアウトボタン
-                            Button(action: {
-                                isShowingUserDeleteAlert = true
-                            }) {
-                                HStack {
-                                    Image(systemName: accountButtonSystemImageName)
-                                        .foregroundColor(Color(UIColor.white))
-                                    Text(userName)
-                                        .font(.callout)
-                                        .foregroundColor(Color(UIColor.white))
-                                        .lineLimit(1)
-                                        .minimumScaleFactor(0.1)
-                                }
-                            }.alert(isPresented: $isShowingUserDeleteAlert) {
-                                Alert(
-                                    title: Text("アカウント削除"),
-                                    message: Text("アカウントが完全に削除されます。\nこの操作は取り消せません。"),
-                                    primaryButton: .cancel(Text("キャンセル"), action: {
-                                        isShowingUserDeleteAlert = false
-                                    }),
-                                    secondaryButton: .destructive(Text("削除"), action: {
-                                        isPkhudProgress = true
-                                        Task {
-                                            do {
-                                                try await mainViewModel.registerUser.signOut()
-                                                isPkhudProgress = false
-                                                userName = ""
-                                                isActiveSignUpView = false
-                                            }
-                                            catch{
-                                                print("サインインに失敗",error)
-                                            }
-                                        }
-
-                                    })
-                                )
+                            NavigationLink(destination: SettingView(isActiveSignUpView: $isActiveSignUpView), isActive: $isShownSettingView) {
+                                Button(action: {
+                                    isShownSettingView = true
+                                }, label: {
+                                    HStack {
+                                        Image(systemName: accountButtonSystemImageName)
+                                            .foregroundColor(Color(UIColor.white))
+                                        Text(userName)
+                                            .font(.callout)
+                                            .foregroundColor(Color(UIColor.white))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.1)
+                                    }
+                                })
                             }
                             .padding()
-
 
                             Spacer()
 
@@ -278,6 +257,7 @@ struct MainView: View {
 
                                         }.listRowSeparator(.hidden)
                                     }
+                                    .scrollContentBackground(.hidden)
                                     .listStyle(.insetGrouped)
                                     .ignoresSafeArea()
 
@@ -360,6 +340,7 @@ struct MainView: View {
                                             }
                                         }.listRowSeparator(.hidden)
                                     }
+                                    .scrollContentBackground(.hidden)
                                     .listStyle(.insetGrouped)
                                     .ignoresSafeArea()
                                 } else {

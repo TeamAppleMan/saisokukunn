@@ -68,10 +68,14 @@ struct SignUpView: View {
                     isPkhudProgress = true
                     Task{
                         do{
-                            try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "), email: email, password: password)
-                            // MainViewへ画面遷移
-                            isPkhudProgress = false
-                            isActiveSignUpView = true
+                            if(try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "), email: email, password: password.trimmingCharacters(in: .whitespaces))) {
+                                // MainViewへ画面遷移
+                                isPkhudProgress = false
+                                isActiveSignUpView = true
+                            } else {
+                                isPkhudProgress = false
+                                isPkhudFailure = true
+                            }
                         }
                         catch{
                             isPkhudProgress = false
@@ -79,25 +83,26 @@ struct SignUpView: View {
                         }
                     }
                 }) {
+
                     Text("アカウント登録")
                         .frame(width: 150.0, alignment: .center)
                         .padding()
-                        .accentColor(userName.isEmpty||email.isEmpty||password.isEmpty ? Color.black : Color.white)
-                        .background(userName.isEmpty||email.isEmpty||password.isEmpty ? thinGrayColor : Color.gray)
+                        .accentColor(userName.isEmpty || !signUpViewModel.validateEmail(candidate: email) || !signUpViewModel.validatePassword(candidate: password) ? Color.black : Color.white)
+                        .background(userName.isEmpty || !signUpViewModel.validateEmail(candidate: email) || !signUpViewModel.validatePassword(candidate: password) ?  thinGrayColor: Color.gray)
                         .cornerRadius(25)
-                        .shadow(color: userName.isEmpty||email.isEmpty||password.isEmpty ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
+                        .shadow(color: userName.isEmpty || !signUpViewModel.validateEmail(candidate: email) || !signUpViewModel.validatePassword(candidate: password) ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
                         .padding()
                 }
                 .fullScreenCover(isPresented: $isActiveSignUpView) {
                     mainView.environmentObject(EnvironmentData())
                 }
-                .disabled(userName.isEmpty||email.isEmpty||password.isEmpty)
+                .disabled(userName.isEmpty || !signUpViewModel.validateEmail(candidate: email) || !signUpViewModel.validatePassword(candidate: password))
 
             }
 
         }
         .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
-        .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "アカウント作成に失敗しました。\nもう一度やり直して下さい。"), delay: 1.5)
+        .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "アカウント作成失敗\nやり直して下さい"), delay: 1.5)
         .onAppear {
             // uidが存在するならMainViewへ移動
             if let uid = Auth.auth().currentUser?.uid {
@@ -107,7 +112,7 @@ struct SignUpView: View {
                 withTransaction(transaction) {
                     isActiveSignUpView = true
                 }
-            } 
+            }
         }// onAppearここまで
         .onTapGesture { UIApplication.shared.closeKeyboard() }
     }
