@@ -114,12 +114,6 @@ struct SignUpView: View {
                 }
             }
         }// onAppearここまで
-        .onWillAppear {
-            print("呼ばれた？")
-            userName = ""
-            email = ""
-            password = ""
-        }
         .onTapGesture { UIApplication.shared.closeKeyboard() }
     }
 }
