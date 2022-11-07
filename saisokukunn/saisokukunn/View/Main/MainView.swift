@@ -81,7 +81,7 @@ struct MainView: View {
                         HStack {
 
                             // サインアウトボタン
-                            NavigationLink(destination: SettingView(), isActive: $isShownSettingView) {
+                            NavigationLink(destination: SettingView(isActiveSignUpView: $isActiveSignUpView), isActive: $isShownSettingView) {
                                 Button(action: {
                                     isShownSettingView = true
                                 }, label: {
@@ -97,36 +97,6 @@ struct MainView: View {
                                 })
                             }
                             .padding()
-
-//                            Button(action: {
-//                                isShowingUserDeleteAlert = true
-//                            }) {
-//
-//                            }.alert(isPresented: $isShowingUserDeleteAlert) {
-//                                Alert(
-//                                    title: Text("アカウント削除"),
-//                                    message: Text("アカウントが完全に削除されます。\nこの操作は取り消せません。"),
-//                                    primaryButton: .cancel(Text("キャンセル"), action: {
-//                                        isShowingUserDeleteAlert = false
-//                                    }),
-//                                    secondaryButton: .destructive(Text("削除"), action: {
-//                                        isPkhudProgress = true
-//                                        Task {
-//                                            do {
-//                                                try await mainViewModel.registerUser.signOut()
-//                                                isPkhudProgress = false
-//                                                userName = ""
-//                                                isActiveSignUpView = false
-//                                            }
-//                                            catch{
-//                                                print("サインインに失敗",error)
-//                                            }
-//                                        }
-//
-//                                    })
-//                                )
-//                            }
-
 
                             Spacer()
 

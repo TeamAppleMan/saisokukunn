@@ -107,7 +107,10 @@ struct SignUpView: View {
                 withTransaction(transaction) {
                     isActiveSignUpView = true
                 }
-            } 
+            } else {
+                print("none")
+                print(Auth.auth().currentUser?.uid)
+            }
         }// onAppearここまで
         .onTapGesture { UIApplication.shared.closeKeyboard() }
     }
