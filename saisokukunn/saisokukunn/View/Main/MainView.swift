@@ -49,7 +49,7 @@ struct MainView: View {
 
     init(isActiveSignUpView: Binding<Bool>) {
         //List全体の背景色の設定
-        UITableView.appearance().backgroundColor = .clear
+        //UITableView.appearance().backgroundColor = .white
         self._isActiveSignUpView = isActiveSignUpView
     }
 
@@ -257,6 +257,7 @@ struct MainView: View {
 
                                         }.listRowSeparator(.hidden)
                                     }
+                                    .scrollContentBackground(.hidden)
                                     .listStyle(.insetGrouped)
                                     .ignoresSafeArea()
 
@@ -339,6 +340,7 @@ struct MainView: View {
                                             }
                                         }.listRowSeparator(.hidden)
                                     }
+                                    .scrollContentBackground(.hidden)
                                     .listStyle(.insetGrouped)
                                     .ignoresSafeArea()
                                 } else {
