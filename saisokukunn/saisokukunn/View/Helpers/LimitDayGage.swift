@@ -166,6 +166,8 @@ struct LimitDayGage: View {
             }
         }.onAppear{
             valueStartRatio = 0
+            print(valueRatio)
+            
         }
     }
 }

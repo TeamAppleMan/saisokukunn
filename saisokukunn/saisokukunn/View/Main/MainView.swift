@@ -220,9 +220,9 @@ struct MainView: View {
                                                     // List表示部分
                                                     // 別のViewに書きたかったが、Alert関係でココに記述
                                                     HStack {
-                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: mainViewModel.borrowPayTaskList[index].endTime)
-                                                        let allDay = CreateAllDay().createAllDay(startTime: mainViewModel.borrowPayTaskList[index].createdAt, endTime: mainViewModel.borrowPayTaskList[index].endTime)
-                                                        let valueRatio = (1.0-CGFloat(limitDay)/CGFloat(allDay)) <= 0 ? 1.0 - CGFloat(limitDay)/CGFloat(allDay) : 1.0
+                                                        let allDay = CreateAllDay().createAllDay(startTime: mainViewModel.lendPayTaskList[index].createdAt, endTime: mainViewModel.lendPayTaskList[index].endTime)
+                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: mainViewModel.lendPayTaskList[index].endTime)
+                                                        let valueRatio = (CGFloat(limitDay)/CGFloat(allDay)) <= 0 ? 1.0 :  1.0 - CGFloat(limitDay)/CGFloat(allDay)
 
                                                         LimitDayGage(
                                                             limitDay: limitDay,
@@ -295,9 +295,9 @@ struct MainView: View {
                                                     // 別のViewに書きたかったが、Alert関係でココに記述
 
                                                     HStack {
-                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: mainViewModel.lendPayTaskList[index].endTime)
                                                         let allDay = CreateAllDay().createAllDay(startTime: mainViewModel.lendPayTaskList[index].createdAt, endTime: mainViewModel.lendPayTaskList[index].endTime)
-                                                        let valueRatio = (1.0-CGFloat(limitDay)/CGFloat(allDay)) <= 0 ? 1.0 - CGFloat(limitDay)/CGFloat(allDay) : 1.0
+                                                        let limitDay = CreateLimiteDay().createLimitDay(endTime: mainViewModel.lendPayTaskList[index].endTime)
+                                                        let valueRatio = (CGFloat(limitDay)/CGFloat(allDay)) <= 0 ? 1.0 :  1.0 - CGFloat(limitDay)/CGFloat(allDay)
 
                                                         LimitDayGage(
                                                             limitDay: limitDay,
@@ -305,6 +305,13 @@ struct MainView: View {
                                                             valueRatio: valueRatio
                                                         )
                                                         .padding(.trailing, 10)
+                                                        .onAppear{
+
+                                                            print("limit", limitDay)
+                                                            print("all", allDay)
+                                                            print("value", valueRatio)
+                                                            print("aa")
+                                                        }
 
                                                         VStack(alignment: .leading) {
                                                             Text(mainViewModel.lendPayTaskList[index].title)
