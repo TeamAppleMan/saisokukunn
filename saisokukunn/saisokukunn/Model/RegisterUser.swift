@@ -13,18 +13,16 @@ import FirebaseFirestore
 class RegisterUser {
     let db = Firestore.firestore()
 
-    func signIn(userName: String,email: String,password: String) async throws -> Bool {
+    func signIn(userName: String,email: String,password: String) async throws {
         // メールアドレス、パスワード、サインイン
         do{
             let signInResult = try await Auth.auth().createUser(withEmail: email, password: password)
             print("匿名サインイン成功")
             let uid = signInResult.user.uid
             try await createdUserToFirestore(userName: userName,email: email, uid: uid)
-            return true
         }
         catch{
             print("匿名サインイン失敗",error)
-            return false
         }
     }
 

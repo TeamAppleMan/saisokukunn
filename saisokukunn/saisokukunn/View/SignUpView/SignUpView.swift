@@ -68,14 +68,10 @@ struct SignUpView: View {
                     isPkhudProgress = true
                     Task{
                         do{
-                            if(try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "), email: email, password: password.trimmingCharacters(in: .whitespaces))) {
-                                // MainViewへ画面遷移
-                                isPkhudProgress = false
-                                isActiveSignUpView = true
-                            } else {
-                                isPkhudProgress = false
-                                isPkhudFailure = true
-                            }
+                            try await signUpViewModel.signIn(userName: userName.replacingOccurrences(of: "　", with: " "), email: email, password: password)
+                            // MainViewへ画面遷移
+                            isPkhudProgress = false
+                            isActiveSignUpView = true
                         }
                         catch{
                             isPkhudProgress = false
@@ -93,10 +89,10 @@ struct SignUpView: View {
                         .shadow(color: userName.isEmpty || !signUpViewModel.validateEmail(candidate: email) || !signUpViewModel.validatePassword(candidate: password) ? Color.white : Color.gray, radius: 10, x: 0, y: 3)
                         .padding()
                 }
+                .disabled(userName.isEmpty || !signUpViewModel.validateEmail(candidate: email) || !signUpViewModel.validatePassword(candidate: password))
                 .fullScreenCover(isPresented: $isActiveSignUpView) {
                     mainView.environmentObject(EnvironmentData())
                 }
-                .disabled(userName.isEmpty || !signUpViewModel.validateEmail(candidate: email) || !signUpViewModel.validatePassword(candidate: password))
 
             }
 
@@ -104,14 +100,11 @@ struct SignUpView: View {
         .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPkhudFailure, HUDContent: .labeledError(title: "エラー", subtitle: "アカウント作成失敗\nやり直して下さい"), delay: 1.5)
         .onAppear {
+            print("here")
             // uidが存在するならMainViewへ移動
             if let uid = Auth.auth().currentUser?.uid {
                 print("uid:",uid)
-                var transaction = Transaction()
-                transaction.disablesAnimations = true
-                withTransaction(transaction) {
-                    isActiveSignUpView = true
-                }
+                isActiveSignUpView = true
             }
         }// onAppearここまで
         .onTapGesture { UIApplication.shared.closeKeyboard() }

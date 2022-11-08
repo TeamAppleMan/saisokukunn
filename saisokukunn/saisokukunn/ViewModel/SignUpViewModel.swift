@@ -11,7 +11,7 @@ import SwiftUI
 class SignUpViewModel: ObservableObject {
     @Published var registerUser = RegisterUser()
 
-    func signIn(userName: String,email: String,password: String) async throws -> Bool {
+    func signIn(userName: String,email: String,password: String) async throws {
         try await registerUser.signIn(userName: userName,email: email,password: password)
     }
 
