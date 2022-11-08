@@ -35,6 +35,21 @@ struct SettingView: View {
 
     var body: some View {
         Form {
+            Section(header: Text("操作")) {
+                Button(action: {
+                    if let url = URL(string: howToUseUrlString) {
+                        UIApplication.shared.open(url)
+                    }
+                }, label: {
+                    HStack {
+                        Text("使い方")
+                            .foregroundColor(.black)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                })
+            }
+
             Section(header: Text("情報")) {
                 Button(action: {
                     if let url = URL(string: privacyUrlString) {
