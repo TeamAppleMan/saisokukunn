@@ -412,8 +412,8 @@ struct MainView: View {
             .PKHUD(isPresented: $isPkhudProgress, HUDContent: .progress, delay: .infinity)
             .PKHUD(isPresented: $environmentData.isAddDataPkhudAlert, HUDContent: .success, delay: 1.5)
             .onAppear {
-                //mainViewModel.fetchLenderPayTask()
-                //mainViewModel.fetchBorrowPayTask()
+                mainViewModel.fetchLenderPayTask()
+                mainViewModel.fetchBorrowPayTask()
                 print("呼ばれた")
             }
             .navigationBarHidden(true)
