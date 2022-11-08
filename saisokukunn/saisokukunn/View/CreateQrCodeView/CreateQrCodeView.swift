@@ -34,7 +34,7 @@ struct CreateQrCodeView: View {
             // ConfirmLendInfoViewで作成されたqr写真を表示
             QrCodeBoxView(qrImage: qrImage)
                 .frame(width: squareQrcodeBoxSize, height: squareQrcodeBoxSize)
-                .padding()
+                .padding(.top, 40)
 
             Image("SendDateWithMan")
                 .resizable()
